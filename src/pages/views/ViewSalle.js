@@ -5,6 +5,7 @@ import InfoPage from "../../components/InfoPage";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useState } from "react";
 import Student from "../../components/Student";
+import Footer from "../../components/Footer";
 
 const ViewSalle = ({ salle }) => {
     const { numSalle } = useParams();
@@ -22,7 +23,7 @@ const ViewSalle = ({ salle }) => {
             <Sidenav />
 
             <main id="main" classNameName="main">
-                <InfoPage title='Salle de classNamee' link='Voir la salle' />
+                <InfoPage title='Salle de classe' link={numSalle} />
 
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
@@ -93,6 +94,7 @@ const ViewSalle = ({ salle }) => {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     )
 }

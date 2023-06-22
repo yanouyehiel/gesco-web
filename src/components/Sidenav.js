@@ -76,7 +76,7 @@ function Sidenav() {
                 </ul>
             </li>
             <li className="nav-item">
-                <Link className="nav-link collapsed" to="users-profile.html">
+                <Link className="nav-link collapsed" to="/matieres">
                 <i className="bi bi-card-list"></i>
                 <span>Matières</span>
                 </Link>
@@ -91,17 +91,17 @@ function Sidenav() {
                 <ul id="icons-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                     <Link to="icons-bootstrap.html">
-                    <i className="bi bi-circle"></i><span>Bootstrap Icons</span>
+                    <i className="bi bi-circle"></i><span>Gerer les notes</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="icons-remix.html">
-                    <i className="bi bi-circle"></i><span>Remix Icons</span>
+                    <i className="bi bi-circle"></i><span>Programmer les evaluations</span>
                     </Link>
                 </li>
                 <li>
                     <Link to="icons-boxicons.html">
-                    <i className="bi bi-circle"></i><span>Boxicons</span>
+                    <i className="bi bi-circle"></i><span>Recap</span>
                     </Link>
                 </li>
                 </ul>
@@ -125,14 +125,14 @@ function Sidenav() {
 
             <li className="nav-item">
                 <Link className="nav-link collapsed" to="pages-contact.html">
-                <i className="bi bi-envelope"></i>
-                <span>Contact</span>
+                <i className="bi bi-people"></i>
+                <span>Parents</span>
                 </Link>
             </li>
 
 
             <li className="nav-heading">Gestion des emplois de temps</li>
-            <li className="nav-item">
+            {/* <li className="nav-item">
                 <Link className="nav-link collapsed" to="pages-register.html">
                 <i className="bi bi-card-list"></i>
                 <span>Register</span>
@@ -151,12 +151,34 @@ function Sidenav() {
                 <i className="bi bi-dash-circle"></i>
                 <span>Error 404</span>
                 </Link>
-            </li>
+            </li> */}
 
             <li className="nav-item">
                 <Link className="nav-link collapsed" to="pages-blank.html">
                 <i className="bi bi-file-earmark"></i>
-                <span>Blank</span>
+                <span>Emploi de temps</span>
+                </Link>
+            </li>
+
+            <li className="nav-heading">Gestion de la communication</li>
+            <li className="nav-item">
+                <Link className="nav-link collapsed" to="pages-register.html">
+                <i className="bi bi-card-list"></i>
+                <span>Messagerie</span>
+                </Link>
+            </li>
+
+            <li className="nav-item">
+                <Link className="nav-link collapsed" to="pages-login.html">
+                <i className="bi bi-box-arrow-in-right"></i>
+                <span>Gerer les evenements</span>
+                </Link>
+            </li>
+
+            <li className="nav-item">
+                <Link className="nav-link collapsed" to="pages-error-404.html">
+                <i className="bi bi-dash-circle"></i>
+                <span>Error 404</span>
                 </Link>
             </li>
 

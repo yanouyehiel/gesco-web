@@ -3,6 +3,7 @@ import InfoPage from "../components/InfoPage";
 import Sidenav from "../components/Sidenav";
 import { Modal, Button, Form } from "react-bootstrap";
 import { useState } from "react";
+import Footer from "../components/Footer";
 
 const Documents = () => {
     const [show, setShow] = useState(false);
@@ -145,6 +146,7 @@ const Documents = () => {
                     </div>
                 </section>
             </main>
+            <Footer />
         </>
     )
 }

@@ -7,6 +7,7 @@ import Notfound from './pages/Notfound';
 import ClassesList from './pages/ClassesList';
 import ViewSalle from './pages/views/ViewSalle';
 import Documents from './pages/Documents';
+import MatieresList from './pages/MatieresList';
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route exact path='/salles/:numSalle' element={<ViewSalle />}></Route>
         <Route exact path='/documents' element={<Documents />}></Route>
         <Route exact path='/documents/:matStudent' element={<Documents />}></Route>
+        <Route exact path='/matieres' element={<MatieresList />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>
       </Routes>
     </BrowserRouter>

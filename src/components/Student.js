@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 const Student = ({ student }) => {
     let navigate = useNavigate()
 
-    const showDocuments = (matricule) => {
-        navigate("/documents/" + matricule)
+    const showDocuments = () => {
+        navigate("/documents/MAT213")
     }
 
     return(
@@ -16,7 +16,7 @@ const Student = ({ student }) => {
             <td>Njombé</td>
             <td>Masculin</td>
             <td className="text-blue">
-                <Link onClick={showDocuments("STU254")}><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
+                <Link to='/documents/MAT213'><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
             </td>
         </tr>
     )

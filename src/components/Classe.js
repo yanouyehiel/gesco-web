@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 const Classe = ({ classe }) => {
     let navigate = useNavigate()
-
-    const showClasse = (numSalle) => {
-        navigate("/salles/" + numSalle)
+    
+    const showClasse = () => {
+        navigate("/salles/SAL2123")
     }
 
     return (
@@ -15,7 +15,7 @@ const Classe = ({ classe }) => {
             <td>M. Paul</td>
             <td>25</td>
             <td className="text-blue">
-                <Link onClick={showClasse("SAL123")}><i className="fa-solid fa-pen-to-square"></i> Voir</Link>
+                <Link to='/salles/SAL2123'><i className="fa-solid fa-pen-to-square"></i> Voir</Link>
             </td>
         </tr>
     )

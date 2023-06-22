@@ -44,7 +44,7 @@ const Home = () => {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Sales <span>| Today</span></h5>
+                                            <h5 className="card-title">Inscription <span>| Today</span></h5>
 
                                             <div className="d-flex align-items-center">
                                                 <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -52,7 +52,7 @@ const Home = () => {
                                                 </div>
                                                 <div className="ps-3">
                                                     <h6>145</h6>
-                                                    <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">increase</span>
+                                                    <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">augmentation</span>
 
                                                 </div>
                                             </div>
@@ -79,15 +79,15 @@ const Home = () => {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Revenue <span>| This Month</span></h5>
+                                            <h5 className="card-title">Revenus <span>| This Month</span></h5>
 
                                             <div className="d-flex align-items-center">
                                                 <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                                     <i className="bi bi-currency-dollar"></i>
                                                 </div>
                                                 <div className="ps-3">
-                                                    <h6>$3,264</h6>
-                                                    <span className="text-success small pt-1 fw-bold">8%</span> <span className="text-muted small pt-2 ps-1">increase</span>
+                                                    <h6>1450000 XAF</h6>
+                                                    <span className="text-success small pt-1 fw-bold">8%</span> <span className="text-muted small pt-2 ps-1">augmentation</span>
 
                                                 </div>
                                             </div>
@@ -115,7 +115,7 @@ const Home = () => {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Customers <span>| This Year</span></h5>
+                                            <h5 className="card-title">Elèves <span>| This Year</span></h5>
 
                                             <div className="d-flex align-items-center">
                                                 <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -123,7 +123,7 @@ const Home = () => {
                                                 </div>
                                                 <div className="ps-3">
                                                     <h6>1244</h6>
-                                                <span className="text-danger small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">decrease</span>
+                                                <span className="text-danger small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">baisse</span>
 
                                                 </div>
                                             </div>
@@ -134,7 +134,7 @@ const Home = () => {
                                 </div>
 
                                 
-                                <div className="col-12">
+                                {/* <div className="col-12">
                                     <div className="card">
 
                                         <div className="filter">
@@ -158,11 +158,11 @@ const Home = () => {
 
                                             {/* Ici il doit y avoir le script pour les graphiques */}
                                         
-
+{/*
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> */}
 
                                 
                                 <div className="col-12">
@@ -182,16 +182,16 @@ const Home = () => {
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Recent Sales <span>| Today</span></h5>
+                                            <h5 className="card-title">Récentes inscriptions <span>| Today</span></h5>
 
                                             <table className="table table-borderless datatable">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>
-                                                        <th scope="col">Customer</th>
-                                                        <th scope="col">Product</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col">Status</th>
+                                                        <th scope="col">Elève</th>
+                                                        <th scope="col">Désignation</th>
+                                                        <th scope="col">Montant</th>
+                                                        <th scope="col">Statut</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -256,49 +256,49 @@ const Home = () => {
                                         </div>
 
                                         <div className="card-body pb-0">
-                                        <h5 className="card-title">Top Selling <span>| Today</span></h5>
+                                        <h5 className="card-title">Revenu attendu <span>| Today</span></h5>
 
                                         <table className="table table-borderless">
                                             <thead>
                                             <tr>
-                                                <th scope="col">Preview</th>
-                                                <th scope="col">Product</th>
-                                                <th scope="col">Price</th>
-                                                <th scope="col">Sold</th>
-                                                <th scope="col">Revenue</th>
+                                                <th scope="col">Classe</th>
+                                                <th scope="col">Désignation</th>
+                                                <th scope="col">Pention</th>
+                                                <th scope="col">Elèves</th>
+                                                <th scope="col">Total</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <th scope="row"><Link to="#"><img src="assets/img/product-1.jpg" alt="" /></Link></th>
+                                                <th scope="row"><Link to="#"><img src="assets/img/product-1.jpg" alt="" />SIL A</Link></th>
                                                 <td><Link to="#" className="text-primary fw-bold">Ut inventore ipsa voluptas nulla</Link></td>
                                                 <td>$64</td>
                                                 <td className="fw-bold">124</td>
                                                 <td>$5,828</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><Link to="#"><img src="assets/img/product-2.jpg" alt="" /></Link></th>
+                                                <th scope="row"><Link to="#"><img src="assets/img/product-2.jpg" alt="" />SIL A</Link></th>
                                                 <td><Link to="#" className="text-primary fw-bold">Exercitationem similique doloremque</Link></td>
                                                 <td>$46</td>
                                                 <td className="fw-bold">98</td>
                                                 <td>$4,508</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><Link to="#"><img src="assets/img/product-3.jpg" alt="" /></Link></th>
+                                                <th scope="row"><Link to="#"><img src="assets/img/product-3.jpg" alt="" />SIL A</Link></th>
                                                 <td><Link to="#" className="text-primary fw-bold">Doloribus nisi exercitationem</Link></td>
                                                 <td>$59</td>
                                                 <td className="fw-bold">74</td>
                                                 <td>$4,366</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><Link to="#"><img src="assets/img/product-4.jpg" alt="" /></Link></th>
+                                                <th scope="row"><Link to="#"><img src="assets/img/product-4.jpg" alt="" />SIL A</Link></th>
                                                 <td><Link to="#" className="text-primary fw-bold">Officiis quaerat sint rerum error</Link></td>
                                                 <td>$32</td>
                                                 <td className="fw-bold">63</td>
                                                 <td>$2,016</td>
                                             </tr>
                                             <tr>
-                                                <th scope="row"><Link to="#"><img src="assets/img/product-5.jpg" alt="" /></Link></th>
+                                                <th scope="row"><Link to="#"><img src="assets/img/product-5.jpg" alt="" />SIL A</Link></th>
                                                 <td><Link to="#" className="text-primary fw-bold">Sit unde debitis delectus repellendus</Link></td>
                                                 <td>$79</td>
                                                 <td className="fw-bold">41</td>
@@ -334,7 +334,7 @@ const Home = () => {
                             </div>
 
                             <div className="card-body">
-                            <h5 className="card-title">Recent Activity <span>| Today</span></h5>
+                            <h5 className="card-title">Récentes activités <span>| Today</span></h5>
 
                             <div className="activity">
 
@@ -407,7 +407,7 @@ const Home = () => {
                             </div>
 
                             <div className="card-body pb-0">
-                            <h5 className="card-title">Budget Report <span>| This Month</span></h5>
+                            <h5 className="card-title">Rapport sur le budget <span>| This Month</span></h5>
 
                             <div id="budgetChart" style={{ minHeight: '400px'}} className="echart"></div>
 
@@ -456,7 +456,7 @@ const Home = () => {
                             </div>
 
                             <div className="card-body pb-0">
-                            <h5 className="card-title">News &amp; Updates <span>| Today</span></h5>
+                            <h5 className="card-title">Nouvelles &amp; Comuniqués <span>| Today</span></h5>
 
                             <div className="news">
                                 <div className="post-item clearfix">

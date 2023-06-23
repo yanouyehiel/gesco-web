@@ -1,12 +1,8 @@
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 
 const Classe = ({ classe }) => {
-    let navigate = useNavigate()
     
-    const showClasse = () => {
-        navigate("/salles/SAL2123")
-    }
 
     return (
         <tr>

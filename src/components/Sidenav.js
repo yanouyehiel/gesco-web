@@ -24,7 +24,7 @@ function Sidenav() {
             <li className="nav-item">
                 <Link className="nav-link collapsed" to="/inscription">
                     <i className="bi bi-person"></i>
-                    <span>Inscription</span>
+                    <span>Gérer les pensions</span>
                 </Link>
             </li>
             <li className="nav-item">
@@ -42,12 +42,12 @@ function Sidenav() {
                 </Link>
                 <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <Link to="tables-general.html">
+                    <Link to="/enseignement/SIL">
                     <i className="bi bi-circle"></i><span>SIL</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="tables-data.html">
+                    <Link to="/enseignement/CM2">
                     <i className="bi bi-circle"></i><span>CM2</span>
                     </Link>
                 </li>
@@ -59,17 +59,17 @@ function Sidenav() {
                 </Link>
                 <ul id="charts-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <Link to="charts-chartjs.html">
+                    <Link to="presences/CE2">
                     <i className="bi bi-circle"></i><span>CE2</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="charts-apexcharts.html">
+                    <Link to="presences/CM1">
                     <i className="bi bi-circle"></i><span>CM1</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="charts-echarts.html">
+                    <Link to="presences/Petite Section">
                     <i className="bi bi-circle"></i><span>Petite Section</span>
                     </Link>
                 </li>
@@ -154,7 +154,7 @@ function Sidenav() {
             </li> */}
 
             <li className="nav-item">
-                <Link className="nav-link collapsed" to="pages-blank.html">
+                <Link className="nav-link collapsed" to="/emploi-du-temps">
                 <i className="bi bi-file-earmark"></i>
                 <span>Emploi de temps</span>
                 </Link>
@@ -171,7 +171,7 @@ function Sidenav() {
             <li className="nav-item">
                 <Link className="nav-link collapsed" to="pages-login.html">
                 <i className="bi bi-box-arrow-in-right"></i>
-                <span>Gerer les evenements</span>
+                <span>Gerer les évènements</span>
                 </Link>
             </li>
 

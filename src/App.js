@@ -8,6 +8,11 @@ import ClassesList from './pages/ClassesList';
 import ViewSalle from './pages/views/ViewSalle';
 import Documents from './pages/Documents';
 import MatieresList from './pages/MatieresList';
+import Inscription from './pages/Inscription';
+import Enseignement from './pages/Enseignement';
+import Planning from './pages/Planning';
+import ViewEmploiTemps from './pages/views/ViewEmploiTemps';
+import Presences from './pages/Presences';
 
 const App = () => {
   return (
@@ -21,6 +26,11 @@ const App = () => {
         <Route exact path='/documents' element={<Documents />}></Route>
         <Route exact path='/documents/:matStudent' element={<Documents />}></Route>
         <Route exact path='/matieres' element={<MatieresList />}></Route>
+        <Route exact path='/inscription' element={<Inscription />}></Route>
+        <Route exact path='/enseignement/:salle' element={<Enseignement />}></Route>
+        <Route exact path='/emploi-du-temps' element={<Planning />}></Route>
+        <Route exact path='/emploi-du-temps/:salle' element={<ViewEmploiTemps />}></Route>
+        <Route exact path='/presences/:salle' element={<Presences />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>
       </Routes>
     </BrowserRouter>

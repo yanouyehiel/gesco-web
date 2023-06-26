@@ -29,9 +29,19 @@ const ViewSalle = ({ salle }) => {
                     <section className="content mt-2 ">
                         <div className="container-fluid">
                             <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES ELEVES</h1>
-                            <Button variant='primary' onClick={handleShow}>
-                                Ajouter un élève
-                            </Button>
+                            <div className='row'>
+                                <div className='col-lg-8'>
+                                    <Button variant='primary' onClick={handleShow}>
+                                        Ajouter un élève
+                                    </Button>
+                                </div>
+                                <div className='col-lg-4'>
+                                    <Button variant="secondary" onClick={handleShow}>
+                                        Enregistrer des notes
+                                    </Button>
+                                </div>
+                            </div>
+
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Enregistrement d'une élève</Modal.Title>

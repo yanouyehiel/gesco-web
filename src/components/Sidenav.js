@@ -90,18 +90,18 @@ function Sidenav() {
                 </Link>
                 <ul id="icons-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
-                    <Link to="icons-bootstrap.html">
+                    <Link to="/gestion-notes">
                     <i className="bi bi-circle"></i><span>Gerer les notes</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="icons-remix.html">
+                    <Link to="/gestion-evaluations">
                     <i className="bi bi-circle"></i><span>Programmer les evaluations</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="icons-boxicons.html">
-                    <i className="bi bi-circle"></i><span>Recap</span>
+                    <Link to="/recap-evaluations">
+                    <i className="bi bi-circle"></i><span>Recap des évaluations</span>
                     </Link>
                 </li>
                 </ul>

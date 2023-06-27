@@ -6,7 +6,7 @@ function InfoPage({ title, link }) {
             <h1>{title}</h1>
             <nav>
                 <ol className="breadcrumb">
-                    <li className="breadcrumb-item"><Link to="/">Home</Link></li>
+                    <li className="breadcrumb-item"><Link to="/home">Home</Link></li>
                     <li className="breadcrumb-item active">{link}</li>
                 </ol>
             </nav>

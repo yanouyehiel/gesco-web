@@ -17,6 +17,8 @@ import Notes from './pages/Notes';
 import Evaluations from './pages/Evaluations';
 import RecapEnseignement from './pages/RecapEnseignement';
 import ViewNote from './pages/views/ViewNote';
+import Students from './pages/Students';
+import ViewStudent from './pages/views/ViewStudent';
 
 const App = () => {
   return (
@@ -39,6 +41,8 @@ const App = () => {
         <Route exact path='/gestion-evaluations' element={<Evaluations />}></Route>
         <Route exact path='/recap-evaluations' element={<RecapEnseignement />}></Route>
         <Route exact path='/salles/:numSalle/notes' element={<ViewNote />}></Route>
+        <Route exact path='/students' element={<Students />}></Route>
+        <Route exact path='/students/:matricule' element={<ViewStudent />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>
       </Routes>
     </BrowserRouter>

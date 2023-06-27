@@ -4,6 +4,7 @@ import Sidenav from '../components/Sidenav';
 import InfoPage from '../components/InfoPage';
 import { Link } from 'react-router-dom';
 import NotesSalle from '../components/NotesSalle';
+import Footer from '../components/Footer';
 
 const Notes = () => {
     return(
@@ -21,50 +22,6 @@ const Notes = () => {
 
                             <div className="row">
 
-                                {/* <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Enregistrement un paiement</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner un élève</Form.Label>
-                                                <Form.Select className="form-control">
-                                                    <option>ERIC</option>
-                                                    <option>TOM</option>
-                                                    <option>PAUL</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <div className="row">
-                                                <div className="col-lg-6">
-                                                    <Form.Group className="form-group mt-4">
-                                                        <Form.Label className="control-label">Que voulez-vous payer ?</Form.Label>
-                                                        <Form.Select className="form-control">
-                                                            <option>-- select --</option>
-                                                            <option>Première tranche</option>
-                                                            <option>Deuxième tranche</option>
-                                                            <option>Tranche tranche</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <Form.Group className="form-group mt-4">
-                                                        <Form.Label className="control-label">Tout payer ?</Form.Label>
-                                                        <Form.Select className="form-control">
-                                                            <option>-- select --</option>
-                                                            <option>Oui</option>
-                                                            <option>Non</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Enregistrer
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal> */}
                                 <div className="col-12">
                                     <div className="card recent-sales overflow-auto">
                                         
@@ -112,6 +69,7 @@ const Notes = () => {
                     </div>
                 </section>
             </main>
+            <Footer />
         </>
     )
 }

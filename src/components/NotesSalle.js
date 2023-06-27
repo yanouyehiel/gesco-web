@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const NotesSalle = () => {
     return(
         <tr>
-            <th scope="row"><Link to="#">#2457</Link></th>
+            <th scope="row"><Link to="/salles/SAL2123/notes">#2457</Link></th>
             <td>SIL A</td>
             <td>64</td>
             <td>1</td>

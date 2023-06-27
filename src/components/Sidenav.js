@@ -30,7 +30,7 @@ function Sidenav() {
             <li className="nav-item">
                 <Link className="nav-link collapsed" to="/documents">
                     <i className="bi bi-journal-text"></i>
-                    <span>Dossier des élèves</span>
+                    <span>Documents scolaires</span>
                 </Link>
             </li>
 
@@ -120,6 +120,13 @@ function Sidenav() {
                 <Link className="nav-link collapsed" to="pages-faq.html">
                 <i className="bi bi-person"></i>
                 <span>Enseignants</span>
+                </Link>
+            </li>
+
+            <li className="nav-item">
+                <Link className="nav-link collapsed" to="/students">
+                <i className="bi bi-person"></i>
+                <span>Elèves</span>
                 </Link>
             </li>
 

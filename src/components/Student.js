@@ -1,11 +1,6 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Student = ({ student }) => {
-    let navigate = useNavigate()
-
-    const showDocuments = () => {
-        navigate("/documents/MAT213")
-    }
+const Student = ({ student }) => {   
 
     return(
         <tr>
@@ -16,7 +11,7 @@ const Student = ({ student }) => {
             <td>Njombé</td>
             <td>Masculin</td>
             <td className="text-blue">
-                <Link to='/documents/MAT213'><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
+                <Link to='/students/MAT213'><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
             </td>
         </tr>
     )

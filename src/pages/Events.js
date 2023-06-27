@@ -1,11 +1,11 @@
-import React from "react";
-import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
-import InfoPage from "../components/InfoPage";
-import Calendar from "../components/Calendar";
-import Footer from "../components/Footer";
+import React from 'react'
+import Header from '../components/Header'
+import Sidenav from '../components/Sidenav'
+import InfoPage from '../components/InfoPage'
+import Footer from '../components/Footer'
+import Event from '../components/Event'
 
-const Evaluations = () => {
+const Events = () => {
     return(
         <>
             <Header />
@@ -17,28 +17,32 @@ const Evaluations = () => {
                 <section className="section dashboard">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="text-center text-danger">CALENDRIER SCOLAIRE</h1>
+                            <h1 className="text-center text-danger">EVENEMENTS SUR LE CAMPUS</h1>
                             <div class="row d-flex justify-content-between">
                                 <div className="col-lg-6">
-                                    <h2 class="text-center">Ajouter un calendrier</h2>
+                                    <h2 class="text-center">Ajouter un evenement</h2>
                                     <form class="ajust">
                                         <div class="form-group mt-4">
-                                            <label class="control-label">Intitulé de l'examen</label>
+                                            <label class="control-label">Intitulé de l'evenement</label>
                                             <input type="text" class="form-control" />
                                         </div>
                                         <div class="form-group mt-3">
                                             <label class="control-label">Date de début</label>
                                             <input type="date" class="form-control" />
                                         </div>
+                                        <div class="form-group mt-3">
+                                            <label class="control-label">Date de fin</label>
+                                            <input type="date" class="form-control" />
+                                        </div>
                                         <input type="submit" class="form-control mt-3 btn btn-primary mb-5" value="Enregistrer" />
                                     </form>
                                 </div>
                                 <div className="col-lg-6">
-                                    <img src='./assets/images/px1.png' width='100%' height='100%' alt="Images" />
+                                    <img src='./assets/images/px2.png' width='100%' height='100%' alt="Images" />
                                 </div>
                             </div>
                             <div className='container'>
-                                <h3>Liste des calendriers enregistrés</h3>
+                                <h3>Liste des evenements enregistrés</h3>
                                 <div class="card">
                                     <div class="card-body">
                                         <table class="table table-bordered">
@@ -47,12 +51,13 @@ const Evaluations = () => {
                                                     <th>Identifiant</th>
                                                     <th>Intitule de l'examen</th>
                                                     <th>Date de debut</th>
+                                                    <th>Date de fin</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <Calendar />
-                                                <Calendar />
-                                                <Calendar />
+                                                <Event />
+                                                <Event />
+                                                <Event />
                                             </tbody>
                                         </table>
                                     </div>
@@ -67,4 +72,4 @@ const Evaluations = () => {
     )
 }
 
-export default Evaluations;
+export default Events;

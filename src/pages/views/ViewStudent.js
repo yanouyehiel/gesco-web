@@ -3,8 +3,7 @@ import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import Footer from "../../components/Footer";
-import { useParams, redirect } from "react-router-dom";
-import { Button } from 'react-bootstrap';
+import { useParams, Link } from "react-router-dom";
 
 const ViewStudent = () => {
     const {matricule} = useParams()
@@ -78,7 +77,7 @@ const ViewStudent = () => {
                             </div>
                         </div>
                     </div>
-                    <Button onClick={redirect('/documents/MAT123')} variant='primary'>Demander un document</Button>
+                    <Link className='btn btn-primary' to='/documents/MAT123'>Demander un document</Link>
                 </section>
             </main>
             <Footer />

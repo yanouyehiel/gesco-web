@@ -10,7 +10,7 @@ const Matiere = () => {
             <td>1</td>
             <td>CALX123</td>
             <td>Calcul Rapide</td>
-            <td className="text-blue">
+            <td>
                 <Link className="text-danger" onClick={handleDelete}><i className="fa-solid text-danger fa-pen-to-square"></i> Supprimer</Link>
             </td>
         </tr>

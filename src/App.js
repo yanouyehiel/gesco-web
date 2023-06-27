@@ -19,6 +19,11 @@ import RecapEnseignement from './pages/RecapEnseignement';
 import ViewNote from './pages/views/ViewNote';
 import Students from './pages/Students';
 import ViewStudent from './pages/views/ViewStudent';
+import Administration from './pages/Administration';
+import Parents from './pages/Parents';
+import Enseignants from './pages/Enseignants';
+import Events from './pages/Events';
+import Messagerie from './pages/Messagerie';
 
 const App = () => {
   return (
@@ -43,6 +48,11 @@ const App = () => {
         <Route exact path='/salles/:numSalle/notes' element={<ViewNote />}></Route>
         <Route exact path='/students' element={<Students />}></Route>
         <Route exact path='/students/:matricule' element={<ViewStudent />}></Route>
+        <Route exact path='/administration' element={<Administration />}></Route>
+        <Route exact path='/parents' element={<Parents />}></Route>
+        <Route exact path='/enseignants' element={<Enseignants />}></Route>
+        <Route exact path='/events' element={<Events />}></Route>
+        <Route exact path='/messagerie' element={<Messagerie />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>
       </Routes>
     </BrowserRouter>

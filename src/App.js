@@ -24,12 +24,15 @@ import Parents from './pages/Parents';
 import Enseignants from './pages/Enseignants';
 import Events from './pages/Events';
 import Messagerie from './pages/Messagerie';
+import ViewEnseignant from './pages/views/ViewEnseignant';
+import ViewParent from './pages/views/ViewParent';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route exact path='/' element={<Login />}></Route>
+        <Route exact path='/login' element={<Login />}></Route>
         <Route exact path='/home' element={<Home />}></Route>
         <Route exact path='/create/school' element={<CreateSchool />}></Route>
         <Route exact path='/salles' element={<ClassesList />}></Route>
@@ -50,7 +53,9 @@ const App = () => {
         <Route exact path='/students/:matricule' element={<ViewStudent />}></Route>
         <Route exact path='/administration' element={<Administration />}></Route>
         <Route exact path='/parents' element={<Parents />}></Route>
-        <Route exact path='/enseignants' element={<Enseignants />}></Route>
+        <Route exact path='/parents/:matricule' element={<ViewParent />}></Route>
+        <Route exact path='/teachers' element={<Enseignants />}></Route>
+        <Route exact path='/teachers/:matricule' element={<ViewEnseignant />}></Route>
         <Route exact path='/events' element={<Events />}></Route>
         <Route exact path='/messagerie' element={<Messagerie />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>

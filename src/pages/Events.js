@@ -1,11 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Sidenav from '../components/Sidenav'
 import InfoPage from '../components/InfoPage'
 import Footer from '../components/Footer'
 import Event from '../components/Event'
+import { ClipLoader} from 'react-spinners'
 
 const Events = () => {
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
+
     return(
         <>
             <Header />
@@ -25,6 +35,10 @@ const Events = () => {
                                         <div class="form-group mt-4">
                                             <label class="control-label">Intitulé de l'evenement</label>
                                             <input type="text" class="form-control" />
+                                        </div>
+                                        <div class="form-group mt-4">
+                                            <label class="control-label">Description de l'evenement</label>
+                                            <textarea row="3" class="form-control"></textarea>
                                         </div>
                                         <div class="form-group mt-3">
                                             <label class="control-label">Date de début</label>
@@ -55,9 +69,15 @@ const Events = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <Event />
-                                                <Event />
-                                                <Event />
+                                                {loading ?
+                                                    <ClipLoader color="#333" />
+                                                    :
+                                                    <>
+                                                        <Event />
+                                                        <Event />
+                                                        <Event />
+                                                    </>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>

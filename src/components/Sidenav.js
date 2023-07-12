@@ -41,16 +41,16 @@ function Sidenav() {
                 <i className="bi bi-layout-text-window-reverse"></i><span>Cours enseignés par salle</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
                 <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <Link to="/enseignement/SIL">
-                    <i className="bi bi-circle"></i><span>SIL</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/enseignement/CM2">
-                    <i className="bi bi-circle"></i><span>CM2</span>
-                    </Link>
-                </li>
+                    <li>
+                        <Link to="/enseignement/SIL">
+                        <i className="bi bi-circle"></i><span>SIL</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to="/enseignement/CM2">
+                        <i className="bi bi-circle"></i><span>CM2</span>
+                        </Link>
+                    </li>
                 </ul>
             </li>
             <li className="nav-item">
@@ -117,7 +117,7 @@ function Sidenav() {
             </li>
 
             <li className="nav-item">
-                <Link className="nav-link collapsed" to="/enseignants">
+                <Link className="nav-link collapsed" to="/teachers">
                 <i className="bi bi-person"></i>
                 <span>Enseignants</span>
                 </Link>

@@ -42,11 +42,12 @@ const Students = () => {
 
                                                 <li><Link className="dropdown-item" to="#">Elève</Link></li>
                                                 <li><Link className="dropdown-item" to="#">Nom</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Sexe</Link></li>
                                             </ul>
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Liste de tous les élèves <span>| All</span></h5>
+                                            <h5 className="card-title">Liste de tous les élèves <span>| Tous les élèves</span></h5>
 
                                             <table className="table table-borderless datatable">
                                                 <thead>

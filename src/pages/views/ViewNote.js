@@ -1,13 +1,22 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../../components/Header';
 import Sidenav from '../../components/Sidenav';
 import InfoPage from '../../components/InfoPage';
 import { useParams } from 'react-router-dom';
 import Note from '../../components/Note';
 import { Link } from 'react-router-dom';
+import { ClipLoader} from 'react-spinners'
 
 const ViewNote = () => {
     const {numSalle} = useParams()
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     return(
         <>
@@ -37,11 +46,13 @@ const ViewNote = () => {
                                                 <li><Link className="dropdown-item" to="#">Elève</Link></li>
                                                 <li><Link className="dropdown-item" to="#">Année scolaire</Link></li>
                                                 <li><Link className="dropdown-item" to="#">Séquence</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Matière
+                                                </Link></li>
                                             </ul>
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Notes confondues de la {numSalle} <span>| All</span></h5>
+                                            <h5 className="card-title">Notes confondues de la {numSalle} <span>| Tous les élèves</span></h5>
 
                                             <table className="table table-borderless datatable">
                                                 <thead>
@@ -55,10 +66,16 @@ const ViewNote = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <Note />
-                                                    <Note />
-                                                    <Note />
-                                                    <Note />
+                                                    {loading ?
+                                                        <ClipLoader color="#333" />
+                                                        :
+                                                        <>
+                                                            <Note />
+                                                            <Note />
+                                                            <Note />
+                                                            <Note />
+                                                        </>
+                                                    }
                                                 </tbody>
                                             </table>
 

@@ -3,13 +3,21 @@ import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import { Button, Modal, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Student from "../../components/Student";
 import Footer from "../../components/Footer";
+import { ClipLoader } from "react-spinners";
 
 const ViewSalle = ({ salle }) => {
     const { numSalle } = useParams();
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false)
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -29,18 +37,9 @@ const ViewSalle = ({ salle }) => {
                     <section className="content mt-2 ">
                         <div className="container-fluid">
                             <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES ELEVES</h1>
-                            <div className='row'>
-                                <div className='col-lg-8'>
-                                    <Button variant='primary' onClick={handleShow}>
-                                        Ajouter un élève
-                                    </Button>
-                                </div>
-                                <div className='col-lg-4'>
-                                    <Button variant="secondary" onClick={handleShow}>
-                                        Enregistrer des notes
-                                    </Button>
-                                </div>
-                            </div>
+                            <Button variant='primary' onClick={handleShow}>
+                                Ajouter un élève
+                            </Button>
 
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
@@ -96,9 +95,15 @@ const ViewSalle = ({ salle }) => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <Student />
-                                <Student />
-                                <Student />
+                            {loading ?
+                                <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
+                                :
+                                <>
+                                    <Student />
+                                    <Student />
+                                    <Student />
+                                </>
+                            }
                             </tbody>
                         </table>
                     </div>

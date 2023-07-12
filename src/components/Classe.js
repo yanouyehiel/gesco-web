@@ -6,12 +6,12 @@ const Classe = ({ classe }) => {
 
     return (
         <tr>
-            <td>1</td>
-            <td>SIL A</td>
+            <td>{classe.id}</td>
+            <td>{classe.nom}</td>
             <td>M. Paul</td>
             <td>25</td>
             <td className="text-blue">
-                <Link to='/salles/SAL2123'><i className="fa-solid fa-pen-to-square"></i> Voir</Link>
+                <Link to={'/salles/' + classe.id}><i className="fa-solid fa-pen-to-square"></i> Voir</Link>
             </td>
         </tr>
     )

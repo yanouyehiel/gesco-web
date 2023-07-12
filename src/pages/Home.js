@@ -30,19 +30,6 @@ const Home = () => {
                                 <div className="col-xxl-4 col-md-6">
                                     <div className="card info-card sales-card">
 
-                                        <div className="filter">
-                                            <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
-                                            <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                                <li className="dropdown-header text-start">
-                                                <h6>Filter</h6>
-                                                </li>
-
-                                                <li><Link className="dropdown-item" to="#">Today</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Month</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Year</Link></li>
-                                            </ul>
-                                        </div>
-
                                         <div className="card-body">
                                             <h5 className="card-title">Inscription <span>| Today</span></h5>
 
@@ -52,8 +39,8 @@ const Home = () => {
                                                 </div>
                                                 <div className="ps-3">
                                                     <h6>145</h6>
-                                                    <span className="text-success small pt-1 fw-bold">12%</span> <span className="text-muted small pt-2 ps-1">augmentation</span>
-
+                                                    <span className="text-success small pt-1 fw-bold">12%</span>
+                                                    <span className="text-muted small pt-2 ps-1">augmentation</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,7 +52,7 @@ const Home = () => {
                                 <div className="col-xxl-4 col-md-6">
                                     <div className="card info-card revenue-card">
 
-                                        <div className="filter">
+                                        {/* <div className="filter">
                                             <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
                                             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                                 <li className="dropdown-header text-start">
@@ -76,7 +63,7 @@ const Home = () => {
                                                 <li><Link className="dropdown-item" to="#">This Month</Link></li>
                                                 <li><Link className="dropdown-item" to="#">This Year</Link></li>
                                             </ul>
-                                        </div>
+                                        </div> */}
 
                                         <div className="card-body">
                                             <h5 className="card-title">Revenus <span>| This Month</span></h5>
@@ -101,7 +88,7 @@ const Home = () => {
 
                                     <div className="card info-card customers-card">
 
-                                        <div className="filter">
+                                        {/* <div className="filter">
                                             <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
                                             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                                 <li className="dropdown-header text-start">
@@ -112,7 +99,7 @@ const Home = () => {
                                                 <li><Link className="dropdown-item" to="#">This Month</Link></li>
                                                 <li><Link className="dropdown-item" to="#">This Year</Link></li>
                                             </ul>
-                                        </div>
+                                        </div> */}
 
                                         <div className="card-body">
                                             <h5 className="card-title">Elèves <span>| This Year</span></h5>
@@ -175,9 +162,9 @@ const Home = () => {
                                                     <h6>Filter</h6>
                                                 </li>
 
-                                                <li><Link className="dropdown-item" to="#">Today</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Month</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Year</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Tout payé</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Payé une partie</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Rien payé</Link></li>
                                             </ul>
                                         </div>
 
@@ -242,18 +229,18 @@ const Home = () => {
                                 <div className="col-12">
                                     <div className="card top-selling overflow-auto">
 
-                                        <div className="filter">
-                                        <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
-                                        <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                            <li className="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                            </li>
+                                        {/* <div className="filter">
+                                            <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
+                                            <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                                <li className="dropdown-header text-start">
+                                                <h6>Filter</h6>
+                                                </li>
 
-                                            <li><Link className="dropdown-item" to="#">Today</Link></li>
-                                            <li><Link className="dropdown-item" to="#">This Month</Link></li>
-                                            <li><Link className="dropdown-item" to="#">This Year</Link></li>
-                                        </ul>
-                                        </div>
+                                                <li><Link className="dropdown-item" to="#">Today</Link></li>
+                                                <li><Link className="dropdown-item" to="#">This Month</Link></li>
+                                                <li><Link className="dropdown-item" to="#">This Year</Link></li>
+                                            </ul>
+                                        </div> */}
 
                                         <div className="card-body pb-0">
                                         <h5 className="card-title">Revenu attendu <span>| Today</span></h5>
@@ -443,20 +430,20 @@ const Home = () => {
                         
                         <div className="card">
                             <div className="filter">
-                            <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
-                            <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li className="dropdown-header text-start">
-                                <h6>Filter</h6>
-                                </li>
+                                <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
+                                <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li className="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                    </li>
 
-                                <li><Link className="dropdown-item" to="#">Today</Link></li>
-                                <li><Link className="dropdown-item" to="#">This Month</Link></li>
-                                <li><Link className="dropdown-item" to="#">This Year</Link></li>
-                            </ul>
+                                    <li><Link className="dropdown-item" to="#">Aujourd'hui</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Cette semaine</Link></li>
+                                    <li><Link className="dropdown-item" to="#">Ce mois</Link></li>
+                                </ul>
                             </div>
 
                             <div className="card-body pb-0">
-                            <h5 className="card-title">Nouvelles &amp; Comuniqués <span>| Today</span></h5>
+                            <h5 className="card-title">Nouvelles &amp; Comuniqués <span>| Aujourd'hui</span></h5>
 
                             <div className="news">
                                 <div className="post-item clearfix">

@@ -1,13 +1,26 @@
 import Header from '../components/Header';
 import Sidenav from '../components/Sidenav';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
 import Footer from '../components/Footer';
+import { ClipLoader} from 'react-spinners'
+import { classes } from '../services/MainControllerApi'
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    let classes = [{}];
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            classes = classes();
+            setLoading(false)
+        }, 5000)
+    }, [])
+    console.log(classes)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -48,6 +61,7 @@ const ClassesList = () => {
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner la classe</Form.Label>
                                                 <Form.Select className="form-control">
+                                                    <option>-- select --</option>   
                                                     <option>Petite Section</option>
                                                     <option>SIL</option>
                                                     <option>CP</option>
@@ -56,6 +70,7 @@ const ClassesList = () => {
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un enseignant</Form.Label>
                                                 <Form.Select className="form-control">
+                                                    <option>-- select --</option>
                                                     <option>ERIC</option>
                                                     <option>TOM</option>
                                                     <option>PAUL</option>
@@ -84,9 +99,15 @@ const ClassesList = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <Classe />
-                                            <Classe />
-                                            <Classe />
+                                        {loading ?
+                                            <ClipLoader color="#333" />
+                                            :
+                                            <>
+                                                {classes.map((classe) => (
+                                                    <Classe classe={classe} />
+                                                ))}
+                                            </>
+                                        }
                                         </tbody>
                                     </table>
                                 </div>

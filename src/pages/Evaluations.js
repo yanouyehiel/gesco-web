@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
 import Calendar from "../components/Calendar";
 import Footer from "../components/Footer";
+import { ClipLoader} from 'react-spinners'
 
 const Evaluations = () => {
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
     return(
         <>
             <Header />
@@ -50,9 +59,15 @@ const Evaluations = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <Calendar />
-                                                <Calendar />
-                                                <Calendar />
+                                                {loading ?
+                                                    <ClipLoader color="#333" />
+                                                    :
+                                                    <>
+                                                        <Calendar />
+                                                        <Calendar />
+                                                        <Calendar />
+                                                    </>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>

@@ -1,13 +1,22 @@
 import Header from '../components/Header';
 import Sidenav from '../components/Sidenav';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import InfoPage from '../components/InfoPage';
 import Matiere from '../components/Matiere';
 import Footer from '../components/Footer';
+import { ClipLoader} from 'react-spinners'
 
 const MatieresList = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -72,7 +81,15 @@ const MatieresList = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <Matiere />
+                                        {loading ?
+                                            <ClipLoader color="#333" />
+                                            :
+                                            <>
+                                                <Matiere />
+                                                <Matiere />
+                                                <Matiere />
+                                            </>
+                                        }
                                     </tbody>
                                 </table>
                             </div>

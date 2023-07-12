@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
 import { Link } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
+import { ClipLoader} from 'react-spinners'
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -44,6 +53,7 @@ const Inscription = () => {
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un élève</Form.Label>
                                                 <Form.Select className="form-control">
+                                                    <option>-- select --</option>
                                                     <option>ERIC</option>
                                                     <option>TOM</option>
                                                     <option>PAUL</option>
@@ -86,17 +96,18 @@ const Inscription = () => {
                                             <Link className="icon" to="#" data-bs-toggle="dropdown"><i className="bi bi-three-dots"></i></Link>
                                             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                                                 <li className="dropdown-header text-start">
-                                                    <h6>Filter</h6>
+                                                    <h6>Filtre</h6>
                                                 </li>
 
-                                                <li><Link className="dropdown-item" to="#">Today</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Month</Link></li>
-                                                <li><Link className="dropdown-item" to="#">This Year</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Nom d'eleve</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Salle de classe</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Tranche payee</Link></li>
+                                                <li><Link className="dropdown-item" to="#">Tout paye</Link></li>
                                             </ul>
                                         </div>
 
                                         <div className="card-body">
-                                            <h5 className="card-title">Situation de vos élèves <span>| All</span></h5>
+                                            <h5 className="card-title">Situation de vos élèves <span>| Tous les eleves</span></h5>
 
                                             <table className="table table-borderless datatable">
                                                 <thead>
@@ -110,46 +121,52 @@ const Inscription = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row"><Link to="#">#2457</Link></th>
-                                                        <td>Brandon Jacob</td>
-                                                        <td>SIL A</td>
-                                                        <td><Link to="#" className="text-primary">At praesentium minu</Link></td>
-                                                        <td>$64</td>
-                                                        <td><span className="badge bg-success">Approved</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><Link to="#">#2147</Link></th>
-                                                        <td>Bridie Kessler</td>
-                                                        <td>SIL A</td>
-                                                        <td><Link to="#" className="text-primary">Blanditiis dolor omnis similique</Link></td>
-                                                        <td>$47</td>
-                                                        <td><span className="badge bg-warning">Pending</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><Link to="#">#2049</Link></th>
-                                                        <td>Ashleigh Langosh</td>
-                                                        <td>SIL A</td>
-                                                        <td><Link to="#" className="text-primary">At recusandae consectetur</Link></td>
-                                                        <td>$147</td>
-                                                        <td><span className="badge bg-success">Approved</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><Link to="#">#2644</Link></th>
-                                                        <td>Angus Grady</td>
-                                                        <td>SIL A</td>
-                                                        <td><Link to="#" className="text-primar">Ut voluptatem id earum et</Link></td>
-                                                        <td>$67</td>
-                                                        <td><span className="badge bg-danger">Rejected</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row"><Link to="#">#2644</Link></th>
-                                                        <td>Raheem Lehner</td>
-                                                        <td>SIL A</td>
-                                                        <td><Link to="#" className="text-primary">Sunt similique distinctio</Link></td>
-                                                        <td>$165</td>
-                                                        <td><span className="badge bg-success">Approved</span></td>
-                                                    </tr>
+                                                    {loading ?
+                                                        <ClipLoader color="#333" />
+                                                    :
+                                                    <>
+                                                        <tr>
+                                                            <th scope="row"><Link to="#">#2457</Link></th>
+                                                            <td>Brandon Jacob</td>
+                                                            <td>SIL A</td>
+                                                            <td><Link to="#" className="text-primary">At praesentium minu</Link></td>
+                                                            <td>$64</td>
+                                                            <td><span className="badge bg-success">Approved</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><Link to="#">#2147</Link></th>
+                                                            <td>Bridie Kessler</td>
+                                                            <td>SIL A</td>
+                                                            <td><Link to="#" className="text-primary">Blanditiis dolor omnis similique</Link></td>
+                                                            <td>$47</td>
+                                                            <td><span className="badge bg-warning">Pending</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><Link to="#">#2049</Link></th>
+                                                            <td>Ashleigh Langosh</td>
+                                                            <td>SIL A</td>
+                                                            <td><Link to="#" className="text-primary">At recusandae consectetur</Link></td>
+                                                            <td>$147</td>
+                                                            <td><span className="badge bg-success">Approved</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><Link to="#">#2644</Link></th>
+                                                            <td>Angus Grady</td>
+                                                            <td>SIL A</td>
+                                                            <td><Link to="#" className="text-primar">Ut voluptatem id earum et</Link></td>
+                                                            <td>$67</td>
+                                                            <td><span className="badge bg-danger">Rejected</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"><Link to="#">#2644</Link></th>
+                                                            <td>Raheem Lehner</td>
+                                                            <td>SIL A</td>
+                                                            <td><Link to="#" className="text-primary">Sunt similique distinctio</Link></td>
+                                                            <td>$165</td>
+                                                            <td><span className="badge bg-success">Approved</span></td>
+                                                        </tr>
+                                                    </>
+                                                    }
                                                 </tbody>
                                             </table>
 

@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
 import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
 import EmploiDeTemps from "../components/EmploiDeTemps";
+import { ClipLoader} from 'react-spinners'
 
 const Planning = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -203,9 +212,16 @@ const Planning = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <EmploiDeTemps />
-                                                <EmploiDeTemps />
-                                                <EmploiDeTemps />
+                                                {loading ?
+                                                    <ClipLoader color="#333" />
+                                                    :
+                                                    <>
+                                                        <EmploiDeTemps />
+                                                        <EmploiDeTemps />
+                                                        <EmploiDeTemps />
+                                                        <EmploiDeTemps />
+                                                    </>
+                                                }
                                             </tbody>
                                         </table>
                                     </div>

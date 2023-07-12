@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import Footer from "../../components/Footer";
 import InfoPage from "../../components/InfoPage";
 import { useParams } from "react-router-dom";
+import { ClipLoader} from 'react-spinners'
 
 const ViewEmploiTemps = () => {
     const {salle} = useParams()
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     return(
         <>
@@ -35,15 +44,39 @@ const ViewEmploiTemps = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>23 Juin 2023</td>
-                                        <td>8h - 10h</td>
-                                        <td className="text-primary">At praesentium minu</td>
-                                        <td className="text-primary">At praesentium minu</td>
-                                        <td className="text-primary">At praesentium minu</td>
-                                        <td className="text-primary">At praesentium minu</td>
-                                        <td className="text-primary">At praesentium minu</td>
-                                    </tr>
+                                    {loading ?
+                                        <ClipLoader color="#333" />
+                                        :
+                                        <>
+                                            <tr>
+                                                <td>23 Juin 2023</td>
+                                                <td>8h - 10h</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23 Juin 2023</td>
+                                                <td>8h - 10h</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                            </tr>
+                                            <tr>
+                                                <td>23 Juin 2023</td>
+                                                <td>8h - 10h</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                                <td className="text-primary">At praesentium minu</td>
+                                            </tr>
+                                        </>
+                                    }
                                 </tbody>
                             </table>
 

@@ -8,7 +8,7 @@ const Footer = () => {
                     &copy; Copyright <strong><span>Gesco</span></strong>. All Rights Reserved
                 </div>
                 <div class="credits">
-                Designed by <Link to="https://bootstrapmade.com/">Yehiel Yanou</Link>
+                Designed and developed by <Link to="https://mon-portofolio-ten.vercel.app/">Yehiel Yanou</Link>
                 </div>
             </footer>
 

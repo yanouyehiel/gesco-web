@@ -4,19 +4,19 @@ import {
     MDBContainer,
     MDBRow,
     MDBCol,
-    MDBIcon,
-    MDBInput
+    MDBInput,
+    MDBIcon
 } from 'mdb-react-ui-kit';
 import '../styles/login.css';
-import { useNavigate } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
+import { login } from '../services/UserController';
 
 const Login = () => {
-  let { navigate } = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('clique')
-    navigate('/home');
+    login()
+    return redirect('/home');
   }
 
   return(
@@ -26,9 +26,13 @@ const Login = () => {
 
           <MDBCol sm='6'>
 
-            <div className='d-flex flex-row ps-5 pt-5'>
+            <div className='flex-row'>
               <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
               <span className="h1 fw-bold mb-0">Logo</span>
+              <img src="../assets/images/px1.png"
+                alt="Image_Login"
+                style={{width: '100px', height: '100px', justifyContent: 'center', alignItems: 'center'}} 
+              />
             </div>
 
             <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
@@ -49,12 +53,15 @@ const Login = () => {
 
           <MDBCol sm='6' className='d-none d-sm-block px-0'>
             <img src="../assets/images/px1.png"
-              alt="Image_Login" className="w-100" style={{objectFit: 'cover', objectPosition: 'left'}} />
+              alt="Image_Login" className="w-100"
+              style={{objectFit: 'cover', objectPosition: 'left'}} 
+            />
           </MDBCol>
 
         </MDBRow>
 
       </MDBContainer>
+      {/* <Footer /> */}
     </div>
   )
 }

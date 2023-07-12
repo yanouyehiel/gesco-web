@@ -5,9 +5,18 @@ import InfoPage from "../components/InfoPage";
 import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Employe from '../components/Employe';
+import { ClipLoader} from 'react-spinners'
 
 const Administration = () => {
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        setTimeout(() => {
+            setLoading(false)
+        }, 5000)
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -120,10 +129,16 @@ const Administration = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <Employe />
-                                            <Employe />
-                                            <Employe />
-                                            <Employe />
+                                            {loading ?
+                                                <ClipLoader color="#333" />
+                                                :
+                                                <>
+                                                    <Employe />
+                                                    <Employe />
+                                                    <Employe />
+                                                    <Employe />
+                                                </>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

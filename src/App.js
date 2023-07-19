@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import CreateSchool from './pages/create/CreateSchool';
 import './assets/css/style.css';
+import './assets/js/main.js';
 import Notfound from './pages/Notfound';
 import ClassesList from './pages/ClassesList';
 import ViewSalle from './pages/views/ViewSalle';

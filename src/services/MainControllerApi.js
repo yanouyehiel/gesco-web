@@ -10,14 +10,31 @@ export function roles() {
     return roles;
 }
 
-export function classes() {
-    let classes;
-    AxiosApi.get('/get-classes')
+export function classes(id) {
+    AxiosApi.get('/get-classes-school/' + id)
         .then(res => {
-            classes = res.data.classes
+            return res.data
         })
 
-    return classes;
+}
+
+export function typesClasse() {
+    let types;
+    AxiosApi.get('/get-types-classe')
+        .then(res => {
+            types = res.data
+        })
+    return types;
+}
+
+export function addClasse(classe) {
+    AxiosApi.post('/add-classe')
+        .then(res => {
+            return res.data;
+        })
+        .catch(err => {
+            return err
+        })
 }
 
 export function getAllEmployes(id) {

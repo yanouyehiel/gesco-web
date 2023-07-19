@@ -6,15 +6,15 @@ const Header = () => {
         <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-      <Link to="index.html" class="logo d-flex align-items-center">
-        <img src="assets/img/logo.png" alt="" />
+      <Link to="/" class="logo d-flex align-items-center">
+        <img src="../assets/images/px1.png" alt="logo" />
         <span class="d-none d-lg-block">Gesco</span>
       </Link>
       <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
 
     <div class="search-bar">
-      <form class="search-form d-flex align-items-center" method="POST" action="#">
+      <form class="search-form d-flex align-items-center">
         <input type="text" name="query" placeholder="Search" title="Enter search keyword" />
         <button type="submit" title="Search"><i class="bi bi-search"></i></button>
       </form>
@@ -173,7 +173,7 @@ const Header = () => {
         <li class="nav-item dropdown pe-3">
 
           <Link class="nav-link nav-profile d-flex align-items-center pe-0" to="#" data-bs-toggle="dropdown">
-            <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle" />
+            <img src="../assets/images/px1.png" alt="Profile" class="rounded-circle" />
             <span class="d-none d-md-block dropdown-toggle ps-2">Y. Yanou</span>
           </Link>
 
@@ -187,7 +187,7 @@ const Header = () => {
             </li>
 
             <li>
-              <Link class="dropdown-item d-flex align-items-center" to="users-profile.html">
+              <Link class="dropdown-item d-flex align-items-center" to="/profil">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </Link>
@@ -197,7 +197,7 @@ const Header = () => {
             </li>
 
             <li>
-              <Link class="dropdown-item d-flex align-items-center" to="users-profile.html">
+              <Link class="dropdown-item d-flex align-items-center" to="/profil">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </Link>
@@ -207,7 +207,7 @@ const Header = () => {
             </li>
 
             <li>
-              <Link class="dropdown-item d-flex align-items-center" to="pages-faq.html">
+              <Link class="dropdown-item d-flex align-items-center" to="/help">
                 <i class="bi bi-question-circle"></i>
                 <span>Need Help?</span>
               </Link>
@@ -217,7 +217,7 @@ const Header = () => {
             </li>
 
             <li>
-              <Link class="dropdown-item d-flex align-items-center" to="#">
+              <Link class="dropdown-item d-flex align-items-center" to="/logout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </Link>

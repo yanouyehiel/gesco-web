@@ -6,30 +6,54 @@ import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
 import Footer from '../components/Footer';
 import { ClipLoader} from 'react-spinners'
-import { classes } from '../services/MainControllerApi'
+import { classes, typesClasse, addClasse } from '../services/MainControllerApi'
+import { getItem } from '../services/LocalStorage';
+import axios from 'axios';
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
-    let classes = [{}];
-
+    const [message, setMessage] = useState('');
+    const user = getItem('gescoUser');
+    const [typeClasses, setTypeClasses] = useState()
+    const [allClasses, setAllClasses] = useState()
+    const [classe, setClasse] = useState({
+        nom: '',
+        //ecole_id: user.ecole_id,
+        ecole_id: 1,
+        type_classe_id: 0,
+        enseignant_id: 0
+    });
+    
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setClasse({...classe, [name]: value})
+    }
+    
+    const handleSubmit = async e => {
+        e.preventDefault()
+        
+        try {
+            const response = await addClasse(classe);
+            setMessage(response);
+        } catch (err) {
+            setMessage(err);
+        }
+    }
+    //console.log(typeClasses)
+    //console.log(allClasses)
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            classes = classes();
-            setLoading(false)
-        }, 5000)
-    }, [])
-    console.log(classes)
+        axios.get('/get-classes-school/1').then(res => {
+            setAllClasses()
+            console.log(allClasses)
+        })
+        axios.get('/get-types-classe').then(res => setTypeClasses)
+    }, [typeClasses, allClasses])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log('Submit')
-        setShow(false);
-    }
 
     return (
         <>
@@ -56,20 +80,20 @@ const ClassesList = () => {
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Nom de la salle</Form.Label>
-                                                <Form.Control type="text" className="form-control" placeholder="Exemple: SIL A" />
+                                                <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner la classe</Form.Label>
-                                                <Form.Select className="form-control">
-                                                    <option>-- select --</option>   
-                                                    <option>Petite Section</option>
-                                                    <option>SIL</option>
-                                                    <option>CP</option>
+                                                <Form.Select onChange={handleChange} name='type_classe' className="form-control">
+                                                    <option>-- select --</option>
+                                                    {typeClasses.map((typeClasse) => (
+                                                        <option value={typeClasse.id}>{typeClasse.classe}</option>
+                                                    ))}
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un enseignant</Form.Label>
-                                                <Form.Select className="form-control">
+                                                <Form.Select onChange={handleChange} name='enseignant_id' className="form-control">
                                                     <option>-- select --</option>
                                                     <option>ERIC</option>
                                                     <option>TOM</option>
@@ -93,6 +117,8 @@ const ClassesList = () => {
                                             <tr>
                                                 <th>#</th>
                                                 <th>Nom</th>
+                                                <th>Ecole</th>
+                                                <th>Type Classe</th>
                                                 <th>Enseignant</th>
                                                 <th>Effectif</th>
                                                 <th>Action</th>
@@ -103,7 +129,7 @@ const ClassesList = () => {
                                             <ClipLoader color="#333" />
                                             :
                                             <>
-                                                {classes.map((classe) => (
+                                                {allClasses.map((classe) => (
                                                     <Classe classe={classe} />
                                                 ))}
                                             </>

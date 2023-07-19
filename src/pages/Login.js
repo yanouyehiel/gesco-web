@@ -9,14 +9,37 @@ import {
 } from 'mdb-react-ui-kit';
 import '../styles/login.css';
 import { redirect } from 'react-router-dom';
-import { login } from '../services/UserController';
+import { login } from '../services/AuthApi';
+import Auth from '../contexts/Auth';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+  const { navigate } = useNavigate();
+  const [user, setUser] = useState({
+    username: '',
+    password: ''
+  })
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login()
-    return redirect('/home');
+  const handleChange = ({currentTarget}) => {
+    const {name, value} = currentTarget;
+    setUser({...user, [name]: value})
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    
+    try {
+      const response = await login(user);
+      setIsAuthenticated(response);
+      navigate('/home');
+    } catch ({ response }) {
+      setError(true)
+      setErrorMessage(response)
+    }
   }
 
   return(
@@ -39,8 +62,8 @@ const Login = () => {
 
               <h3 className="fw-normal mb-3 ps-5 pb-3" style={{letterSpacing: '1px'}}>Log in</h3>
               <form onSubmit={handleSubmit}>
-                <MDBInput wrapperClass='mb-4 mx-5 w-100' label='Username' id='formControlLg' type='email' size="lg"/>
-                <MDBInput wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg' type='password' size="lg"/>
+                <MDBInput onChange={handleChange} name='username' wrapperClass='mb-4 mx-5 w-100' label='Username' id='formControlLg' type='email' size="lg"/>
+                <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg' type='password' size="lg"/>
 
                 <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' color='info' size='lg'>Login</MDBBtn>
               </form>

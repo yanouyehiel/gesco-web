@@ -1,4 +1,3 @@
-import 'boxicons';
 import { Link } from 'react-router-dom';
 
 function Sidenav() {

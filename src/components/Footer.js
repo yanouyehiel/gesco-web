@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -12,7 +12,7 @@ const Footer = () => {
                 </div>
             </footer>
 
-            <Link to="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></Link>
+            <NavLink to="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></NavLink>
         </>
     )
 };

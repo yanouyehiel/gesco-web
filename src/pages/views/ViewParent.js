@@ -1,14 +1,31 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Footer from "../../components/Footer";
 import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import { Button } from "react-bootstrap";
+import AxiosApi from "../../services/AxiosApi";
+import { useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify'
 
 const ViewParent = () => {
     const {matricule} = useParams()
+    const [parent, setParent] = useState({})
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        getParent()
+    }, [])
+
+    function getParent() {
+        AxiosApi.get('/get-parent/ecole=1&id=' + matricule)
+            .then(res => setParent(res.data[0]))
+    }
+    
     const handleClick = () => {
-        console.log('clique');
+        AxiosApi.get('/delete-user/' + parent.id)
+            .then(res => toast(res.data))
+            .then(() => navigate('/teachers'))
     }
 
     return(
@@ -16,13 +33,14 @@ const ViewParent = () => {
             <Header />
             <Sidenav />
             <main id="main" className="main">
-                <InfoPage title='Consulter un parent' link={'Infos sur ' + matricule} />
+                <InfoPage title='Consulter un parent' link={'Infos sur ' + parent.nom +' '+ parent.prenom} />
+                <ToastContainer />
 
                 <br />
                 <section className="section dashboard">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="text-center text-danger">M./Mme {matricule}</h1>
+                            <h1 className="text-center text-danger">M./Mme {parent.nom +' '+ parent.prenom}</h1>
 
                             <div className="row">
 
@@ -34,19 +52,19 @@ const ViewParent = () => {
 
                                             <div className="info">
                                                 <h5 className="title">Nom : </h5>
-                                                <p className="title-value">Yanou Piatchebe</p>
+                                                <p className="title-value">{parent.nom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Prénom : </h5>
-                                                <p className="title-value">Yehiel Eraste</p>
+                                                <p className="title-value">{parent.prenom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Adresse : </h5>
-                                                <p className="title-value">Marche Beedi - Douala</p>
+                                                <p className="title-value">{parent.adresse}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Telephone : </h5>
-                                                <p className="title-value">695707732</p>
+                                                <p className="title-value">{parent.telephone}</p>
                                             </div>
 
                                         </div>
@@ -60,15 +78,15 @@ const ViewParent = () => {
 
                                             <div className="info">
                                                 <h5 className="title">Matricule :</h5>
-                                                <p className="title-value">MAT123</p>
+                                                <p className="title-value">{parent.matricule}</p>
                                             </div> 
                                             <div className="info">
                                                 <h5 className="title">Parent de :</h5>
-                                                <p className="title-value">John Doe</p>
+                                                <p className="title-value">{parent.nom_student +' '+ parent.prenom_student}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Salle de classe : </h5>
-                                                <p className="title-value">CM2 A</p>
+                                                <p className="title-value">{parent.nom_classe}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Année scolaire : </h5>

@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import Footer from "../../components/Footer";
 import { useParams, Link } from "react-router-dom";
+import AxiosApi from "../../services/AxiosApi";
 
 const ViewStudent = () => {
     const {matricule} = useParams()
+    const [student, setStudent] = useState({})
+
+    useEffect(() => {
+        AxiosApi.get('/get-student/ecole=1&id=' + matricule)
+            .then(res => setStudent(res.data[0]))
+    }, [])
 
     return(
         <>
             <Header />
             <Sidenav />
             <main id="main" className="main">
-                <InfoPage title='Consulter un élève' link={'Infos sur ' + matricule} />
+                <InfoPage title='Consulter un élève' link={'Infos sur ' + student.nom +' '+ student.prenom} />
 
                 <br />
                 <section className="section dashboard">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="text-center text-danger">L'ELEVE {matricule}</h1>
+                            <h1 className="text-center text-danger">L'ELEVE {student.nom +' '+ student.prenom}</h1>
 
                             <div className="row">
 
@@ -31,19 +38,19 @@ const ViewStudent = () => {
 
                                             <div className="info">
                                                 <h5 className="title">Nom : </h5>
-                                                <p className="title-value">Yanou Piatchebe</p>
+                                                <p className="title-value">{student.nom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Prénom : </h5>
-                                                <p className="title-value">Yehiel Eraste</p>
+                                                <p className="title-value">{student.prenom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Date de naissance : </h5>
-                                                <p className="title-value">25 Septembre 1999</p>
+                                                <p className="title-value">{student.date_naissance}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Lieu de naissance : </h5>
-                                                <p className="title-value">Njombé</p>
+                                                <p className="title-value">{student.lieu_naissance}</p>
                                             </div>
 
                                         </div>
@@ -57,19 +64,19 @@ const ViewStudent = () => {
 
                                             <div className="info">
                                                 <h5 className="title">Matricule :</h5>
-                                                <p className="title-value">MAT123</p>
+                                                <p className="title-value">{student.matricule}</p>
                                             </div> 
                                             <div className="info">
                                                 <h5 className="title">Classe :</h5>
-                                                <p className="title-value">CM2</p>
+                                                <p className="title-value">{student.type_classe}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Salle de classe : </h5>
-                                                <p className="title-value">AD123</p>
+                                                <p className="title-value">{student.nom_classe}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Année scolaire : </h5>
-                                                <p className="title-value">2022-2023</p>
+                                                <p className="title-value">{student.date_scolarisation}</p>
                                             </div>
                                         </div>
                                     </div>

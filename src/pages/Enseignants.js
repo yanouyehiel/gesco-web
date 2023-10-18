@@ -6,15 +6,26 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import Enseignant from '../components/Enseignant';
 import Footer from '../components/Footer';
+import AxiosApi from '../services/AxiosApi';
+import { infoClasse } from '../services/MainControllerApi';
 
 const Enseignants = () => {
     const [loading, setLoading] = useState(false)
+    const [teachers, setTeachers] = useState([])
+
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getAllTeachers()
+        setLoading(false)
     }, [])
+
+    function getAllTeachers() {
+        AxiosApi.get('/get-teachers/1')
+        .then(res => {
+            setTeachers(res.data)
+            console.log(teachers)
+        })
+    }
 
     return(
         <>
@@ -53,12 +64,12 @@ const Enseignants = () => {
                                             <table className="table table-borderless datatable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Matricule</th>
-                                                        <th>Nom</th>
-                                                        <th>Prenom</th>
-                                                        <th>Salle de classe</th>
-                                                        <th>Sexe</th>
-                                                        <th>Action</th>
+                                                        <th style={{ textAlign: 'center' }}>Matricule</th>
+                                                        <th style={{ textAlign: 'center' }}>Nom</th>
+                                                        <th style={{ textAlign: 'center' }}>Prenom</th>
+                                                        <th style={{ textAlign: 'center' }}>Salle de classe</th>
+                                                        <th style={{ textAlign: 'center' }}>Sexe</th>
+                                                        <th style={{ textAlign: 'center' }}>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -66,9 +77,9 @@ const Enseignants = () => {
                                                         <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                                         :
                                                         <>
-                                                            <Enseignant />
-                                                            <Enseignant />
-                                                            <Enseignant />
+                                                            {teachers.map((teacher, index) => (
+                                                                <Enseignant key={index} teacher={teacher} />
+                                                            ))}
                                                         </>
                                                     }
                                                 </tbody>

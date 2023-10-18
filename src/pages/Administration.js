@@ -6,32 +6,76 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Employe from '../components/Employe';
 import { ClipLoader} from 'react-spinners'
+import AxiosApi from '../services/AxiosApi';
+import { ToastContainer, toast } from 'react-toastify';
+import { addPersonne } from '../services/MainControllerApi';
 
 const Administration = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [personnel, setPersonnel] = useState([])
+    const [roles, setRoles] = useState([])
+    const [classes, setClasses] = useState([])
+    const [students, setStudents] = useState([])
+    const [employe, setEmploye] = useState({})
 
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getPersonnel()
+        getRoles()
+        getClasses()
+        getStudents()
+        setLoading(false)
     }, [])
+
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setEmploye({...employe, [name]: value})
+    }
+
+    function getPersonnel() {
+        AxiosApi.get('/get-personnel/1')
+            .then(res => setPersonnel(res.data))
+    }
+
+    function getRoles() {
+        AxiosApi.get('/get-roles')
+            .then(res => setRoles(res.data))
+    }
+
+    function getClasses() {
+        AxiosApi.get('/get-classes-school/1')
+            .then(res => setClasses(res.data))
+    }
+
+    function getStudents() {
+        AxiosApi.get('/get-students/1')
+            .then(res => setStudents(res.data))
+    }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submit')
-        setShow(false);
-    }
 
-    useEffect(() => {
-        selectTeacher()
-    }, [])
-    function selectTeacher() {
-        console.log('Enseignant')
+        if (employe.cpassword !== employe.password) {
+            toast('Les mots de passe ne sont pas identiques')
+        } else {
+            employe.ecole_id = 1;
+            console.log(employe)
+            try {
+                const response = addPersonne(employe)
+                console.log(response)
+                setShow(false);
+                toast('Nouvel utilisateur créé avec succès !')
+                setLoading(true)
+                getPersonnel()
+                setLoading(false)
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
     return(
@@ -40,6 +84,7 @@ const Administration = () => {
             <Sidenav />
             <main id="main" className="main">
                 <InfoPage title='Gerer mon admistration' link='Staff interne' />
+                <ToastContainer />
 
                 <br />
                 <section className="section dashboard">
@@ -59,49 +104,57 @@ const Administration = () => {
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Nom</Form.Label>
-                                                <Form.Control type="text" className="form-control" placeholder="" />
+                                                <Form.Control type="text" name='nom' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Prénom</Form.Label>
-                                                <Form.Control type="text" className="form-control" placeholder="" />
+                                                <Form.Control type="text" name='prenom' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Adresse</Form.Label>
-                                                <Form.Control type="text" className="form-control" placeholder="" />
+                                                <Form.Control type="text" name='adresse' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Téléphone</Form.Label>
-                                                <Form.Control type="text" className="form-control" placeholder="" />
+                                                <Form.Control type="text" name='telephone' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
-                                            <Form.Group className="form-group mt-4">
+                                            {/* <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Salaire</Form.Label>
                                                 <Form.Control type="text" className="form-control" placeholder="" />
-                                            </Form.Group>
+                                            </Form.Group> */}
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Mot de passe</Form.Label>
-                                                <Form.Control type="password" className="form-control" placeholder="" />
+                                                <Form.Control type="password" name='password' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Confirmer le mot de passe</Form.Label>
-                                                <Form.Control type="password" className="form-control" placeholder="" />
+                                                <Form.Control type="password" name='cpassword' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Attribuer un rôle</Form.Label>
-                                                <Form.Select className="form-control">
+                                                <Form.Select className="form-control" name='role_id' onChange={handleChange}>
                                                     <option>-- select --</option>
-                                                    <option>Directeur</option>
-                                                    <option>Sécrétaire</option>
-                                                    <option>Comptable</option>
-                                                    <option>Enseignant</option>
+                                                    {roles.map((role, index) => (
+                                                        <option key={index} value={role.id}>{role.intitule}</option>
+                                                    ))}
                                                 </Form.Select>
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Attribuer une classe <span style={{color: 'red'}}>si c'est un maître</span></Form.Label>
-                                                <Form.Select className="form-control">
+                                                <Form.Select className="form-control" name='classe_id' onChange={handleChange}>
                                                     <option>-- select --</option>   
-                                                    <option>Petite Section</option>
-                                                    <option>SIL</option>
-                                                    <option>CP</option>
+                                                    {classes.map((classe, index) => (
+                                                        <option key={index} value={classe.id}>{classe.nom}</option>
+                                                    ))}
+                                                </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group className="form-group mt-4">
+                                                <Form.Label className="control-label">Attribuer un enfant <span style={{color: 'red'}}>si c'est un parent d'élève</span></Form.Label>
+                                                <Form.Select className="form-control" name='classe_id' onChange={handleChange}>
+                                                    <option>-- select --</option>   
+                                                    {students.map((student, index) => (
+                                                        <option key={index} value={student.id}>{student.nom + ' ' + student.prenom}</option>
+                                                    ))}
                                                 </Form.Select>
                                             </Form.Group>
                                             <br/>
@@ -119,13 +172,11 @@ const Administration = () => {
                                     <table id="example1" className="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>Matricule</th>
-                                                <th>Noms</th>
-                                                <th>Rôle</th>
-                                                <th>Salaire</th>
-                                                <th>Date d'embauche</th>
-                                                <th>Téléphone</th>
-                                                <th>Options</th>
+                                                <th style={{ textAlign: 'center' }}>Matricule</th>
+                                                <th style={{ textAlign: 'center' }}>Noms</th>
+                                                <th style={{ textAlign: 'center' }}>Rôle</th>
+                                                <th style={{ textAlign: 'center' }}>Date d'embauche</th>
+                                                <th style={{ textAlign: 'center' }}>Téléphone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -133,10 +184,9 @@ const Administration = () => {
                                                 <ClipLoader color="#333" />
                                                 :
                                                 <>
-                                                    <Employe />
-                                                    <Employe />
-                                                    <Employe />
-                                                    <Employe />
+                                                    {personnel.map((pers, index) => (
+                                                        <Employe key={index} employe={pers} />
+                                                    ))}
                                                 </>
                                             }
                                         </tbody>

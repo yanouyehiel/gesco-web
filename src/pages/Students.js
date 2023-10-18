@@ -6,15 +6,23 @@ import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
 import Student from "../components/Student";
 import { ClipLoader } from "react-spinners";
+import AxiosApi from "../services/AxiosApi";
 
 const Students = () => {
     const [loading, setLoading] = useState(false)
+    const [students, setStudents] = useState([])
+
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getStudents()
+        setLoading(false)
     }, [])
+
+    function getStudents() {
+        AxiosApi.get('/get-students/1')
+            .then(res => setStudents(res.data))
+    }
+
     return(
         <>
             <Header />
@@ -52,13 +60,13 @@ const Students = () => {
                                             <table className="table table-borderless datatable">
                                                 <thead>
                                                     <tr>
-                                                        <th>Matricule</th>
-                                                        <th>Nom</th>
-                                                        <th>Prenom</th>
-                                                        <th>Naissance</th>
-                                                        <th>Lieu</th>
-                                                        <th>Sexe</th>
-                                                        <th>Action</th>
+                                                        <th style={{ textAlign: 'center' }}>Matricule</th>
+                                                        <th style={{ textAlign: 'center' }}>Nom</th>
+                                                        <th style={{ textAlign: 'center' }}>Prenom</th>
+                                                        <th style={{ textAlign: 'center' }}>Naissance</th>
+                                                        <th style={{ textAlign: 'center' }}>Lieu</th>
+                                                        <th style={{ textAlign: 'center' }}>Sexe</th>
+                                                        <th style={{ textAlign: 'center' }}>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -66,9 +74,9 @@ const Students = () => {
                                                         <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                                         :
                                                         <>
-                                                            <Student />
-                                                            <Student />
-                                                            <Student />
+                                                            {students.map((student, index) => (
+                                                                <Student student={student} />
+                                                            ))}
                                                         </>
                                                     }
                                                 </tbody>

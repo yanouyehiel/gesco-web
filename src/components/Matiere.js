@@ -1,18 +1,18 @@
-import { Link } from "react-router-dom";
 
-const Matiere = () => {
-    const handleDelete = () => {
-        console.log('Delete')
-    }
+import { dateParser } from "../utils/functions";
+
+
+const Matiere = ({ matiere }) => {
 
     return(
         <tr>
-            <td>1</td>
-            <td>CALX123</td>
-            <td>Calcul Rapide</td>
-            <td>
-                <Link className="text-danger" onClick={handleDelete}><i className="fa-solid text-danger fa-pen-to-square"></i> Supprimer</Link>
-            </td>
+            <td>{matiere.id}</td>
+            <td style={{ textAlign: 'center' }}>{matiere.code}</td>
+            <td style={{ textAlign: 'center' }}>{matiere.intitule}</td>
+            <td style={{ textAlign: 'center' }}>{dateParser(matiere.created_at)}</td>
+            {/* <td>
+                <Link className="text-danger" onClick={handleDelete}><i className="fa-solid text-danger fa-trash"></i></Link>
+            </td> */}
         </tr>
     )
 }

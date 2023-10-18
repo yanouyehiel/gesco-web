@@ -7,20 +7,32 @@ import { useState, useEffect } from "react";
 import Student from "../../components/Student";
 import Footer from "../../components/Footer";
 import { ClipLoader } from "react-spinners";
+import AxiosApi from "../../services/AxiosApi";
 
-const ViewSalle = ({ salle }) => {
+const ViewSalle = () => {
     const { numSalle } = useParams();
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [students, setStudents] = useState([])
+    const [classe, setClasse] = useState({})
+
+    function getStudents() {
+        AxiosApi.get(`/my-students/classe_id=${numSalle}&ecole_id=${1}`)
+        .then(res => setStudents(res.data))
+    }
+    
     useEffect(() => {
+        AxiosApi.get('/get-info-classe/' + numSalle)
+            .then(res => setClasse(res.data))
+        console.log(classe)
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getStudents()
+        setLoading(false)
     }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
     const handleSubmit = () => {
         setShow(false)
     };
@@ -31,7 +43,7 @@ const ViewSalle = ({ salle }) => {
             <Sidenav />
 
             <main id="main" classNameName="main">
-                <InfoPage title='Salle de classe' link={numSalle} />
+                <InfoPage title='Salle de classe' link={classe.nom} />
 
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
@@ -85,13 +97,13 @@ const ViewSalle = ({ salle }) => {
                         <table id="example1" className="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Matricule</th>
-                                    <th>Nom</th>
-                                    <th>Prenom</th>
-                                    <th>Naissance</th>
-                                    <th>Lieu</th>
-                                    <th>Sexe</th>
-                                    <th>Action</th>
+                                    <th style={{ textAlign: 'center' }}>Matricule</th>
+                                    <th style={{ textAlign: 'center' }}>Nom</th>
+                                    <th style={{ textAlign: 'center' }}>Prenom</th>
+                                    <th style={{ textAlign: 'center' }}>Naissance</th>
+                                    <th style={{ textAlign: 'center' }}>Lieu</th>
+                                    <th style={{ textAlign: 'center' }}>Sexe</th>
+                                    <th style={{ textAlign: 'center' }}>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -99,9 +111,9 @@ const ViewSalle = ({ salle }) => {
                                 <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                 :
                                 <>
-                                    <Student />
-                                    <Student />
-                                    <Student />
+                                    {students.map((student, index) => (
+                                        <Student key={index} student={student} />
+                                    ))}
                                 </>
                             }
                             </tbody>

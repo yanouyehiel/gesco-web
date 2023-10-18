@@ -20,7 +20,7 @@ const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
   const { navigate } = useNavigate();
   const [user, setUser] = useState({
-    username: '',
+    email: '',
     password: ''
   })
 
@@ -31,10 +31,11 @@ const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    
+    console.log(user)
     try {
       const response = await login(user);
-      setIsAuthenticated(response);
+      console.log(response)
+      //setIsAuthenticated(response);
       navigate('/home');
     } catch ({ response }) {
       setError(true)
@@ -62,7 +63,7 @@ const Login = () => {
 
               <h3 className="fw-normal mb-3 ps-5 pb-3" style={{letterSpacing: '1px'}}>Log in</h3>
               <form onSubmit={handleSubmit}>
-                <MDBInput onChange={handleChange} name='username' wrapperClass='mb-4 mx-5 w-100' label='Username' id='formControlLg' type='email' size="lg"/>
+                <MDBInput onChange={handleChange} name='email' wrapperClass='mb-4 mx-5 w-100' label='Email' id='formControlLg' type='email' size="lg"/>
                 <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg' type='password' size="lg"/>
 
                 <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' color='info' size='lg'>Login</MDBBtn>

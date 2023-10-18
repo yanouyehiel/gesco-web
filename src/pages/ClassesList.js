@@ -6,24 +6,16 @@ import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
 import Footer from '../components/Footer';
 import { ClipLoader} from 'react-spinners'
-import { classes, typesClasse, addClasse } from '../services/MainControllerApi'
-import { getItem } from '../services/LocalStorage';
-import axios from 'axios';
+import { addClasse, deleteClasse } from '../services/MainControllerApi'
+import axios from '../services/AxiosApi';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState('');
-    const user = getItem('gescoUser');
-    const [typeClasses, setTypeClasses] = useState()
-    const [allClasses, setAllClasses] = useState()
-    const [classe, setClasse] = useState({
-        nom: '',
-        //ecole_id: user.ecole_id,
-        ecole_id: 1,
-        type_classe_id: 0,
-        enseignant_id: 0
-    });
+    const [typeClasses, setTypeClasses] = useState([])
+    const [allClasses, setAllClasses] = useState([])
+    const [classe, setClasse] = useState({});
     
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -32,28 +24,47 @@ const ClassesList = () => {
     
     const handleSubmit = async e => {
         e.preventDefault()
-        
+        classe.ecole_id = 1
+        console.log(classe)
         try {
-            const response = await addClasse(classe);
-            setMessage(response);
+            await addClasse(classe);
+            handleClose()
+            toast('Classe enregistrée avec succès !')
+            setLoading(true)
+            getData()
+            setLoading(false)
         } catch (err) {
-            setMessage(err);
+            console.log(err);
         }
     }
-    //console.log(typeClasses)
-    //console.log(allClasses)
+
+    function getData() {
+        axios.get('/get-classes-school/1').then(res => {
+            setAllClasses(res.data)
+        })
+    }
+    
     useEffect(() => {
         setLoading(true)
-        axios.get('/get-classes-school/1').then(res => {
-            setAllClasses()
-            console.log(allClasses)
+        getData()
+        setLoading(false)
+        axios.get('/get-types-classe').then(res => {
+            setTypeClasses(res.data)
+            console.log(typeClasses)
         })
-        axios.get('/get-types-classe').then(res => setTypeClasses)
-    }, [typeClasses, allClasses])
+    }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    function handleDeleteClasse(id) {
+        try {
+            deleteClasse(id)
+            toast('Classe supprimée avec succès !')
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <>
@@ -62,6 +73,8 @@ const ClassesList = () => {
 
             <main id="main" className="main">
 
+                <ToastContainer />
+                
                 <InfoPage title='Salle de classe' link='Gestion des classes' />
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
@@ -91,7 +104,7 @@ const ClassesList = () => {
                                                     ))}
                                                 </Form.Select>
                                             </Form.Group>
-                                            <Form.Group className="form-group mt-4">
+                                            {/* <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un enseignant</Form.Label>
                                                 <Form.Select onChange={handleChange} name='enseignant_id' className="form-control">
                                                     <option>-- select --</option>
@@ -99,7 +112,7 @@ const ClassesList = () => {
                                                     <option>TOM</option>
                                                     <option>PAUL</option>
                                                 </Form.Select>
-                                            </Form.Group>
+                                            </Form.Group> */}
                                             <br/>
                                             <Button variant="primary" size='lg' type='submit'>
                                                 Enregistrer
@@ -115,13 +128,13 @@ const ClassesList = () => {
                                     <table id="example1" className="table table-striped">
                                         <thead>
                                             <tr>
-                                                <th>#</th>
-                                                <th>Nom</th>
-                                                <th>Ecole</th>
-                                                <th>Type Classe</th>
-                                                <th>Enseignant</th>
-                                                <th>Effectif</th>
-                                                <th>Action</th>
+                                                <th style={{ textAlign: 'center' }}>#</th>
+                                                <th style={{ textAlign: 'center' }}>Nom</th>
+                                                <th style={{ textAlign: 'center' }}>Ecole</th>
+                                                <th style={{ textAlign: 'center' }}>Type Classe</th>
+                                                {/* <th>Enseignant</th> */}
+                                                <th style={{ textAlign: 'center' }}>Effectif</th>
+                                                <th style={{ textAlign: 'center' }}>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -129,8 +142,8 @@ const ClassesList = () => {
                                             <ClipLoader color="#333" />
                                             :
                                             <>
-                                                {allClasses.map((classe) => (
-                                                    <Classe classe={classe} />
+                                                {allClasses.map((classe, index) => (
+                                                    <Classe key={index} classe={classe} delClasse={handleDeleteClasse} />
                                                 ))}
                                             </>
                                         }

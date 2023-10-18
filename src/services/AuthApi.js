@@ -17,8 +17,8 @@ export function login(credentials) {
     return AxiosApi
         .post('/login', credentials)
         .then(res => {
-            addItem('gescoToken', res.data.token)
-            addItem('gescoUser', JSON.stringify(res.data.user))
+            //addItem('gescoToken', res.data.token)
+            addItem('gescoUser', JSON.stringify(res.data))
             return true;
         })
 }

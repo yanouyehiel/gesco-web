@@ -1,19 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Employe = () => {
+const Employe = ({ employe }) => {
     return(
         <tr>
-            <td>EMP123</td>
-            <td>Yehiel Yanou</td>
-            <td>Directeur</td>
-            <td>200000</td>
-            <td>1 Janvier 2021</td>
-            <td>695707732</td>
-            <td>
-                <Link className="text-danger"><i className="fa-solid fa-pen-to-square"></i></Link>
-                <Link className="text-primary"><i className="fa-solid fa-pen-to-square"></i></Link>
-            </td>
+            <td style={{ textAlign: 'center' }}>{employe.matricule}</td>
+            <td style={{ textAlign: 'center' }}>{employe.nom +' '+ employe.prenom}</td>
+            <td style={{ textAlign: 'center' }}>{employe.role}</td>
+            <td style={{ textAlign: 'center' }}>1 Janvier 2021</td>
+            <td style={{ textAlign: 'center' }}>{employe.telephone}</td>
         </tr>
     )
 }

@@ -27,6 +27,7 @@ import Events from './pages/Events';
 import Messagerie from './pages/Messagerie';
 import ViewEnseignant from './pages/views/ViewEnseignant';
 import ViewParent from './pages/views/ViewParent';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (

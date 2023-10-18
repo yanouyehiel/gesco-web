@@ -18,6 +18,13 @@ export function classes(id) {
 
 }
 
+export function infoClasse(id) {
+    AxiosApi.get('/get-info-classe/' + id)
+        .then(res => {
+            return res.data.nom
+        })
+}
+
 export function typesClasse() {
     let types;
     AxiosApi.get('/get-types-classe')
@@ -28,12 +35,34 @@ export function typesClasse() {
 }
 
 export function addClasse(classe) {
-    AxiosApi.post('/add-classe')
+    let response
+    AxiosApi.post('/add-classe', classe)
+        .then(res => response = res.data)
+        .catch(err => response = err)
+
+    return response;
+}
+
+export function addPersonne(personne) {
+    let response
+    AxiosApi.post('/add-personne', personne)
+        .then(res => response = res.data)
+        .catch(err => response = err)
+
+    return response
+}
+
+export function deleteClasse(id) {
+    AxiosApi.delete(`/delete-classe/${id}`)
         .then(res => {
-            return res.data;
+            return res.data
         })
-        .catch(err => {
-            return err
+}
+
+export function addMatiere(matiere) {
+    AxiosApi.post('add-matiere', matiere)
+        .then(res => {
+            return res.data
         })
 }
 

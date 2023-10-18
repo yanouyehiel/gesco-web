@@ -1,19 +1,33 @@
 import { Link } from 'react-router-dom';
-//import { useNavigate } from 'react-router-dom';
 
-const Classe = ({ classe }) => {
+const Classe = ({ classe, delClasse }) => {
     
+    function deleteClasse() {
+        delClasse(classe.id)
+    }
 
     return (
         <tr>
             <td>{classe.id}</td>
-            <td>{classe.nom}</td>
-            <td>{classe.ecole}</td>
-            <td>{classe.type_classe}</td>
-            <td>{classe.enseignant}</td>
-            <td>{classe.effectif} eleves</td>
-            <td className="text-blue">
-                <Link to={'/salles/' + classe.id}><i className="fa-solid fa-pen-to-square"></i> Voir</Link>
+            <td style={{ textAlign: 'center' }}>{classe.nom}</td>
+            <td style={{ textAlign: 'center' }}>{classe.nom_ecole}</td>
+            <td style={{ textAlign: 'center' }}>{classe.classe}</td>
+            {/* <td>{classe.enseignant}</td> */}
+            <td style={{ textAlign: 'center' }}>{classe.effectif} élèves</td>
+            <td style={{ textAlign: 'center' }}>
+                <Link 
+                    className="text-blue" 
+                    to={'/salles/' + classe.id}
+                    style={{ marginRight: '10px' }}
+                >
+                    <i className="fa-solid fa-pen-to-square"></i>
+                </Link>
+                <Link 
+                    className='text-danger'
+                    onClick={deleteClasse}
+                >
+                    <i className='fa-solid fa-trash'></i>
+                </Link>
             </td>
         </tr>
     )

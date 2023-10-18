@@ -1,15 +1,18 @@
 import { Link } from "react-router-dom";
 
-const Enseignant = ({ enseignant }) => {
+const Enseignant = ({ teacher, infoClasse }) => {
+
     return (
         <tr>
-            <td>STU254</td>
-            <td>Yanou</td>
-            <td>Yehiel</td>
-            <td>CM2 A</td>
-            <td>Masculin</td>
-            <td className="text-blue">
-                <Link to='/teachers/MAT213'><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
+            <td style={{ textAlign: 'center' }}>{teacher.matricule}</td>
+            <td style={{ textAlign: 'center' }}>{teacher.nom}</td>
+            <td style={{ textAlign: 'center' }}>{teacher.prenom}</td>
+            <td style={{ textAlign: 'center' }}>{teacher.nom_classe}</td>
+            <td style={{ textAlign: 'center' }}>Masculin</td>
+            <td style={{ textAlign: 'center' }} className="text-blue">
+                <Link to={'/teachers/' + teacher.id}>
+                    <i className="fa-solid fa-pen-to-square"></i> Consulter
+                </Link>
             </td>
         </tr>
     )

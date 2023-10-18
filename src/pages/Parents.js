@@ -7,13 +7,26 @@ import { ClipLoader } from 'react-spinners';
 import Parent from '../components/Parent';
 import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
+import AxiosApi from '../services/AxiosApi';
 
 const Parents = () => {
     const [loading, setLoading] = useState(false)
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false)
+    const [parents, setParents] = useState([])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    useEffect(() => {
+        setLoading(true)
+        getParents()
+        setLoading(false)
+    }, [])
+
+    function getParents() {
+        AxiosApi.get('/get-parents/1')
+            .then(res => setParents(res.data))
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,12 +34,6 @@ const Parents = () => {
         setShow(false);
     }
 
-    useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
-    }, [])
 
     return(
         <>
@@ -117,12 +124,12 @@ const Parents = () => {
                                         <table className="table table-borderless datatable">
                                             <thead>
                                                 <tr>
-                                                    <th>Matricule</th>
-                                                    <th>Nom</th>
-                                                    <th>Prenom</th>
-                                                    <th>Nom de l'enfant</th>
-                                                    <th>Classe de l'enfant</th>
-                                                    <th>Action</th>
+                                                    <th style={{ textAlign: 'center' }}>Matricule</th>
+                                                    <th style={{ textAlign: 'center' }}>Nom</th>
+                                                    <th style={{ textAlign: 'center' }}>Prenom</th>
+                                                    <th style={{ textAlign: 'center' }}>Nom de l'enfant</th>
+                                                    <th style={{ textAlign: 'center' }}>Classe de l'enfant</th>
+                                                    <th style={{ textAlign: 'center' }}>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -130,9 +137,9 @@ const Parents = () => {
                                                     <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                                     :
                                                     <>
-                                                        <Parent />
-                                                        <Parent />
-                                                        <Parent />
+                                                        {parents.map((parent, index) => (
+                                                            <Parent key={index} parent={parent} />
+                                                        ))}
                                                     </>
                                                 }
                                             </tbody>

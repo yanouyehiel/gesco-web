@@ -82,6 +82,10 @@ const Inscription = () => {
                                                     </Form.Group>
                                                 </div>
                                             </div>
+                                            <Form.Group className="form-group mt-4">
+                                                <Form.Label className="control-label">Entrer le montant</Form.Label>
+                                                <Form.Control className="form-control" />
+                                            </Form.Group>
                                             <br/>
                                             <Button variant="primary" size='lg' type='submit'>
                                                 Enregistrer

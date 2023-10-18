@@ -3,12 +3,25 @@ import Sidenav from "../../components/Sidenav"
 import InfoPage from "../../components/InfoPage"
 import Footer from "../../components/Footer"
 import { Button } from "react-bootstrap"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
+import { useEffect, useState } from "react"
+import AxiosApi from "../../services/AxiosApi"
+import { ToastContainer, toast } from 'react-toastify'
 
 const ViewEnseignant= () => {
     const {matricule} = useParams()
+    const [teacher, setTeacher] = useState({})
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        AxiosApi.get('/get-teacher/ecole=1&id=' + matricule)
+            .then(res => setTeacher(res.data[0]))
+    }, [])
+
     const handleClick = () => {
-        console.log('clique');
+        AxiosApi.get('/delete-user/' + teacher.id)
+            .then(res => toast(res.data))
+            .then(() => navigate('/teachers'))
     }
     
     return (
@@ -16,13 +29,14 @@ const ViewEnseignant= () => {
             <Header />
             <Sidenav />
             <main id="main" className="main">
-                <InfoPage title='Consulter un enseignant' link={'Infos sur ' + matricule} />
+                <InfoPage title='Consulter un enseignant' link={'Infos sur ' + teacher.nom + ' ' + teacher.prenom} />
+                <ToastContainer />
 
                 <br />
                 <section className="section dashboard">
                     <div className="row">
                         <div className="col-lg-12">
-                            <h1 className="text-center text-danger">L'ENSEIGNANT {matricule}</h1>
+                            <h1 className="text-center text-danger">L'ENSEIGNANT {teacher.nom + ' ' + teacher.prenom}</h1>
 
                             <div className="row">
 
@@ -34,11 +48,11 @@ const ViewEnseignant= () => {
 
                                             <div className="info">
                                                 <h5 className="title">Nom : </h5>
-                                                <p className="title-value">Yanou Piatchebe</p>
+                                                <p className="title-value">{teacher.nom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Prénom : </h5>
-                                                <p className="title-value">Yehiel Eraste</p>
+                                                <p className="title-value">{teacher.prenom}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Adresse : </h5>
@@ -46,7 +60,7 @@ const ViewEnseignant= () => {
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Telephone : </h5>
-                                                <p className="title-value">695707732</p>
+                                                <p className="title-value">{teacher.telephone}</p>
                                             </div>
 
                                         </div>
@@ -60,15 +74,15 @@ const ViewEnseignant= () => {
 
                                             <div className="info">
                                                 <h5 className="title">Matricule :</h5>
-                                                <p className="title-value">MAT123</p>
+                                                <p className="title-value">{teacher.matricule}</p>
                                             </div> 
                                             <div className="info">
                                                 <h5 className="title">Enseignant en salle :</h5>
-                                                <p className="title-value">CM2</p>
+                                                <p className="title-value">{teacher.nom_classe}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Effectif des eleves : </h5>
-                                                <p className="title-value">35</p>
+                                                <p className="title-value">{teacher.effectif}</p>
                                             </div>
                                             <div className="info">
                                                 <h5 className="title">Année scolaire : </h5>

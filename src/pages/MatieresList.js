@@ -6,25 +6,50 @@ import InfoPage from '../components/InfoPage';
 import Matiere from '../components/Matiere';
 import Footer from '../components/Footer';
 import { ClipLoader} from 'react-spinners'
+import AxiosApi from '../services/AxiosApi';
+import { ToastContainer, toast } from 'react-toastify';
+import { addMatiere } from '../services/MainControllerApi';
 
 const MatieresList = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [matieres, setMatieres] = useState([])
+    const [matiere, setMatiere] = useState({})
+
+    function getMatieres() {
+        AxiosApi.get('/get-matieres/1')
+        .then(res => setMatieres(res.data))
+    }
 
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getMatieres()
+        setLoading(false)
     }, [])
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setMatiere({...matiere, [name]: value})
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submit')
-        setShow(false);
+        matiere.ecole_id = 1
+        console.log(matiere)
+        try {
+            const response = addMatiere(matiere)
+            console.log(response)
+            setShow(false);
+            toast('Matière créée avec succès !')
+            setLoading(true)
+            getMatieres()
+            setLoading(false)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -33,6 +58,8 @@ const MatieresList = () => {
             <Sidenav />
 
             <main id="main" className="main">
+
+                <ToastContainer />
 
                 <InfoPage title='Matieres' link='Gestion des matieres' />
                 <div className="content-wrapper">
@@ -52,11 +79,11 @@ const MatieresList = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Intitule de la matiere</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="Exemple: Calcul Rapide" />
+                                            <Form.Control onChange={handleChange} name='intitule' type="text" className="form-control" placeholder="Exemple: Calcul Rapide" />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Code de la matiere</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="" />
+                                            <Form.Control onChange={handleChange} name='code' type="text" className="form-control" placeholder="" />
                                         </Form.Group>
                                         <br/>
                                         <Button variant="primary" size='lg' type='submit'>
@@ -75,9 +102,9 @@ const MatieresList = () => {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Code de la matiere</th>
-                                            <th>Intitule de la matiere</th>
-                                            <th>Action</th>
+                                            <th style={{ textAlign: 'center' }}>Code de la matiere</th>
+                                            <th style={{ textAlign: 'center' }}>Intitule de la matiere</th>
+                                            <th style={{ textAlign: 'center' }}>Date création</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -85,9 +112,9 @@ const MatieresList = () => {
                                             <ClipLoader color="#333" />
                                             :
                                             <>
-                                                <Matiere />
-                                                <Matiere />
-                                                <Matiere />
+                                                {matieres.map((matiere, index) => (
+                                                    <Matiere key={index} matiere={matiere} />
+                                                ))}
                                             </>
                                         }
                                     </tbody>

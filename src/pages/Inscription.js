@@ -6,25 +6,56 @@ import { Link } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
 import { ClipLoader} from 'react-spinners'
+import { ToastContainer, toast } from "react-toastify";
+import AxiosApi from "../services/AxiosApi";
+import { addPaiement } from "../services/MainControllerApi";
+import { dateParser } from "../utils/functions";
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
+    const [paiement, setPaiement] = useState({})
+    const [paiements, setPaiements] = useState([])
+    const [students, setStudents] = useState([])
 
     useEffect(() => {
         setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        getPaiements()
+        getStudents()
+        setLoading(false)
     }, [])
+
+    function getPaiements() {
+        AxiosApi.get('/get-paiements/1')
+        .then(res => setPaiements(res.data))
+    }
+
+    function getStudents() {
+        AxiosApi.get('/get-students/1')
+        .then(res => setStudents(res.data))
+    }
+
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setPaiement({...paiement, [name]: value})
+    }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submit')
-        setShow(false);
+        try {
+            paiement.ecole = 1
+            paiement.intitule = 'Paiement scolarité'
+            console.log(paiement)
+            const response = await addPaiement(paiement)
+            console.log(response)
+            setShow(false);
+            toast('Paiement enregistré avec succès !')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -33,6 +64,7 @@ const Inscription = () => {
             <Sidenav />
             <main id="main" className="main">
                 <InfoPage title='Gestion les inscriptions' link='Inscription' />
+                <ToastContainer />
 
                 <br />
                 <section className="section dashboard">
@@ -52,39 +84,16 @@ const Inscription = () => {
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un élève</Form.Label>
-                                                <Form.Select className="form-control">
+                                                <Form.Select onChange={handleChange} className="form-control" name="student">
                                                     <option>-- select --</option>
-                                                    <option>ERIC</option>
-                                                    <option>TOM</option>
-                                                    <option>PAUL</option>
+                                                    {students.map((student, i) => (
+                                                        <option key={i} value={student.id}>{student.nom +' ' + student.prenom}</option>
+                                                    ))}
                                                 </Form.Select>
                                             </Form.Group>
-                                            <div className="row">
-                                                <div className="col-lg-6">
-                                                    <Form.Group className="form-group mt-4">
-                                                        <Form.Label className="control-label">Que voulez-vous payer ?</Form.Label>
-                                                        <Form.Select className="form-control">
-                                                            <option>-- select --</option>
-                                                            <option>Première tranche</option>
-                                                            <option>Deuxième tranche</option>
-                                                            <option>Tranche tranche</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </div>
-                                                <div className="col-lg-6">
-                                                    <Form.Group className="form-group mt-4">
-                                                        <Form.Label className="control-label">Tout payer ?</Form.Label>
-                                                        <Form.Select className="form-control">
-                                                            <option>-- select --</option>
-                                                            <option>Oui</option>
-                                                            <option>Non</option>
-                                                        </Form.Select>
-                                                    </Form.Group>
-                                                </div>
-                                            </div>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Entrer le montant</Form.Label>
-                                                <Form.Control className="form-control" />
+                                                <Form.Control onChange={handleChange} className="form-control" name="montant" />
                                             </Form.Group>
                                             <br/>
                                             <Button variant="primary" size='lg' type='submit'>
@@ -116,12 +125,13 @@ const Inscription = () => {
                                             <table className="table table-borderless datatable">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Matricule</th>
-                                                        <th scope="col">Elève</th>
-                                                        <th scope="col">Salle</th>
-                                                        <th scope="col">Désignation</th>
-                                                        <th scope="col">Reste</th>
-                                                        <th scope="col">Statut</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Code</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Désignation</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Montant</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Date</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Elève</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Reste</th>
+                                                        <th style={{textAlign: 'center'}} scope="col">Statut</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -129,46 +139,21 @@ const Inscription = () => {
                                                         <ClipLoader color="#333" />
                                                     :
                                                     <>
-                                                        <tr>
-                                                            <th scope="row"><Link to="#">#2457</Link></th>
-                                                            <td>Brandon Jacob</td>
-                                                            <td>SIL A</td>
-                                                            <td><Link to="#" className="text-primary">At praesentium minu</Link></td>
-                                                            <td>$64</td>
-                                                            <td><span className="badge bg-success">Approved</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row"><Link to="#">#2147</Link></th>
-                                                            <td>Bridie Kessler</td>
-                                                            <td>SIL A</td>
-                                                            <td><Link to="#" className="text-primary">Blanditiis dolor omnis similique</Link></td>
-                                                            <td>$47</td>
-                                                            <td><span className="badge bg-warning">Pending</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row"><Link to="#">#2049</Link></th>
-                                                            <td>Ashleigh Langosh</td>
-                                                            <td>SIL A</td>
-                                                            <td><Link to="#" className="text-primary">At recusandae consectetur</Link></td>
-                                                            <td>$147</td>
-                                                            <td><span className="badge bg-success">Approved</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row"><Link to="#">#2644</Link></th>
-                                                            <td>Angus Grady</td>
-                                                            <td>SIL A</td>
-                                                            <td><Link to="#" className="text-primar">Ut voluptatem id earum et</Link></td>
-                                                            <td>$67</td>
-                                                            <td><span className="badge bg-danger">Rejected</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row"><Link to="#">#2644</Link></th>
-                                                            <td>Raheem Lehner</td>
-                                                            <td>SIL A</td>
-                                                            <td><Link to="#" className="text-primary">Sunt similique distinctio</Link></td>
-                                                            <td>$165</td>
-                                                            <td><span className="badge bg-success">Approved</span></td>
-                                                        </tr>
+                                                        {paiements.map((paiement, i) => (
+                                                            <tr>
+                                                                <td style={{textAlign: 'center'}}>{paiement.code}</td>
+                                                                <td style={{textAlign: 'center'}}>{paiement.intitule}</td>
+                                                                <td style={{textAlign: 'center'}}>{paiement.montant} FCFA</td>
+                                                                <td style={{textAlign: 'center'}}>{dateParser(paiement.created_at)}</td>
+                                                                <td style={{textAlign: 'center'}}>{paiement.nom_student +' '+ paiement.prenom_student}</td>
+                                                                <td></td>
+                                                                <td style={{textAlign: 'center'}}>
+                                                                    <span className="badge bg-success">Soldé</span>
+                                                                    <span className="badge bg-danger">Débiteur</span>
+                                                                    <span className="badge bg-warning">Acceptable</span>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
                                                     </>
                                                     }
                                                 </tbody>

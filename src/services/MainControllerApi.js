@@ -60,10 +60,11 @@ export function deleteClasse(id) {
 }
 
 export function addMatiere(matiere) {
+    let response
     AxiosApi.post('add-matiere', matiere)
-        .then(res => {
-            return res.data
-        })
+        .then(res => response = res.data)
+
+    return response
 }
 
 export function getAllEmployes(id) {
@@ -74,4 +75,28 @@ export function getAllEmployes(id) {
         })
 
     return employes
+}
+
+export function addEcole(ecole) {
+    let response
+    AxiosApi.post('/add-ecole', ecole)
+        .then(res => response = res.data)
+
+    return response
+}
+
+export function addTarif(tarif) {
+    let response
+    AxiosApi.post('/add-tarif', tarif)
+        .then(res => response = res.data)
+
+    return response
+}
+
+export function addPaiement(paiement) {
+    let response
+    AxiosApi.post('/add-paiement', paiement)
+        .then(res => response = res.data)
+
+    return response
 }

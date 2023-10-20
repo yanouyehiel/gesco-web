@@ -28,6 +28,8 @@ import Messagerie from './pages/Messagerie';
 import ViewEnseignant from './pages/views/ViewEnseignant';
 import ViewParent from './pages/views/ViewParent';
 import 'react-toastify/dist/ReactToastify.css';
+import { Register } from './pages/Register';
+import { Tarifs } from './pages/Tarifs';
 
 const App = () => {
   return (
@@ -35,6 +37,7 @@ const App = () => {
       <Routes>
         <Route exact path='/' element={<Login />}></Route>
         <Route exact path='/login' element={<Login />}></Route>
+        <Route exact path='/register' element={<Register />}></Route>
         <Route exact path='/home' element={<Home />}></Route>
         <Route exact path='/create/school' element={<CreateSchool />}></Route>
         <Route exact path='/salles' element={<ClassesList />}></Route>
@@ -60,6 +63,7 @@ const App = () => {
         <Route exact path='/teachers/:matricule' element={<ViewEnseignant />}></Route>
         <Route exact path='/events' element={<Events />}></Route>
         <Route exact path='/messagerie' element={<Messagerie />}></Route>
+        <Route exact path='/tarifs' element={<Tarifs />}></Route>
         <Route exact path='/*' element={<Notfound />}></Route>
       </Routes>
     </BrowserRouter>

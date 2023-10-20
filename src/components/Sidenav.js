@@ -27,6 +27,12 @@ function Sidenav() {
                 </Link>
             </li>
             <li className="nav-item">
+                <Link className="nav-link collapsed" to="/tarifs">
+                    <i className="bi bi-currency-dollar"></i>
+                    <span>Gérer les tarifs</span>
+                </Link>
+            </li>
+            <li className="nav-item">
                 <Link className="nav-link collapsed" to="/documents">
                     <i className="bi bi-journal-text"></i>
                     <span>Documents scolaires</span>

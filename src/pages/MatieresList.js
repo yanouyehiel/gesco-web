@@ -85,6 +85,10 @@ const MatieresList = () => {
                                             <Form.Label className="control-label">Code de la matiere</Form.Label>
                                             <Form.Control onChange={handleChange} name='code' type="text" className="form-control" placeholder="" />
                                         </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Coefficient de la matiere</Form.Label>
+                                            <Form.Control onChange={handleChange} name='coefficient' type="number" className="form-control" placeholder="" />
+                                        </Form.Group>
                                         <br/>
                                         <Button variant="primary" size='lg' type='submit'>
                                             Enregistrer
@@ -102,8 +106,9 @@ const MatieresList = () => {
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th style={{ textAlign: 'center' }}>Code de la matiere</th>
-                                            <th style={{ textAlign: 'center' }}>Intitule de la matiere</th>
+                                            <th style={{ textAlign: 'center' }}>Code</th>
+                                            <th style={{ textAlign: 'center' }}>Intitule</th>
+                                            <th style={{ textAlign: 'center' }}>Coefficient</th>
                                             <th style={{ textAlign: 'center' }}>Date création</th>
                                         </tr>
                                     </thead>

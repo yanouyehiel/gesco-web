@@ -9,15 +9,17 @@ import { ClipLoader} from 'react-spinners'
 import AxiosApi from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
 import { addMatiere } from '../services/MainControllerApi';
+import { getEcoleStored } from '../services/LocalStorage';
 
 const MatieresList = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
     const [matieres, setMatieres] = useState([])
     const [matiere, setMatiere] = useState({})
+    const ecole_id = getEcoleStored()
 
     function getMatieres() {
-        AxiosApi.get('/get-matieres/1')
+        AxiosApi.get('/get-matieres/' + ecole_id)
         .then(res => setMatieres(res.data))
     }
 
@@ -37,7 +39,7 @@ const MatieresList = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        matiere.ecole_id = 1
+        matiere.ecole_id = ecole_id
         console.log(matiere)
         try {
             const response = addMatiere(matiere)

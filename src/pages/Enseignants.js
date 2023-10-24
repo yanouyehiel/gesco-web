@@ -8,10 +8,12 @@ import Enseignant from '../components/Enseignant';
 import Footer from '../components/Footer';
 import AxiosApi from '../services/AxiosApi';
 import { infoClasse } from '../services/MainControllerApi';
+import { getEcoleStored } from '../services/LocalStorage';
 
 const Enseignants = () => {
     const [loading, setLoading] = useState(false)
     const [teachers, setTeachers] = useState([])
+    const ecole_id = getEcoleStored()
 
     useEffect(() => {
         setLoading(true)
@@ -20,7 +22,7 @@ const Enseignants = () => {
     }, [])
 
     function getAllTeachers() {
-        AxiosApi.get('/get-teachers/1')
+        AxiosApi.get('/get-teachers/' + ecole_id)
         .then(res => {
             setTeachers(res.data)
             console.log(teachers)

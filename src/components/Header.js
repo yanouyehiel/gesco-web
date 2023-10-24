@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { getItem, removeItem } from "../services/LocalStorage";
+import { getRole } from "../services/MainControllerApi";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import Auth from "../contexts/Auth";
 
 const Header = () => {
+  const data = getItem('gescoUser') || '{}'
+  const user = JSON.parse(data)
+  const navigate = useNavigate()
+  const { setIsAuthenticated } = useContext(Auth)
+
+  function logout() {
+    removeItem('gescoUser')
+    setIsAuthenticated(false)
+    navigate('/')
+  }
 
     return (
         <header id="header" class="header fixed-top d-flex align-items-center">
@@ -174,13 +189,13 @@ const Header = () => {
 
           <Link class="nav-link nav-profile d-flex align-items-center pe-0" to="#" data-bs-toggle="dropdown">
             <img src="../assets/images/px1.png" alt="Profile" class="rounded-circle" />
-            <span class="d-none d-md-block dropdown-toggle ps-2">Y. Yanou</span>
+            <span class="d-none d-md-block dropdown-toggle ps-2">{user.nom}</span>
           </Link>
 
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li class="dropdown-header">
-              <h6>Kevin Anderson</h6>
-              <span>Web Designer</span>
+              <h6>{user.nom + ' ' + user.prenom}</h6>
+              <span>{getRole(user.role_id)}</span>
             </li>
             <li>
               <hr class="dropdown-divider" />
@@ -217,7 +232,7 @@ const Header = () => {
             </li>
 
             <li>
-              <Link class="dropdown-item d-flex align-items-center" to="/logout">
+              <Link class="dropdown-item d-flex align-items-center" onClick={logout}>
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </Link>

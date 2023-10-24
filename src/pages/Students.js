@@ -7,10 +7,12 @@ import { Link } from "react-router-dom";
 import Student from "../components/Student";
 import { ClipLoader } from "react-spinners";
 import AxiosApi from "../services/AxiosApi";
+import { getEcoleStored } from "../services/LocalStorage";
 
 const Students = () => {
     const [loading, setLoading] = useState(false)
     const [students, setStudents] = useState([])
+    const ecole_id = getEcoleStored()
 
     useEffect(() => {
         setLoading(true)
@@ -19,7 +21,7 @@ const Students = () => {
     }, [])
 
     function getStudents() {
-        AxiosApi.get('/get-students/1')
+        AxiosApi.get('/get-students/' + ecole_id)
             .then(res => setStudents(res.data))
     }
 

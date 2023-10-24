@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AxiosApi from "../../services/AxiosApi"
 import { ToastContainer, toast } from 'react-toastify'
+import { getEcoleStored } from "../../services/LocalStorage"
 
 const ViewEnseignant= () => {
     const {matricule} = useParams()
@@ -14,7 +15,7 @@ const ViewEnseignant= () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        AxiosApi.get('/get-teacher/ecole=1&id=' + matricule)
+        AxiosApi.get('/get-teacher/' + matricule)
             .then(res => setTeacher(res.data[0]))
     }, [])
 

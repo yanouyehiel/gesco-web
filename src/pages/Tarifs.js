@@ -9,6 +9,8 @@ import { ClipLoader} from 'react-spinners'
 import AxiosApi from "../services/AxiosApi";
 import { addTarif } from "../services/MainControllerApi";
 import { ToastContainer, toast } from "react-toastify";
+import { getEcoleStored } from "../services/LocalStorage";
+
 
 export const Tarifs = () => {
     const [show, setShow] = useState(false);
@@ -16,6 +18,7 @@ export const Tarifs = () => {
     const [classes, setClasses] = useState([])
     const [tarif, setTarif] = useState({})
     const [tarifs, setTarifs] = useState([])
+    const ecole_id = getEcoleStored()
 
     useEffect(() => {
         setLoading(true)
@@ -25,12 +28,12 @@ export const Tarifs = () => {
     }, [])
 
     function getClasses() {
-        AxiosApi.get('/get-classes-school/1')
+        AxiosApi.get('/get-classes-school/' + ecole_id)
         .then(res => setClasses(res.data))
     }
 
     function getTarifs() {
-        AxiosApi.get('/get-tarifs/1')
+        AxiosApi.get('/get-tarifs/' + ecole_id)
         .then(res => setTarifs(res.data))
     }
 
@@ -44,7 +47,7 @@ export const Tarifs = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        tarif.ecole = 1;
+        tarif.ecole = ecole_id;
         console.log(tarif)
         try {
             const response = await addTarif(tarif)

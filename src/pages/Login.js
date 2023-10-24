@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     MDBBtn,
     MDBContainer,
@@ -8,21 +8,23 @@ import {
     MDBIcon
 } from 'mdb-react-ui-kit';
 import '../styles/login.css';
-import { redirect } from 'react-router-dom';
 import { login } from '../services/AuthApi';
 import Auth from '../contexts/Auth';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getItem } from '../services/LocalStorage';
 
 const Login = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
-  const { navigate } = useNavigate();
+  const { setIsAuthenticated } = useContext(Auth);
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: '',
     password: ''
   })
+  const userRegistred = getItem('gescoUser') || '{}'
+  const userParsed = JSON.parse(userRegistred)
 
   const handleChange = ({currentTarget}) => {
     const {name, value} = currentTarget;
@@ -35,13 +37,19 @@ const Login = () => {
     try {
       const response = await login(user);
       console.log(response)
-      //setIsAuthenticated(response);
+      setIsAuthenticated(true);
       navigate('/home');
     } catch ({ response }) {
       setError(true)
       setErrorMessage(response)
     }
   }
+
+  useEffect(() => {
+    if (userParsed && userRegistred !== '{}') {
+      navigate('/home')
+    }
+  }, [user])
 
   return(
     <div className="container-fluid">

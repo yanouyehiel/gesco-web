@@ -1,7 +1,7 @@
 import Header from '../components/Header';
 import Sidenav from '../components/Sidenav';
 import { Button, Modal, Form } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
 import Footer from '../components/Footer';
@@ -9,6 +9,10 @@ import { ClipLoader} from 'react-spinners'
 import { addClasse, deleteClasse } from '../services/MainControllerApi'
 import axios from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
+import Auth from '../contexts/Auth';
+import { useNavigate } from 'react-router-dom';
+import { getEcoleStored, getItem } from '../services/LocalStorage';
+
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
@@ -16,6 +20,9 @@ const ClassesList = () => {
     const [typeClasses, setTypeClasses] = useState([])
     const [allClasses, setAllClasses] = useState([])
     const [classe, setClasse] = useState({});
+    const navigate = useNavigate()
+    const { isAuthenticated } = useContext(Auth);
+
     
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -24,7 +31,7 @@ const ClassesList = () => {
     
     const handleSubmit = async e => {
         e.preventDefault()
-        classe.ecole_id = 1
+        classe.ecole_id = getEcoleStored()
         console.log(classe)
         try {
             await addClasse(classe);
@@ -39,19 +46,23 @@ const ClassesList = () => {
     }
 
     function getData() {
-        axios.get('/get-classes-school/1').then(res => {
+        axios.get('/get-classes-school/' + getEcoleStored()).then(res => {
             setAllClasses(res.data)
         })
     }
     
     useEffect(() => {
-        setLoading(true)
-        getData()
-        setLoading(false)
-        axios.get('/get-types-classe').then(res => {
-            setTypeClasses(res.data)
-            console.log(typeClasses)
-        })
+        if (!isAuthenticated) {
+            navigate('/login')
+        } else {
+            setLoading(true)
+            getData()
+            setLoading(false)
+            axios.get('/get-types-classe').then(res => {
+                setTypeClasses(res.data)
+                console.log(typeClasses)
+            })
+        }
     }, [])
 
     const handleClose = () => setShow(false);

@@ -30,43 +30,50 @@ import ViewParent from './pages/views/ViewParent';
 import 'react-toastify/dist/ReactToastify.css';
 import { Register } from './pages/Register';
 import { Tarifs } from './pages/Tarifs';
+import { useState } from 'react';
+import { hasAuthenticated } from './services/AuthApi';
+import Auth from './contexts/Auth';
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated)
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route exact path='/' element={<Login />}></Route>
-        <Route exact path='/login' element={<Login />}></Route>
-        <Route exact path='/register' element={<Register />}></Route>
-        <Route exact path='/home' element={<Home />}></Route>
-        <Route exact path='/create/school' element={<CreateSchool />}></Route>
-        <Route exact path='/salles' element={<ClassesList />}></Route>
-        <Route exact path='/salles/:numSalle' element={<ViewSalle />}></Route>
-        <Route exact path='/documents' element={<Documents />}></Route>
-        <Route exact path='/documents/:matStudent' element={<Documents />}></Route>
-        <Route exact path='/matieres' element={<MatieresList />}></Route>
-        <Route exact path='/inscription' element={<Inscription />}></Route>
-        <Route exact path='/enseignement/:salle' element={<Enseignement />}></Route>
-        <Route exact path='/emploi-du-temps' element={<Planning />}></Route>
-        <Route exact path='/emploi-du-temps/:salle' element={<ViewEmploiTemps />}></Route>
-        <Route exact path='/presences/:salle' element={<Presences />}></Route>
-        <Route exact path='/gestion-notes' element={<Notes />}></Route>
-        <Route exact path='/gestion-evaluations' element={<Evaluations />}></Route>
-        <Route exact path='/recap-evaluations' element={<RecapEnseignement />}></Route>
-        <Route exact path='/salles/:numSalle/notes' element={<ViewNote />}></Route>
-        <Route exact path='/students' element={<Students />}></Route>
-        <Route exact path='/students/:matricule' element={<ViewStudent />}></Route>
-        <Route exact path='/administration' element={<Administration />}></Route>
-        <Route exact path='/parents' element={<Parents />}></Route>
-        <Route exact path='/parents/:matricule' element={<ViewParent />}></Route>
-        <Route exact path='/teachers' element={<Enseignants />}></Route>
-        <Route exact path='/teachers/:matricule' element={<ViewEnseignant />}></Route>
-        <Route exact path='/events' element={<Events />}></Route>
-        <Route exact path='/messagerie' element={<Messagerie />}></Route>
-        <Route exact path='/tarifs' element={<Tarifs />}></Route>
-        <Route exact path='/*' element={<Notfound />}></Route>
-      </Routes>
-    </BrowserRouter>
+    <Auth.Provider value={{isAuthenticated, setIsAuthenticated}}>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path='/' element={<Login />}></Route>
+          <Route exact path='/login' element={<Login />}></Route>
+          <Route exact path='/register' element={<Register />}></Route>
+          <Route exact path='/home' element={<Home />}></Route>
+          <Route exact path='/create/school' element={<CreateSchool />}></Route>
+          <Route exact path='/salles' element={<ClassesList />}></Route>
+          <Route exact path='/salles/:numSalle' element={<ViewSalle />}></Route>
+          <Route exact path='/documents' element={<Documents />}></Route>
+          <Route exact path='/documents/:matStudent' element={<Documents />}></Route>
+          <Route exact path='/matieres' element={<MatieresList />}></Route>
+          <Route exact path='/inscription' element={<Inscription />}></Route>
+          <Route exact path='/enseignement/:salle' element={<Enseignement />}></Route>
+          <Route exact path='/emploi-du-temps' element={<Planning />}></Route>
+          <Route exact path='/emploi-du-temps/:salle' element={<ViewEmploiTemps />}></Route>
+          <Route exact path='/presences/:salle' element={<Presences />}></Route>
+          <Route exact path='/gestion-notes' element={<Notes />}></Route>
+          <Route exact path='/gestion-evaluations' element={<Evaluations />}></Route>
+          <Route exact path='/recap-evaluations' element={<RecapEnseignement />}></Route>
+          <Route exact path='/salles/:numSalle/notes' element={<ViewNote />}></Route>
+          <Route exact path='/students' element={<Students />}></Route>
+          <Route exact path='/students/:matricule' element={<ViewStudent />}></Route>
+          <Route exact path='/administration' element={<Administration />}></Route>
+          <Route exact path='/parents' element={<Parents />}></Route>
+          <Route exact path='/parents/:matricule' element={<ViewParent />}></Route>
+          <Route exact path='/teachers' element={<Enseignants />}></Route>
+          <Route exact path='/teachers/:matricule' element={<ViewEnseignant />}></Route>
+          <Route exact path='/events' element={<Events />}></Route>
+          <Route exact path='/messagerie' element={<Messagerie />}></Route>
+          <Route exact path='/tarifs' element={<Tarifs />}></Route>
+          <Route exact path='/*' element={<Notfound />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </Auth.Provider>
   );
 }
 

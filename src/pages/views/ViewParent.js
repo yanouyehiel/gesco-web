@@ -18,7 +18,7 @@ const ViewParent = () => {
     }, [])
 
     function getParent() {
-        AxiosApi.get('/get-parent/ecole=1&id=' + matricule)
+        AxiosApi.get('/get-parent/' + matricule)
             .then(res => setParent(res.data[0]))
     }
     

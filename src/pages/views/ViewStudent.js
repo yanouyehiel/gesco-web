@@ -11,7 +11,7 @@ const ViewStudent = () => {
     const [student, setStudent] = useState({})
 
     useEffect(() => {
-        AxiosApi.get('/get-student/ecole=1&id=' + matricule)
+        AxiosApi.get('/get-student/' + matricule)
             .then(res => setStudent(res.data[0]))
     }, [])
 

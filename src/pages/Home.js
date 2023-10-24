@@ -1,9 +1,20 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Sidenav from "../components/Sidenav";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useContext } from "react";
+import Auth from '../contexts/Auth'
 
 const Home = () => {
+    const navigate = useNavigate()
+    const { isAuthenticated } = useContext(Auth);
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate('/login')
+        }
+    }, [])
+
     return(
         <>
             <Header />

@@ -10,6 +10,16 @@ export function roles() {
     return roles;
 }
 
+export function getRole(id) {
+    let role
+    AxiosApi.get('/get-role/' + id)
+        .then((res) => {
+            role = res.data
+        })
+
+    return role;
+}
+
 export function classes(id) {
     AxiosApi.get('/get-classes-school/' + id)
         .then(res => {

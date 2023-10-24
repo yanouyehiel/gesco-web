@@ -8,11 +8,13 @@ import Parent from '../components/Parent';
 import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import AxiosApi from '../services/AxiosApi';
+import { getEcoleStored } from '../services/LocalStorage';
 
 const Parents = () => {
     const [loading, setLoading] = useState(false)
     const [show, setShow] = useState(false)
     const [parents, setParents] = useState([])
+    const ecole_id = getEcoleStored()
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -24,7 +26,7 @@ const Parents = () => {
     }, [])
 
     function getParents() {
-        AxiosApi.get('/get-parents/1')
+        AxiosApi.get('/get-parents/' + ecole_id)
             .then(res => setParents(res.data))
     }
 

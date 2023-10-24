@@ -10,6 +10,7 @@ import { ToastContainer, toast } from "react-toastify";
 import AxiosApi from "../services/AxiosApi";
 import { addPaiement } from "../services/MainControllerApi";
 import { dateParser } from "../utils/functions";
+import { getEcoleStored } from "../services/LocalStorage";
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
@@ -17,6 +18,7 @@ const Inscription = () => {
     const [paiement, setPaiement] = useState({})
     const [paiements, setPaiements] = useState([])
     const [students, setStudents] = useState([])
+    const ecole_id = getEcoleStored()
 
     useEffect(() => {
         setLoading(true)
@@ -26,12 +28,12 @@ const Inscription = () => {
     }, [])
 
     function getPaiements() {
-        AxiosApi.get('/get-paiements/1')
+        AxiosApi.get('/get-paiements/' + ecole_id)
         .then(res => setPaiements(res.data))
     }
 
     function getStudents() {
-        AxiosApi.get('/get-students/1')
+        AxiosApi.get('/get-students/' + ecole_id)
         .then(res => setStudents(res.data))
     }
 
@@ -46,7 +48,7 @@ const Inscription = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            paiement.ecole = 1
+            paiement.ecole = ecole_id
             paiement.intitule = 'Paiement scolarité'
             console.log(paiement)
             const response = await addPaiement(paiement)

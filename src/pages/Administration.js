@@ -9,6 +9,7 @@ import { ClipLoader} from 'react-spinners'
 import AxiosApi from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
 import { addPersonne } from '../services/MainControllerApi';
+import { getEcoleStored } from '../services/LocalStorage';
 
 const Administration = () => {
     const [show, setShow] = useState(false);
@@ -18,6 +19,7 @@ const Administration = () => {
     const [classes, setClasses] = useState([])
     const [students, setStudents] = useState([])
     const [employe, setEmploye] = useState({})
+    const ecole_id = getEcoleStored()
 
     useEffect(() => {
         setLoading(true)
@@ -34,7 +36,7 @@ const Administration = () => {
     }
 
     function getPersonnel() {
-        AxiosApi.get('/get-personnel/1')
+        AxiosApi.get('/get-personnel/' + ecole_id)
             .then(res => setPersonnel(res.data))
     }
 
@@ -44,12 +46,12 @@ const Administration = () => {
     }
 
     function getClasses() {
-        AxiosApi.get('/get-classes-school/1')
+        AxiosApi.get('/get-classes-school/' + ecole_id)
             .then(res => setClasses(res.data))
     }
 
     function getStudents() {
-        AxiosApi.get('/get-students/1')
+        AxiosApi.get('/get-students/' + ecole_id)
             .then(res => setStudents(res.data))
     }
 
@@ -62,7 +64,10 @@ const Administration = () => {
         if (employe.cpassword !== employe.password) {
             toast('Les mots de passe ne sont pas identiques')
         } else {
-            employe.ecole_id = 1;
+            employe.ecole_id = ecole_id;
+            employe.role_id = parseInt(employe.role_id)
+            employe.classe_id = employe.classe_id == '' ? 0 : parseInt(employe.classe_id)
+            employe.student_id = employe.student_id == '' ? 0 : parseInt(employe.student_id)
             console.log(employe)
             try {
                 const response = addPersonne(employe)
@@ -109,6 +114,10 @@ const Administration = () => {
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Prénom</Form.Label>
                                                 <Form.Control type="text" name='prenom' onChange={handleChange} className="form-control" placeholder="" />
+                                            </Form.Group>
+                                            <Form.Group className="form-group mt-4">
+                                                <Form.Label className="control-label">Email</Form.Label>
+                                                <Form.Control type="email" name='email' onChange={handleChange} className="form-control" placeholder="" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Adresse</Form.Label>

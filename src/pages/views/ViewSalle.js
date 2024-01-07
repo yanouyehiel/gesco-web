@@ -8,6 +8,7 @@ import Student from "../../components/Student";
 import Footer from "../../components/Footer";
 import { ClipLoader } from "react-spinners";
 import AxiosApi from "../../services/AxiosApi";
+import { getEcoleStored } from "../../services/LocalStorage";
 
 const ViewSalle = () => {
     const { numSalle } = useParams();
@@ -15,9 +16,10 @@ const ViewSalle = () => {
     const [loading, setLoading] = useState(false)
     const [students, setStudents] = useState([])
     const [classe, setClasse] = useState({})
+    const ecole_id = getEcoleStored()
 
     function getStudents() {
-        AxiosApi.get(`/my-students/classe_id=${numSalle}&ecole_id=${1}`)
+        AxiosApi.get(`/my-students/classe_id=${numSalle}&ecole_id=${ecole_id}`)
         .then(res => setStudents(res.data))
     }
     
@@ -28,7 +30,9 @@ const ViewSalle = () => {
         setLoading(true)
         getStudents()
         setLoading(false)
-    }, [])
+    }, [numSalle])
+
+    console.log(students)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);

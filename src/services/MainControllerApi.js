@@ -28,10 +28,10 @@ export function classes(id) {
 
 }
 
-export function infoClasse(id) {
-    AxiosApi.get('/get-info-classe/' + id)
+export function infoClasse(nom) {
+    AxiosApi.get('/get-info-classe/' + nom)
         .then(res => {
-            return res.data.nom
+            return res.data
         })
 }
 

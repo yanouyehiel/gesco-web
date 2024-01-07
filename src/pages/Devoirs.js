@@ -1,48 +1,33 @@
-import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
-import Footer from "../components/Footer";
+import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
-import Cours from "../components/Cours";
-import { Form, Button } from "react-bootstrap";
-import { ClipLoader } from 'react-spinners';
-import AxiosApi from "../services/AxiosApi";
+import Devoir from "../components/Devoir";
+import { useState, useEffect } from "react";
+import { Button, Form } from "react-bootstrap";
+import Footer from "../components/Footer";
 
-const Enseignement = () => {
+const Devoirs = () => {
     const {salle} = useParams()
     const [loading, setLoading] = useState(false)
-    const [cours, setCours] = useState([])
-    const [classe, setClasse] = useState({})
 
     useEffect(() => {
         setLoading(true)
-        getInfoClasse()
-        getCoursByClasse()
         setTimeout(() => {
             setLoading(false)
-        }, 3000)
+        }, 5000)
     }, [])
 
-    function getInfoClasse() {
-        AxiosApi.get('/get-info-classe/' + salle)
-            .then(res => setClasse(res.data))
-    }
-
-    function getCoursByClasse() {
-        AxiosApi.get('/get-cours-classe/' + classe.id)
-        .then((res) => setCours(res.data))
-    }
-
     const handleSubmit = () => {}
-    
-    return(
+
+    return (
         <>
             <Header />
             <Sidenav />
 
             <main id="main" className="main">
-                <InfoPage title='Gestion des cours' link='Visualiser les cours donnés' />
+                <InfoPage title='Gestion des devoirs' link='Visualiser les devoirs laissés' />
 
                 <br />
                 <div className="content-wrapper">
@@ -77,9 +62,10 @@ const Enseignement = () => {
                                         <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                         :
                                         <>
-                                            {cours.map((cour, i) => (
-                                                <Cours key={i} cour={cour} classe={classe.nom} />
-                                            ))}
+                                            <Devoir />
+                                            <Devoir />
+                                            <Devoir />
+                                            <Devoir />
                                         </>
                                     }
                                 </div>
@@ -93,4 +79,4 @@ const Enseignement = () => {
     )
 }
 
-export default Enseignement;
+export default Devoirs;

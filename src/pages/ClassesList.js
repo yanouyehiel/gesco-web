@@ -34,12 +34,12 @@ const ClassesList = () => {
         classe.ecole_id = getEcoleStored()
         console.log(classe)
         try {
-            await addClasse(classe);
+            addClasse(classe);
             handleClose()
             toast('Classe enregistrée avec succès !')
-            setLoading(true)
-            getData()
-            setLoading(false)
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         } catch (err) {
             console.log(err);
         }
@@ -56,6 +56,9 @@ const ClassesList = () => {
             navigate('/login')
         } else {
             setLoading(true)
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
             getData()
             setLoading(false)
             axios.get('/get-types-classe').then(res => {
@@ -63,6 +66,7 @@ const ClassesList = () => {
                 console.log(typeClasses)
             })
         }
+        
     }, [])
 
     const handleClose = () => setShow(false);
@@ -72,6 +76,9 @@ const ClassesList = () => {
         try {
             deleteClasse(id)
             toast('Classe supprimée avec succès !')
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         } catch (error) {
             console.log(error)
         }
@@ -150,7 +157,7 @@ const ClassesList = () => {
                                         </thead>
                                         <tbody>
                                         {loading ?
-                                            <ClipLoader color="#333" />
+                                            <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                             :
                                             <>
                                                 {allClasses.map((classe, index) => (

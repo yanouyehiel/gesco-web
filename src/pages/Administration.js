@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
@@ -10,6 +10,9 @@ import AxiosApi from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
 import { addPersonne } from '../services/MainControllerApi';
 import { getEcoleStored } from '../services/LocalStorage';
+import Auth from '../contexts/Auth'
+import { useNavigate } from 'react-router-dom';
+
 
 const Administration = () => {
     const [show, setShow] = useState(false);
@@ -20,14 +23,20 @@ const Administration = () => {
     const [students, setStudents] = useState([])
     const [employe, setEmploye] = useState({})
     const ecole_id = getEcoleStored()
+    const navigate = useNavigate()
+    const { isAuthenticated } = useContext(Auth);
 
     useEffect(() => {
-        setLoading(true)
-        getPersonnel()
-        getRoles()
-        getClasses()
-        getStudents()
-        setLoading(false)
+        if (!isAuthenticated) {
+            navigate('/login')
+        } else {
+            setLoading(true)
+            getPersonnel()
+            getRoles()
+            getClasses()
+            getStudents()
+            setLoading(false)
+        }
     }, [])
 
     const handleChange = ({currentTarget}) => {

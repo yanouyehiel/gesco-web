@@ -33,6 +33,7 @@ import { Tarifs } from './pages/Tarifs';
 import { useState } from 'react';
 import { hasAuthenticated } from './services/AuthApi';
 import Auth from './contexts/Auth';
+import Devoirs from './pages/Devoirs.js';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated)
@@ -70,6 +71,7 @@ const App = () => {
           <Route exact path='/events' element={<Events />}></Route>
           <Route exact path='/messagerie' element={<Messagerie />}></Route>
           <Route exact path='/tarifs' element={<Tarifs />}></Route>
+          <Route exact path='/devoirs/:salle' element={<Devoirs />}></Route>
           <Route exact path='/*' element={<Notfound />}></Route>
         </Routes>
       </BrowserRouter>

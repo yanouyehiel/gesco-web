@@ -17,7 +17,7 @@ const Classe = ({ classe, delClasse }) => {
             <td style={{ textAlign: 'center' }}>
                 <Link 
                     className="text-blue" 
-                    to={'/salles/' + classe.id}
+                    to={'/salles/' + classe.nom}
                     style={{ marginRight: '10px' }}
                 >
                     <i className="fa-solid fa-pen-to-square"></i>

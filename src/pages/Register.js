@@ -68,7 +68,7 @@ export const Register = () => {
                   </Form.Group>
                   <Form.Group className="form-group mt-4">
                     <Form.Label className="control-label">Type d'établissement</Form.Label>
-                    <Form.Select onChange={handleChange} name='type_etablissement' className="form-control">
+                    <Form.Select onChange={handleChange} name='type_etablissement_id' className="form-control">
                       <option>--select--</option>
                       {types.map((type, index) => (
                         <option key={index} value={type.id}>{type.intitule}</option>

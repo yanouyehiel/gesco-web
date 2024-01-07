@@ -1,6 +1,16 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import AxiosApi from '../services/AxiosApi';
+import { getEcoleStored } from '../services/LocalStorage';
 
 function Sidenav() {
+    const [classes, setClasses] = useState([])
+    const ecole_id = getEcoleStored()
+
+    useEffect(() => {
+        AxiosApi.get('/get-classes-school/' + ecole_id)
+        .then((res) => setClasses(res.data))
+    })
 
     return(
         <aside id="sidebar" className="sidebar">
@@ -46,16 +56,13 @@ function Sidenav() {
                 <i className="bi bi-layout-text-window-reverse"></i><span>Cours enseignés par salle</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
                 <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <Link to="/enseignement/SIL">
-                        <i className="bi bi-circle"></i><span>SIL</span>
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/enseignement/CM2">
-                        <i className="bi bi-circle"></i><span>CM2</span>
-                        </Link>
-                    </li>
+                    {classes.map((classe, i) => (
+                        <li key={i}>
+                            <Link to={'/enseignement/' + classe.nom}>
+                            <i className="bi bi-circle"></i><span>{classe.nom}</span>
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </li>
             <li className="nav-item">
@@ -63,21 +70,27 @@ function Sidenav() {
                 <i className="bi bi-bar-chart"></i><span>Présences des élèves</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
                 <ul id="charts-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
-                <li>
-                    <Link to="/presences/CE2">
-                    <i className="bi bi-circle"></i><span>CE2</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/presences/CM1">
-                    <i className="bi bi-circle"></i><span>CM1</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/presences/Petite Section">
-                    <i className="bi bi-circle"></i><span>Petite Section</span>
-                    </Link>
-                </li>
+                    {classes.map((classe, i) => (
+                        <li key={i}>
+                            <Link to={'/presences/' + classe.nom}>
+                            <i className="bi bi-circle"></i><span>{classe.nom}</span>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" to="#">
+                <i className="bi bi-layout-text-window-reverse"></i><span>Devoirs laissés par salle</span><i className="bi bi-chevron-down ms-auto"></i>
+                </Link>
+                <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
+                    {classes.map((classe, i) => (
+                        <li key={i}>
+                            <Link to={'/devoirs/' + classe.nom}>
+                            <i className="bi bi-circle"></i><span>{classe.nom}</span>
+                            </Link>
+                        </li>
+                    ))}
                 </ul>
             </li>
             <li className="nav-item">

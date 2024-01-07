@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Header from "../components/Header";
 import Sidenav from "../components/Sidenav";
 import InfoPage from "../components/InfoPage";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
 import { ClipLoader} from 'react-spinners'
@@ -10,6 +10,7 @@ import AxiosApi from "../services/AxiosApi";
 import { addTarif } from "../services/MainControllerApi";
 import { ToastContainer, toast } from "react-toastify";
 import { getEcoleStored } from "../services/LocalStorage";
+import Auth from '../contexts/Auth'
 
 
 export const Tarifs = () => {
@@ -19,12 +20,21 @@ export const Tarifs = () => {
     const [tarif, setTarif] = useState({})
     const [tarifs, setTarifs] = useState([])
     const ecole_id = getEcoleStored()
+    const navigate = useNavigate()
+    const { isAuthenticated } = useContext(Auth);
 
     useEffect(() => {
-        setLoading(true)
-        getClasses()
-        getTarifs()
-        setLoading(false)
+        if (!isAuthenticated) {
+            navigate('/login')
+        } else {
+            setLoading(true)
+            setTimeout(() => {
+                setLoading(false)
+            }, 3000)
+            getClasses()
+            getTarifs()
+            setLoading(false)
+        }
     }, [])
 
     function getClasses() {
@@ -54,9 +64,17 @@ export const Tarifs = () => {
             console.log(response)
             setShow(false);
             toast('Tarif ajouté avec succès !')
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         } catch (error) {
             console.log(error)
         }
+    }
+
+    const handleFilter = () => {
+        console.log('filter')
+        //const filteredTarifs = tarifs.reduce()
     }
 
     return (
@@ -124,8 +142,8 @@ export const Tarifs = () => {
                                                 <li className="dropdown-header text-start">
                                                     <h6>Filtre</h6>
                                                 </li>
-                                                <li><Link className="dropdown-item" to="#">Salle de classe</Link></li>
-                                                <li><Link className="dropdown-item" to="#">Montant</Link></li>
+                                                <li><Link className="dropdown-item" onClick={handleFilter}>Salle de classe</Link></li>
+                                                <li><Link className="dropdown-item" onClick={handleFilter}>Montant</Link></li>
                                             </ul>
                                         </div>
 

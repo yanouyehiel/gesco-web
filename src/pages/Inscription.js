@@ -11,6 +11,7 @@ import AxiosApi from "../services/AxiosApi";
 import { addPaiement } from "../services/MainControllerApi";
 import { dateParser } from "../utils/functions";
 import { getEcoleStored } from "../services/LocalStorage";
+import Paiement from "../components/Paiement";
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
@@ -19,6 +20,7 @@ const Inscription = () => {
     const [paiements, setPaiements] = useState([])
     const [students, setStudents] = useState([])
     const ecole_id = getEcoleStored()
+    const [feesStudent, setFeesStudent] = useState({})
 
     useEffect(() => {
         setLoading(true)
@@ -48,13 +50,14 @@ const Inscription = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            paiement.ecole = ecole_id
-            paiement.intitule = 'Paiement scolarité'
+            paiement.ecole_id = ecole_id
             console.log(paiement)
-            const response = await addPaiement(paiement)
-            console.log(response)
+            addPaiement(paiement)
             setShow(false);
             toast('Paiement enregistré avec succès !')
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000);
         } catch (error) {
             console.log(error)
         }
@@ -86,12 +89,16 @@ const Inscription = () => {
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner un élève</Form.Label>
-                                                <Form.Select onChange={handleChange} className="form-control" name="student">
+                                                <Form.Select onChange={handleChange} className="form-control" name="student_id">
                                                     <option>-- select --</option>
                                                     {students.map((student, i) => (
                                                         <option key={i} value={student.id}>{student.nom +' ' + student.prenom}</option>
                                                     ))}
                                                 </Form.Select>
+                                            </Form.Group>
+                                            <Form.Group className="form-group mt-4">
+                                                <Form.Label className="control-label">Entrer l'intitulé de la transaction</Form.Label>
+                                                <Form.Control onChange={handleChange} className="form-control" name="intitule" />
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Entrer le montant</Form.Label>
@@ -142,19 +149,7 @@ const Inscription = () => {
                                                     :
                                                     <>
                                                         {paiements.map((paiement, i) => (
-                                                            <tr>
-                                                                <td style={{textAlign: 'center'}}>{paiement.code}</td>
-                                                                <td style={{textAlign: 'center'}}>{paiement.intitule}</td>
-                                                                <td style={{textAlign: 'center'}}>{paiement.montant} FCFA</td>
-                                                                <td style={{textAlign: 'center'}}>{dateParser(paiement.created_at)}</td>
-                                                                <td style={{textAlign: 'center'}}>{paiement.nom_student +' '+ paiement.prenom_student}</td>
-                                                                <td></td>
-                                                                <td style={{textAlign: 'center'}}>
-                                                                    <span className="badge bg-success">Soldé</span>
-                                                                    <span className="badge bg-danger">Débiteur</span>
-                                                                    <span className="badge bg-warning">Acceptable</span>
-                                                                </td>
-                                                            </tr>
+                                                            <Paiement key={i} paiement={paiement} />
                                                         ))}
                                                     </>
                                                     }

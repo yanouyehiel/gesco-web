@@ -22,13 +22,15 @@ export const Register = () => {
     .then(res => setTypes(res.data))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     console.log(ecole)
     try {
-      const response = await addEcole(ecole);
+      addEcole(ecole);
       toast('Ecole créée avec succès !')
-      console.log(response)
+      setTimeout(() => {
+        window.location.reload()
+      }, 3000);
     } catch (error) {
       console.log(error)
     }

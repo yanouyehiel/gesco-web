@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { getItem, removeItem } from "../services/LocalStorage";
 import { getRole } from "../services/MainControllerApi";
-import { useNavigate, redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Auth from "../contexts/Auth";
 
@@ -14,8 +14,9 @@ const Header = () => {
   function logout() {
     removeItem('gescoUser')
     setIsAuthenticated(false)
-    navigate('/login')
-    return redirect('/login')
+    setTimeout(() => {
+      navigate('/login')
+    }, 2000);
   }
 
     return (

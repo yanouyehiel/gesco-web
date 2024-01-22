@@ -35,8 +35,7 @@ const Login = () => {
     e.preventDefault()
     console.log(user)
     try {
-      const response = await login(user);
-      console.log(response)
+      login(user);
       setIsAuthenticated(true);
       navigate('/home');
     } catch ({ response }) {

@@ -11,7 +11,7 @@ import axios from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
 import Auth from '../contexts/Auth';
 import { useNavigate } from 'react-router-dom';
-import { getEcoleStored, getItem } from '../services/LocalStorage';
+import { getEcoleStored } from '../services/LocalStorage';
 
 
 const ClassesList = () => {
@@ -115,7 +115,7 @@ const ClassesList = () => {
                                             </Form.Group>
                                             <Form.Group className="form-group mt-4">
                                                 <Form.Label className="control-label">Sélectionner la classe</Form.Label>
-                                                <Form.Select onChange={handleChange} name='type_classe' className="form-control">
+                                                <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
                                                     <option>-- select --</option>
                                                     {typeClasses.map((typeClasse) => (
                                                         <option value={typeClasse.id}>{typeClasse.classe}</option>

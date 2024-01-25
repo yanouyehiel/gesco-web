@@ -9,6 +9,8 @@ import Footer from "../../components/Footer";
 import { ClipLoader } from "react-spinners";
 import AxiosApi from "../../services/AxiosApi";
 import { getEcoleStored } from "../../services/LocalStorage";
+import { toast } from "react-toastify";
+import { addStudent } from "../../services/StudentController";
 
 const ViewSalle = () => {
     const { numSalle } = useParams();
@@ -17,6 +19,7 @@ const ViewSalle = () => {
     const [students, setStudents] = useState([])
     const [classe, setClasse] = useState({})
     const ecole_id = getEcoleStored()
+    const [student, setStudent] = useState({})
 
     function getStudents() {
         AxiosApi.get(`/my-students/classe_id=${numSalle}&ecole_id=${ecole_id}`)
@@ -30,15 +33,34 @@ const ViewSalle = () => {
         setLoading(true)
         getStudents()
         setLoading(false)
-    }, [numSalle])
+    }, [])
 
-    console.log(students)
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setStudent({...student, [name]: value})
+    }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = () => {
-        setShow(false)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        try {
+            student.ecole_id = getEcoleStored()
+            student.classe_id = parseInt(numSalle)
+            addStudent(student).then((res) => {
+                console.log(res)
+                toast(res.message)
+            })
+            handleClose()
+            
+            /*setTimeout(() => {
+                window.location.reload()
+            }, 3000);*/
+        } catch (error) {
+            toast(error)
+        }
+        
     };
 
     return (
@@ -65,31 +87,39 @@ const ViewSalle = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Nom</Form.Label>
-                                            <Form.Control type="text" className="form-control" required />
+                                            <Form.Control type="text" onChange={handleChange} name="nom" className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Prénom</Form.Label>
-                                            <Form.Control type="text" className="form-control" required />
+                                            <Form.Control type="text" onChange={handleChange} name="prenom" className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Date de naissance</Form.Label>
-                                            <Form.Control type="date" className="form-control" required />
+                                            <Form.Control type="date" onChange={handleChange} name="date_naissance" className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Lieu de naissance</Form.Label>
-                                            <Form.Control type="text" className="form-control" required />
+                                            <Form.Control type="text" onChange={handleChange} name="lieu_naissance" className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Sexe</Form.Label>
-                                            <Form.Select className="form-control" required>
-                                                <option>-- select --</option>
-                                                <option>Masculin</option>
-                                                <option>Féminin</option>
+                                            <Form.Select className="form-control" onChange={handleChange} name="sexe" required>
+                                                <option value=''>-- select --</option>
+                                                <option value='Masculin'>Masculin</option>
+                                                <option value='Féminin'>Féminin</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Année de scolarisation</Form.Label>
+                                            <Form.Select className="form-control" onChange={handleChange} name="annee_scolaire" required>
+                                                <option value=''>-- select --</option>
+                                                <option value='2023 - 2024'>2023 - 2024</option>
+                                                <option value='2024 - 2025'>2024 - 2025</option>
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
                                         <Button variant="primary" size='lg' type='submit'>
-                                            Save
+                                            Enregistrer
                                         </Button>
                                     </Form>
                                 </Modal.Body>

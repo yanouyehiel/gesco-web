@@ -10,24 +10,28 @@ export function hasAuthenticated() {
     return isValid;
 }
 
-export function login(credentials) {
-    return AxiosApi
-        .post('/login', credentials)
-        .then(res => {
-            //addItem('gescoToken', res.data.token)
-            addItem('gescoUser', JSON.stringify(res.data[0]))
-            return true;
-        })
+export async function login(credentials) {
+    try {
+        const response = await AxiosApi.post('/login', credentials);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function register(credentials) {
-    return AxiosApi
-        .post('/register', credentials)
-        .then(response => response.data)
+export async function register(credentials) {
+    try {
+        const response = await AxiosApi.post('/register', credentials);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function logout() {
-    removeItem('gescoUser');
+export async function logout() {
+    await removeItem('gescoUser');
 }
 
 function tokenIsValid(token) {

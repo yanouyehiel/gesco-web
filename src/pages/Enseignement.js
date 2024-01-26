@@ -7,7 +7,9 @@ import { useParams } from "react-router-dom";
 import Cours from "../components/Cours";
 import { Form, Button } from "react-bootstrap";
 import { ClipLoader } from 'react-spinners';
-import AxiosApi from "../services/AxiosApi";
+import { infoClasse } from "../services/MainControllerApi";
+import { getCoursByClasse } from "../services/EnseignementController";
+
 
 const Enseignement = () => {
     const {salle} = useParams()
@@ -18,20 +20,22 @@ const Enseignement = () => {
     useEffect(() => {
         setLoading(true)
         getInfoClasse()
-        getCoursByClasse()
+        getCours()
         setTimeout(() => {
             setLoading(false)
         }, 3000)
     }, [])
 
-    function getInfoClasse() {
-        AxiosApi.get('/get-info-classe/' + salle)
-            .then(res => setClasse(res.data))
+    async function getInfoClasse() {
+        await infoClasse(salle).then((res) => {
+            setClasse(res)
+        })
     }
 
-    function getCoursByClasse() {
-        AxiosApi.get('/get-cours-classe/' + classe.id)
-        .then((res) => setCours(res.data))
+    async function getCours() {
+        await getCoursByClasse(classe.id).then((res) => {
+            setCours(res)
+        })
     }
 
     const handleSubmit = () => {}

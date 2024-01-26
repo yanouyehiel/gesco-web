@@ -6,9 +6,8 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Employe from '../components/Employe';
 import { ClipLoader} from 'react-spinners'
-import AxiosApi from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
-import { addPersonne } from '../services/MainControllerApi';
+import { addPersonne, getAllEmployes } from '../services/MainControllerApi';
 import { getEcoleStored } from '../services/LocalStorage';
 import Auth from '../contexts/Auth'
 import { useNavigate } from 'react-router-dom';
@@ -44,30 +43,34 @@ const Administration = () => {
         setEmploye({...employe, [name]: value})
     }
 
-    function getPersonnel() {
-        AxiosApi.get('/get-personnel/' + ecole_id)
-            .then(res => setPersonnel(res.data))
+    async function getPersonnel() {
+        await getAllEmployes(ecole_id).then((res) => {
+            setPersonnel(res)
+        })
     }
 
-    function getRoles() {
-        AxiosApi.get('/get-roles')
-            .then(res => setRoles(res.data))
+    async function getRoles() {
+        await getRoles().then((res) => {
+            setRoles(res)
+        })
     }
 
-    function getClasses() {
-        AxiosApi.get('/get-classes-school/' + ecole_id)
-            .then(res => setClasses(res.data))
+    async function getClasses() {
+        await getClasses(ecole_id).then((res) => {
+            setClasses(res)
+        })
     }
 
-    function getStudents() {
-        AxiosApi.get('/get-students/' + ecole_id)
-            .then(res => setStudents(res.data))
+    async function getStudents() {
+        await getStudents(ecole_id).then((res) => {
+            setStudents(res)
+        })
     }
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (employe.cpassword !== employe.password) {
@@ -75,20 +78,18 @@ const Administration = () => {
         } else {
             employe.ecole_id = ecole_id;
             employe.role_id = parseInt(employe.role_id)
-            employe.classe_id = employe.classe_id == '' ? 0 : parseInt(employe.classe_id)
-            employe.student_id = employe.student_id == '' ? 0 : parseInt(employe.student_id)
+            employe.classe_id = employe.classe_id === '' ? 0 : parseInt(employe.classe_id)
+            employe.student_id = employe.student_id === '' ? 0 : parseInt(employe.student_id)
             console.log(employe)
-            try {
-                const response = addPersonne(employe)
-                console.log(response)
+            
+            await addPersonne(employe).then((res) => {
+                console.log(res)
                 setShow(false);
                 toast('Nouvel utilisateur créé avec succès !')
                 setLoading(true)
                 getPersonnel()
                 setLoading(false)
-            } catch (error) {
-                console.log(error)
-            }
+            })
         }
     }
 
@@ -198,7 +199,7 @@ const Administration = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {loading ?
+                                            {personnel.length === 0 ?
                                                 <ClipLoader color="#333" />
                                                 :
                                                 <>

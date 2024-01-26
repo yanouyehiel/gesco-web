@@ -20,7 +20,7 @@ export function longueurTexte(word) {
     }
 }
 
-export function getNameClasse(id) {
+/*export function getNameClasse(id) {
     let classe;
     AxiosApi.get(`/get-type-classe/${id}`)
     .then(res => {
@@ -28,4 +28,4 @@ export function getNameClasse(id) {
     })
     
     return classe
-}
+}*/

@@ -11,12 +11,16 @@ import { ClipLoader } from "react-spinners";
 const Presences = () => {
     const {salle} = useParams()
     const [loading, setLoading] = useState(false)
+
+    
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
             setLoading(false)
         }, 5000)
     }, [])
+
+
     const handleSubmit = () => {
         console.log('clique');
     }

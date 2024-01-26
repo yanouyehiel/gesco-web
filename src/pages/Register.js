@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Form, Button } from "react-bootstrap";
-import AxiosApi from "../services/AxiosApi";
-import { addEcole } from "../services/MainControllerApi";
+import { Form } from "react-bootstrap";
+import { addEcole, typesEtablissements } from "../services/MainControllerApi";
 import { ToastContainer, toast } from "react-toastify";
+import '../styles/register.css'
+import { MDBBtn } from "mdb-react-ui-kit";
 
-export const Register = () => {
+const Register = () => {
   const [ecole, setEcole] = useState({})
   const [types, setTypes] = useState([])
 
@@ -17,38 +18,34 @@ export const Register = () => {
     getTypesEtablissement()
   }, [])
 
-  function getTypesEtablissement() {
-    AxiosApi.get('/get-types-etablissement')
-    .then(res => setTypes(res.data))
+  async function getTypesEtablissement() {
+    await typesEtablissements().then((res) => {
+      setTypes(res)
+    })
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault()
     console.log(ecole)
-    try {
-      addEcole(ecole);
+    
+    await addEcole(ecole).then((res) => {
+      console.log(res)
       toast('Ecole créée avec succès !')
       setTimeout(() => {
         window.location.reload()
       }, 3000);
-    } catch (error) {
-      console.log(error)
-    }
+    });
   }
 
   return (
-      <div className="container-fluid">
-        <div>
+      <div className="container">
+        <div className="register">
           <div className="row">
 
-            <div className="col-lg-12">
+            <div className="col-lg-6">
 
-              <div className='flex-row'>
-                {/* <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/> */}
-                <img src="../assets/images/px1.png"
-                  alt="Image_Login"
-                  style={{width: '100px', height: '100px', justifyContent: 'center', alignItems: 'center'}} 
-                />
+              <div className='flex-row hidden'>
+                <img src="../assets/images/px1.png" alt="Image_Login" />
               </div>
 
               <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
@@ -78,23 +75,30 @@ export const Register = () => {
                     </Form.Select>
                   </Form.Group>
                   <Form.Group className="form-group mt-4">
-                    <Button variant="primary" size='lg' type='submit'>
-                      Créer l'école
-                    </Button>
+                    <MDBBtn className="mb-4 w-100" type='submit' color='info' size='lg'>Créer l'école</MDBBtn>
                   </Form.Group>
                 </form>
 
-                <p className='ms-5'>Déjà membre ? <a href="/login" class="link-info">Se connecter</a></p>
+                <p className='ms-0'>Déjà membre ? <a href="/login" class="link-info">Se connecter</a></p>
 
               </div>
 
             </div>
 
+            <div className="col-lg-6 right-side">
+              <img src="../assets/images/px1.png"
+                alt="Image_Login" className="w-100"
+                style={{objectFit: 'cover', objectPosition: 'left'}} 
+              />
+            </div>
+
           </div>
 
         </div>
-        {/* <Footer /> */}
+        
         <ToastContainer />
       </div>
   )
 }
+
+export default Register;

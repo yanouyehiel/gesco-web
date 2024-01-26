@@ -6,14 +6,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
 import { ClipLoader} from 'react-spinners'
-import AxiosApi from "../services/AxiosApi";
-import { addTarif } from "../services/MainControllerApi";
+import { addTarif, getAllTarifs, getClasses } from "../services/MainControllerApi";
 import { ToastContainer, toast } from "react-toastify";
 import { getEcoleStored } from "../services/LocalStorage";
 import Auth from '../contexts/Auth'
 
 
-export const Tarifs = () => {
+const Tarifs = () => {
     const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(false)
     const [classes, setClasses] = useState([])
@@ -28,23 +27,22 @@ export const Tarifs = () => {
             navigate('/login')
         } else {
             setLoading(true)
-            setTimeout(() => {
-                setLoading(false)
-            }, 3000)
-            getClasses()
+            getAllClasses()
             getTarifs()
             setLoading(false)
         }
-    }, [])
+    }, [show, tarifs])
 
-    function getClasses() {
-        AxiosApi.get('/get-classes-school/' + ecole_id)
-        .then(res => setClasses(res.data))
+    async function getAllClasses() {
+        await getClasses(ecole_id).then((res) => {
+            setClasses(res)
+        })
     }
 
-    function getTarifs() {
-        AxiosApi.get('/get-tarifs/' + ecole_id)
-        .then(res => setTarifs(res.data))
+    async function getTarifs() {
+        await getAllTarifs(ecole_id).then((res) => {
+            setTarifs(res)
+        })
     }
 
     const handleChange = ({currentTarget}) => {
@@ -55,26 +53,22 @@ export const Tarifs = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
+
         tarif.ecole = ecole_id;
-        console.log(tarif)
-        try {
-            const response = await addTarif(tarif)
-            console.log(response)
-            setShow(false);
-            toast('Tarif ajouté avec succès !')
+        setShow(false);
+        await addTarif(tarif).then((res) => {
+            console(res)
+            toast("Tarif ajoute avec succes.")
             setTimeout(() => {
                 window.location.reload()
-            }, 2000);
-        } catch (error) {
-            console.log(error)
-        }
+            }, 3000);
+        })
     }
 
     const handleFilter = () => {
         console.log('filter')
-        //const filteredTarifs = tarifs.reduce()
     }
 
     return (
@@ -162,7 +156,7 @@ export const Tarifs = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {loading ?
+                                                    {tarifs.length === 0 ?
                                                         <ClipLoader color="#333" />
                                                     :
                                                     <>
@@ -196,3 +190,5 @@ export const Tarifs = () => {
         </>
     )
 }
+
+export default Tarifs;

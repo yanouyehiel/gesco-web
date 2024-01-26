@@ -1,112 +1,201 @@
 import AxiosApi from "./AxiosApi";
 
-export function roles() {
-    let roles;
-    AxiosApi.get('/get-roles')
-        .then((res) => {
-            roles = res.data.roles
-        })
-
-    return roles;
+export async function getRoles() {
+    try {
+        const response = await AxiosApi.get('/get-roles');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function getRole(id) {
-    let role
-    AxiosApi.get('/get-role/' + id)
-        .then((res) => {
-            role = res.data
-        })
-
-    return role;
+export async function getRole(id) {
+    try {
+        const response = await AxiosApi.get('/get-role/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function classes(id) {
-    AxiosApi.get('/get-classes-school/' + id)
-        .then(res => {
-            return res.data
-        })
-
+export async function getClasses(id) {
+    try {
+        const response = await AxiosApi.get('/get-classes-school/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function infoClasse(nom) {
-    AxiosApi.get('/get-info-classe/' + nom)
-        .then(res => {
-            return res.data
-        })
+export async function infoClasse(id) {
+    try {
+        const response = await AxiosApi.get('/get-info-classe/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function typesClasse() {
-    let types;
-    AxiosApi.get('/get-types-classe')
-        .then(res => {
-            types = res.data
-        })
-    return types;
+export async function typesClasse() {
+    try {
+        const response = await AxiosApi.get('/get-types-classe');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addClasse(classe) {
-    let response
-    AxiosApi.post('/add-classe', classe)
-        .then(res => response = res.data)
-        .catch(err => response = err)
-
-    return response;
+export async function typesEtablissements() {
+    try {
+        const response = await AxiosApi.get('/get-types-etablissement');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addPersonne(personne) {
-    let response
-    AxiosApi.post('/add-personne', personne)
-        .then(res => response = res.data)
-        .catch(err => response = err)
-
-    return response
+export async function addClasse(classe) {
+    try {
+        const response = await AxiosApi.post('/add-classe', classe);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function deleteClasse(id) {
-    AxiosApi.delete(`/delete-classe/${id}`)
-        .then(res => {
-            return res.data
-        })
+export async function addPersonne(personne) {
+    try {
+        const response = await AxiosApi.post('/add-personne', personne);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addMatiere(matiere) {
-    let response
-    AxiosApi.post('add-matiere', matiere)
-        .then(res => response = res.data)
-
-    return response
+export async function deleteClasse(id) {
+    try {
+        const response = await AxiosApi.delete(`/delete-classe/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function getAllEmployes(id) {
-    let employes;
-    AxiosApi.get('/get-personnel/' + id)
-        .then(res => {
-            employes = res.data.data
-        })
-
-    return employes
+export async function addMatiere(matiere) {
+    try {
+        const response = await AxiosApi.post('/add-matiere', matiere);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addEcole(ecole) {
-    let response
-    AxiosApi.post('/add-ecole', ecole)
-        .then(res => response = res.data)
-
-    return response
+export async function getAllMatieres(id) {
+    try {
+        const response = await AxiosApi.get('/get-matieres/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addTarif(tarif) {
-    let response
-    AxiosApi.post('/add-tarif', tarif)
-        .then(res => response = res.data)
-
-    return response
+export async function getAllEmployes(id) {
+    try {
+        const response = await AxiosApi.get('/get-personnel/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
 
-export function addPaiement(paiement) {
-    let response
-    AxiosApi.post('/add-paiement', paiement)
-        .then(res => response = res.data)
+export async function addEcole(ecole) {
+    try {
+        const response = await AxiosApi.post('/add-ecole', ecole);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
 
-    return response
+export async function addTarif(tarif) {
+    try {
+        const response = await AxiosApi.post('/add-tarif', tarif);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getAllTarifs(id) {
+    try {
+        const response = await AxiosApi.get('/get-tarifs/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function addPaiement(paiement) {
+    try {
+        const response = await AxiosApi.post('/add-paiement', paiement);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getPaiementSchool(id) {
+    try {
+        const response = await AxiosApi.get('/get-paiements/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getAllParentsSchool(id) {
+    try {
+        const response = await AxiosApi.get('/get-parents/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getSingleParent(matricule) {
+    try {
+        const response = await AxiosApi.get('/get-parent/' + matricule);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+export async function getAllFeesStudent(id) {
+    try {
+        const response = await AxiosApi.get('/get-fees-student/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }

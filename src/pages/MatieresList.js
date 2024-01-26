@@ -6,9 +6,8 @@ import InfoPage from '../components/InfoPage';
 import Matiere from '../components/Matiere';
 import Footer from '../components/Footer';
 import { ClipLoader} from 'react-spinners'
-import AxiosApi from '../services/AxiosApi';
 import { ToastContainer, toast } from 'react-toastify';
-import { addMatiere } from '../services/MainControllerApi';
+import { addMatiere, getAllMatieres } from '../services/MainControllerApi';
 import { getEcoleStored } from '../services/LocalStorage';
 
 const MatieresList = () => {
@@ -18,9 +17,10 @@ const MatieresList = () => {
     const [matiere, setMatiere] = useState({})
     const ecole_id = getEcoleStored()
 
-    function getMatieres() {
-        AxiosApi.get('/get-matieres/' + ecole_id)
-        .then(res => setMatieres(res.data))
+    async function getMatieres() {
+        await getAllMatieres(ecole_id).then((res) => {
+            setMatieres(res)
+        })
     }
 
     useEffect(() => {
@@ -37,21 +37,19 @@ const MatieresList = () => {
         setMatiere({...matiere, [name]: value})
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault();
         matiere.ecole_id = ecole_id
         console.log(matiere)
-        try {
-            const response = addMatiere(matiere)
-            console.log(response)
+        
+        await addMatiere(matiere).then((res) => {
+            console.log(res)
             setShow(false);
             toast('Matière créée avec succès !')
             setLoading(true)
             getMatieres()
             setLoading(false)
-        } catch (error) {
-            console.log(error)
-        }
+        })  
     }
 
     return (
@@ -60,7 +58,6 @@ const MatieresList = () => {
             <Sidenav />
 
             <main id="main" className="main">
-
                 <ToastContainer />
 
                 <InfoPage title='Matieres' link='Gestion des matieres' />

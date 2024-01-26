@@ -4,16 +4,21 @@ import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import Footer from "../../components/Footer";
 import { useParams, Link } from "react-router-dom";
-import AxiosApi from "../../services/AxiosApi";
+import { getSingleStudent } from "../../services/StudentController";
 
 const ViewStudent = () => {
     const {matricule} = useParams()
     const [student, setStudent] = useState({})
 
     useEffect(() => {
-        AxiosApi.get('/get-student/' + matricule)
-            .then(res => setStudent(res.data[0]))
-    }, [])
+        getStudent()
+    }, [student])
+
+    async function getStudent() {
+        await getSingleStudent(matricule).then((res) => {
+            setStudent(res)
+        })
+    }
 
     return(
         <>

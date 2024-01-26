@@ -3,3 +3,20 @@
       height: 100%;
     }
 }
+
+.hidden {
+  display: none;
+}
+
+.title {
+  margin-bottom: 20px;
+}
+.title p {
+  margin-left: 50px;
+}
+
+@media (max-width: 575px) {
+  .hidden {
+    display: block;
+  }
+}

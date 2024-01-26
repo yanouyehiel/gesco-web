@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
 import { dateParser } from '../utils/functions';
 
 const Employe = ({ employe }) => {

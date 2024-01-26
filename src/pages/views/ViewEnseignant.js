@@ -5,9 +5,10 @@ import Footer from "../../components/Footer"
 import { Button } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
-import AxiosApi from "../../services/AxiosApi"
 import { ToastContainer, toast } from 'react-toastify'
 import { getEcoleStored } from "../../services/LocalStorage"
+import { deleteUser } from "../../services/UserController"
+import { getTeacher } from "../../services/EnseignementController"
 
 const ViewEnseignant= () => {
     const {matricule} = useParams()
@@ -15,20 +16,27 @@ const ViewEnseignant= () => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        AxiosApi.get('/get-teacher/' + matricule)
-            .then(res => setTeacher(res.data[0]))
+        getSingleTeacher()
     }, [])
 
-    const handleClick = () => {
-        AxiosApi.get('/delete-user/' + teacher.id)
-            .then(res => toast(res.data))
-            .then(() => navigate('/teachers'))
+    async function getSingleTeacher() {
+        await getTeacher(matricule).then((res) => {
+            setTeacher(res)
+        })
+    }
+
+    const handleClick = async() => {
+        await deleteUser(teacher.id).then((res) => {
+            toast("Utilisateur supprime")
+            navigate('/teachers')
+        })
     }
     
     return (
         <>
             <Header />
             <Sidenav />
+            
             <main id="main" className="main">
                 <InfoPage title='Consulter un enseignant' link={'Infos sur ' + teacher.nom + ' ' + teacher.prenom} />
                 <ToastContainer />

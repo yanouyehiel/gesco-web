@@ -12,7 +12,8 @@ import { login } from '../services/AuthApi';
 import Auth from '../contexts/Auth';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getItem } from '../services/LocalStorage';
+import { getItem, addItem } from '../services/LocalStorage';
+import Footer from '../components/Footer';
 
 const Login = () => {
   const [error, setError] = useState(false);
@@ -33,11 +34,15 @@ const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    console.log(user)
+    
     try {
-      login(user);
-      setIsAuthenticated(true);
-      navigate('/home');
+      await login(user).then((res) => {
+        console.log(res)
+        addItem('gescoUser', JSON.stringify(res))
+        setIsAuthenticated(true);
+        navigate('/home');
+      });
+      
     } catch ({ response }) {
       setError(true)
       setErrorMessage(response)
@@ -57,18 +62,16 @@ const Login = () => {
 
           <MDBCol sm='6'>
 
-            <div className='flex-row'>
-              <MDBIcon fas icon="crow fa-3x me-3" style={{ color: '#709085' }}/>
-              <span className="h1 fw-bold mb-0">Logo</span>
-              <img src="../assets/images/px1.png"
-                alt="Image_Login"
-                style={{width: '100px', height: '100px', justifyContent: 'center', alignItems: 'center'}} 
-              />
+            <div className='flex-row hidden'>
+              <img src="../assets/images/px1.png" alt="Image_Login" />
             </div>
 
             <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
 
-              <h3 className="fw-normal mb-3 ps-5 pb-3" style={{letterSpacing: '1px'}}>Log in</h3>
+              <div className='title'>
+                <h3 className="fw-normal ps-5">Connexion</h3>
+                <p>Entrer vos identifiants pour vous connecter à votre école</p>
+              </div>
               <form onSubmit={handleSubmit}>
                 <MDBInput onChange={handleChange} name='email' wrapperClass='mb-4 mx-5 w-100' label='Email' id='formControlLg' type='email' size="lg"/>
                 <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg' type='password' size="lg"/>
@@ -92,7 +95,6 @@ const Login = () => {
         </MDBRow>
 
       </MDBContainer>
-      {/* <Footer /> */}
     </div>
   )
 }

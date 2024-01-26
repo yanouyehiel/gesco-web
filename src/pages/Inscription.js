@@ -7,11 +7,11 @@ import { Button, Modal, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
 import { ClipLoader} from 'react-spinners'
 import { ToastContainer, toast } from "react-toastify";
-import AxiosApi from "../services/AxiosApi";
-import { addPaiement } from "../services/MainControllerApi";
-import { dateParser } from "../utils/functions";
+import { addPaiement, getPaiementSchool } from "../services/MainControllerApi";
 import { getEcoleStored } from "../services/LocalStorage";
 import Paiement from "../components/Paiement";
+import { getStudents } from "../services/StudentController";
+
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
@@ -20,23 +20,25 @@ const Inscription = () => {
     const [paiements, setPaiements] = useState([])
     const [students, setStudents] = useState([])
     const ecole_id = getEcoleStored()
-    const [feesStudent, setFeesStudent] = useState({})
+    //const [feesStudent, setFeesStudent] = useState({})
 
     useEffect(() => {
         setLoading(true)
         getPaiements()
-        getStudents()
+        getStudentsSchool()
         setLoading(false)
     }, [])
 
-    function getPaiements() {
-        AxiosApi.get('/get-paiements/' + ecole_id)
-        .then(res => setPaiements(res.data))
+    async function getPaiements() {
+        await getPaiementSchool(ecole_id).then((res) => {
+            setPaiements(res)
+        })
     }
 
-    function getStudents() {
-        AxiosApi.get('/get-students/' + ecole_id)
-        .then(res => setStudents(res.data))
+    async function getStudentsSchool() {
+        await getStudents(ecole_id).then((res) => {
+            setStudents(res)
+        })
     }
 
     const handleChange = ({currentTarget}) => {
@@ -49,18 +51,17 @@ const Inscription = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            paiement.ecole_id = ecole_id
-            console.log(paiement)
-            addPaiement(paiement)
+        
+        paiement.ecole_id = ecole_id
+        console.log(paiement)
+        await addPaiement(paiement).then((res) => {
+            console.log(res)
             setShow(false);
             toast('Paiement enregistré avec succès !')
             setTimeout(() => {
                 window.location.reload()
             }, 2000);
-        } catch (error) {
-            console.log(error)
-        }
+        })  
     }
 
     return (

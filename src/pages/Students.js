@@ -8,6 +8,7 @@ import Student from "../components/Student";
 import { ClipLoader } from "react-spinners";
 import AxiosApi from "../services/AxiosApi";
 import { getEcoleStored } from "../services/LocalStorage";
+import { getStudents } from "../services/StudentController";
 
 const Students = () => {
     const [loading, setLoading] = useState(false)
@@ -16,13 +17,14 @@ const Students = () => {
 
     useEffect(() => {
         setLoading(true)
-        getStudents()
+        getAllStudents()
         setLoading(false)
     }, [])
 
-    function getStudents() {
-        AxiosApi.get('/get-students/' + ecole_id)
-            .then(res => setStudents(res.data))
+    async function getAllStudents() {
+        await getStudents(ecole_id).then((res) => {
+            setStudents(res)
+        })
     }
 
     return(

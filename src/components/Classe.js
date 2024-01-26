@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 
-const Classe = ({ classe, delClasse }) => {
+const Classe = ({ classe }) => {
     
     function deleteClasse() {
-        delClasse(classe.id)
+        //delClasse(classe.id)
     }
 
     return (

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import AxiosApi from '../services/AxiosApi';
 import { dateParser } from '../utils/functions';
+import { getAllFeesStudent } from '../services/MainControllerApi';
 
 const Paiement = ({paiement}) => {
     const [fees, setFees] = useState({})
 
     useEffect(() => {
-        getFeesStudents(paiement.student_id)
-        console.log(fees)
+        getFeesStudents()
     }, [])
 
-    function getFeesStudents(id) {
-        AxiosApi.get('/get-fees-student/' + id)
-            .then(res => setFees(res.data));           
+    async function getFeesStudents() {
+        await getAllFeesStudent(paiement.student_id).then((res) => {
+            setFees(res)
+        })       
     }
 
     return (

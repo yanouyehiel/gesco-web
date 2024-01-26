@@ -1,0 +1,16 @@
+.hidden {
+    display: none;
+}
+
+@media (max-width: 575px) {
+    .right-side {
+        display: none;
+    }
+    .register {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+    }
+}

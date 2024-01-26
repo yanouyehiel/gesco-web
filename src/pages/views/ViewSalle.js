@@ -7,10 +7,11 @@ import { useState, useEffect } from "react";
 import Student from "../../components/Student";
 import Footer from "../../components/Footer";
 import { ClipLoader } from "react-spinners";
-import AxiosApi from "../../services/AxiosApi";
 import { getEcoleStored } from "../../services/LocalStorage";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import { addStudent } from "../../services/StudentController";
+import { getStudentsOfClasse } from "../../services/EnseignementController";
+import { infoClasse } from "../../services/MainControllerApi";
 
 const ViewSalle = () => {
     const { numSalle } = useParams();
@@ -21,19 +22,24 @@ const ViewSalle = () => {
     const ecole_id = getEcoleStored()
     const [student, setStudent] = useState({})
 
-    function getStudents() {
-        AxiosApi.get(`/my-students/classe_id=${numSalle}&ecole_id=${ecole_id}`)
-        .then(res => setStudents(res.data))
+    async function getStudents() {
+        await getStudentsOfClasse(numSalle, ecole_id).then((res) => {
+            setStudents(res)
+        })
+    }
+
+    async function getInfoClasse() {
+        await infoClasse(numSalle).then((res) => {
+            setClasse(res)
+        })
     }
     
-    useEffect(() => {
-        AxiosApi.get('/get-info-classe/' + numSalle)
-            .then(res => setClasse(res.data))
-        console.log(classe)
+    useEffect(() => {      
         setLoading(true)
+        getInfoClasse()
         getStudents()
         setLoading(false)
-    }, [])
+    }, [students])
 
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -43,24 +49,20 @@ const ViewSalle = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
-        try {
-            student.ecole_id = getEcoleStored()
-            student.classe_id = parseInt(numSalle)
-            addStudent(student).then((res) => {
-                console.log(res)
-                toast(res.message)
-            })
+        
+        student.ecole_id = getEcoleStored()
+        student.classe_id = parseInt(numSalle)
+
+        await addStudent(student).then((res) => {
+            toast("Nouvel élève enregistré.")
             handleClose()
             
-            /*setTimeout(() => {
+            setTimeout(() => {
                 window.location.reload()
-            }, 3000);*/
-        } catch (error) {
-            toast(error)
-        }
-        
+            }, 3000);
+        })
     };
 
     return (
@@ -70,6 +72,7 @@ const ViewSalle = () => {
 
             <main id="main" classNameName="main">
                 <InfoPage title='Salle de classe' link={classe.nom} />
+                <ToastContainer />
 
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
@@ -141,7 +144,7 @@ const ViewSalle = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                            {loading ?
+                            {students.length === 0 ?
                                 <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                 :
                                 <>

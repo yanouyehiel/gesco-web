@@ -4,15 +4,22 @@ export function login() {
     console.log('logged');
 }
 
-export function logout() {
-    AxiosApi.post('/logout')
-        .then(res => {
-            return res.data.message
-        })
+export async function allUsers() {
+    try {
+        const response = await AxiosApi.get('/users');
+        return response.data.users;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }
-export function allUsers() {
-    AxiosApi.get('/users')
-        .then(res => {
-            return res.data.users
-        })
+
+export async function deleteUser(id) {
+    try {
+        const response = await AxiosApi.get('/delete-user/' + id);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
 }

@@ -7,8 +7,8 @@ import { ClipLoader } from 'react-spinners';
 import Parent from '../components/Parent';
 import { Modal, Form, Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
-import AxiosApi from '../services/AxiosApi';
 import { getEcoleStored } from '../services/LocalStorage';
+import { getAllParentsSchool } from '../services/MainControllerApi';
 
 const Parents = () => {
     const [loading, setLoading] = useState(false)
@@ -25,9 +25,10 @@ const Parents = () => {
         setLoading(false)
     }, [])
 
-    function getParents() {
-        AxiosApi.get('/get-parents/' + ecole_id)
-            .then(res => setParents(res.data))
+    async function getParents() {
+        await getAllParentsSchool(ecole_id).then((res) => {
+            setParents(res)
+        })
     }
 
     const handleSubmit = (e) => {

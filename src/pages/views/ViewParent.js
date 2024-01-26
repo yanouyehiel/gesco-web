@@ -4,9 +4,11 @@ import Header from "../../components/Header";
 import Sidenav from "../../components/Sidenav";
 import InfoPage from "../../components/InfoPage";
 import { Button } from "react-bootstrap";
-import AxiosApi from "../../services/AxiosApi";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify'
+import { deleteUser } from "../../services/UserController";
+import { getSingleParent } from "../../services/MainControllerApi";
+
 
 const ViewParent = () => {
     const {matricule} = useParams()
@@ -17,15 +19,17 @@ const ViewParent = () => {
         getParent()
     }, [])
 
-    function getParent() {
-        AxiosApi.get('/get-parent/' + matricule)
-            .then(res => setParent(res.data[0]))
+    async function getParent() {
+        await getSingleParent(matricule).then((res) => {
+            setParent(res)
+        })
     }
     
-    const handleClick = () => {
-        AxiosApi.get('/delete-user/' + parent.id)
-            .then(res => toast(res.data))
-            .then(() => navigate('/teachers'))
+    const handleClick = async() => {
+        await deleteUser(parent.id).then((res) => {
+            toast("Parent supprime")
+            navigate('/parents')
+        })
     }
 
     return(

@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import AxiosApi from '../services/AxiosApi';
 import { getEcoleStored } from '../services/LocalStorage';
+import { getClasses } from '../services/MainControllerApi';
 
 function Sidenav() {
     const [classes, setClasses] = useState([])
     const ecole_id = getEcoleStored()
 
     useEffect(() => {
-        AxiosApi.get('/get-classes-school/' + ecole_id)
-        .then((res) => setClasses(res.data))
+        getClasses(ecole_id).then((res) => {
+            setClasses(res)
+        })
     })
 
     return(

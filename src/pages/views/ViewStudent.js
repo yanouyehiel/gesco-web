@@ -12,7 +12,8 @@ const ViewStudent = () => {
 
     useEffect(() => {
         getStudent()
-    }, [student])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [matricule])
 
     async function getStudent() {
         await getSingleStudent(matricule).then((res) => {

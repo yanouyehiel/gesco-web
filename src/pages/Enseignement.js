@@ -9,22 +9,21 @@ import { Form, Button } from "react-bootstrap";
 import { ClipLoader } from 'react-spinners';
 import { infoClasse } from "../services/MainControllerApi";
 import { getCoursByClasse } from "../services/EnseignementController";
+//import { getEcoleStored } from "../services/LocalStorage";
 
 
 const Enseignement = () => {
     const {salle} = useParams()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [cours, setCours] = useState([])
     const [classe, setClasse] = useState({})
+    //const ecole_id = getEcoleStored()
 
     useEffect(() => {
-        setLoading(true)
         getInfoClasse()
-        getCours()
-        setTimeout(() => {
-            setLoading(false)
-        }, 3000)
-    }, [])
+        getCours().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [salle])
 
     async function getInfoClasse() {
         await infoClasse(salle).then((res) => {
@@ -33,12 +32,14 @@ const Enseignement = () => {
     }
 
     async function getCours() {
-        await getCoursByClasse(classe.id).then((res) => {
+        await getCoursByClasse(salle).then((res) => {
             setCours(res)
         })
     }
 
-    const handleSubmit = () => {}
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
     
     return(
         <>
@@ -52,7 +53,7 @@ const Enseignement = () => {
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
                         <div className="container-fluid">
-                            <h1 className="text-center pt-4 pb-2 text-danger">COURS DE LA {salle}</h1>
+                            <h1 className="text-center pt-4 pb-2 text-danger">COURS DE LA {classe.nom}</h1>
                             <div className="container">
                                 <Form onSubmit={handleSubmit}>
                                     <div className="row">
@@ -77,7 +78,7 @@ const Enseignement = () => {
                                 </Form><br />
                                 
                                 <div className="row dashboard">
-                                    {loading ?
+                                    {cours.length === 0 && loading ?
                                         <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                         :
                                         <>

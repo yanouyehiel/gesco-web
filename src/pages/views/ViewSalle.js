@@ -37,9 +37,9 @@ const ViewSalle = () => {
     useEffect(() => {      
         setLoading(true)
         getInfoClasse()
-        getStudents()
-        setLoading(false)
-    }, [students])
+        getStudents().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ecole_id])
 
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -56,7 +56,7 @@ const ViewSalle = () => {
         student.classe_id = parseInt(numSalle)
 
         await addStudent(student).then((res) => {
-            toast("Nouvel élève enregistré.")
+            toast(res)
             handleClose()
             
             setTimeout(() => {
@@ -144,7 +144,7 @@ const ViewSalle = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                            {students.length === 0 ?
+                            {students.length === 0 && loading ?
                                 <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                 :
                                 <>

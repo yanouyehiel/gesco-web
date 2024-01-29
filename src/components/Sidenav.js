@@ -7,11 +7,13 @@ function Sidenav() {
     const [classes, setClasses] = useState([])
     const ecole_id = getEcoleStored()
 
-    useEffect(() => {
+    useEffect(() => {        
         getClasses(ecole_id).then((res) => {
             setClasses(res)
-        })
-    })
+        }, (err) => {
+            console.log(err)
+        })      
+    }, [ecole_id])
 
     return(
         <aside id="sidebar" className="sidebar">
@@ -59,7 +61,7 @@ function Sidenav() {
                 <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
-                            <Link to={'/enseignement/' + classe.nom}>
+                            <Link to={'/enseignement/' + classe.id}>
                             <i className="bi bi-circle"></i><span>{classe.nom}</span>
                             </Link>
                         </li>
@@ -73,7 +75,7 @@ function Sidenav() {
                 <ul id="charts-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
-                            <Link to={'/presences/' + classe.nom}>
+                            <Link to={'/presences/' + classe.id}>
                             <i className="bi bi-circle"></i><span>{classe.nom}</span>
                             </Link>
                         </li>
@@ -87,7 +89,7 @@ function Sidenav() {
                 <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
-                            <Link to={'/devoirs/' + classe.nom}>
+                            <Link to={'/devoirs/' + classe.id}>
                             <i className="bi bi-circle"></i><span>{classe.nom}</span>
                             </Link>
                         </li>

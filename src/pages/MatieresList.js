@@ -25,8 +25,8 @@ const MatieresList = () => {
 
     useEffect(() => {
         setLoading(true)
-        getMatieres()
-        setLoading(false)
+        getMatieres().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleClose = () => setShow(false);
@@ -45,11 +45,13 @@ const MatieresList = () => {
         await addMatiere(matiere).then((res) => {
             console.log(res)
             setShow(false);
-            toast('Matière créée avec succès !')
-            setLoading(true)
-            getMatieres()
-            setLoading(false)
-        })  
+            toast(res)
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000)
+        }, (err) => {
+            toast.error(err)
+        }) 
     }
 
     return (
@@ -112,7 +114,7 @@ const MatieresList = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {loading ?
+                                        {matieres.length === 0 && loading ?
                                             <ClipLoader color="#333" />
                                             :
                                             <>

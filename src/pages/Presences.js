@@ -7,19 +7,28 @@ import { useParams } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import Presence from "../components/Presence";
 import { ClipLoader } from "react-spinners";
+import { getEcoleStored } from "../services/LocalStorage";
+import { infoClasse } from "../services/MainControllerApi";
 
 const Presences = () => {
     const {salle} = useParams()
     const [loading, setLoading] = useState(false)
-
+    const ecole_id = getEcoleStored()
+    const [classe, setClasse] = useState({})
+    const [absences, setAbsences] = useState([])
     
     useEffect(() => {
         setLoading(true)
         setTimeout(() => {
             setLoading(false)
         }, 5000)
-    }, [])
+    }, [salle])
 
+    async function getInfoClasse() {
+        await infoClasse(salle).then((res) => {
+            setClasse(res)
+        })
+    }
 
     const handleSubmit = () => {
         console.log('clique');

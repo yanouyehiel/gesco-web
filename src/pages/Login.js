@@ -34,23 +34,20 @@ const Login = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    
-    try {
-      await login(user).then((res) => {
-        console.log(res)
-        addItem('gescoUser', JSON.stringify(res))
-        setIsAuthenticated(true);
-        navigate('/home');
-      });
-      
-    } catch ({ response }) {
+ 
+    await login(user).then((res) => {
+      //console.log(res)
+      addItem('gescoUser', JSON.stringify(res))
+      setIsAuthenticated(true);
+      navigate('/home');
+    }, (error) => {
       setError(true)
-      setErrorMessage(response)
-    }
+      setErrorMessage(error.error)
+    });
   }
 
   useEffect(() => {
-    if (userParsed && userRegistred !== '{}') {
+    if (userParsed !== null) {
       navigate('/home')
     }
   }, [user])

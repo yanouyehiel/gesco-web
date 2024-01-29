@@ -16,7 +16,7 @@ const Cours = ({cour, classe}) => {
                         </div>
                         <div className="ps-3">
                             <h6 style={{fontSize: 15}}>{cour.titre}</h6>
-                            <span className="text-success pt-1 fw-bold">Salle</span>
+                            <span className="text-success pt-1 fw-bold">Classe </span>
                             <span className="text-muted pt-2 ps-1">{classe}</span>
                         </div>
                     </div>

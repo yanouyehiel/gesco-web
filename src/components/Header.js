@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { getItem } from "../services/LocalStorage";
 import { getRole } from "../services/MainControllerApi";
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import Auth from "../contexts/Auth";
 import { logout } from "../services/AuthApi";
 
@@ -11,6 +11,13 @@ const Header = () => {
   const user = JSON.parse(data)
   const navigate = useNavigate()
   const { setIsAuthenticated } = useContext(Auth)
+  const [role, setRole] = useState("")
+
+  useEffect(() => {   
+    getRole(user.role_id).then((res) => {
+      setRole(res.intitule)
+    })
+  }, [user.role_id])
 
   async function deconnexion() {
     await logout().then((res) => {
@@ -18,7 +25,9 @@ const Header = () => {
       setTimeout(() => {
         navigate('/login')
       }, 2000);
-    })  
+    }, (err) => {
+      console.log(err)
+    }) 
   }
 
     return (
@@ -199,7 +208,7 @@ const Header = () => {
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
             <li className="dropdown-header">
               <h6>{user.nom + ' ' + user.prenom}</h6>
-              <span>{getRole(user.role_id)}</span>
+              <span>{role}</span>
             </li>
             <li>
               <hr className="dropdown-divider" />

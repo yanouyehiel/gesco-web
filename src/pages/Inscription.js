@@ -15,19 +15,17 @@ import { getStudents } from "../services/StudentController";
 
 const Inscription = () => {
     const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [paiement, setPaiement] = useState({})
     const [paiements, setPaiements] = useState([])
     const [students, setStudents] = useState([])
     const ecole_id = getEcoleStored()
-    //const [feesStudent, setFeesStudent] = useState({})
 
     useEffect(() => {
-        setLoading(true)
-        getPaiements()
-        getStudentsSchool()
-        setLoading(false)
-    }, [])
+        getStudentsSchool() 
+        getPaiements().then(() => setLoading(false))      
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ecole_id])
 
     async function getPaiements() {
         await getPaiementSchool(ecole_id).then((res) => {
@@ -53,14 +51,12 @@ const Inscription = () => {
         e.preventDefault();
         
         paiement.ecole_id = ecole_id
-        console.log(paiement)
         await addPaiement(paiement).then((res) => {
-            console.log(res)
             setShow(false);
-            toast('Paiement enregistré avec succès !')
+            toast(res)
             setTimeout(() => {
                 window.location.reload()
-            }, 2000);
+            }, 3000);
         })  
     }
 
@@ -145,7 +141,7 @@ const Inscription = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {loading ?
+                                                    {loading && paiements.length === 0 ?
                                                         <ClipLoader color="#333" />
                                                     :
                                                     <>

@@ -30,11 +30,10 @@ const ClassesList = () => {
     
     const handleSubmit = async e => {
         e.preventDefault()
-        classe.ecole_id = getEcoleStored()
+        classe.ecole_id = ecole_id
         await addClasse(classe).then(res => {
-            console.log(res)
             handleClose()
-            toast('Classe enregistrée avec succès !')
+            toast(res)
             setTimeout(() => {
                 window.location.reload()
             }, 2000);
@@ -48,20 +47,20 @@ const ClassesList = () => {
             setLoading(true);
             getClasses(ecole_id).then((res) => {
                 setAllClasses(res)
-            })
+            }).then(() => setLoading(false))
             typesClasse().then((res) => {
                 setTypeClasses(res)
             })
-            setLoading(false);
         }
-    }, [allClasses]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ecole_id]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     async function handleDeleteClasse(id) {
         await deleteClasse(id).then((res) => {
-            toast('Classe supprimée avec succès !')
+            toast(res)
             setTimeout(() => {
                 window.location.reload()
             }, 2000);
@@ -102,7 +101,7 @@ const ClassesList = () => {
                                                 <Form.Label className="control-label">Sélectionner la classe</Form.Label>
                                                 <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
                                                     <option>-- select --</option>
-                                                    {typeClasses.map((typeClasse, i) => (
+                                                    {typeClasses.length > 0 && typeClasses.map((typeClasse, i) => (
                                                         <option key={i} value={typeClasse.id}>{typeClasse.classe}</option>
                                                     ))}
                                                 </Form.Select>
@@ -132,7 +131,7 @@ const ClassesList = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                        {allClasses.length === 0 ?
+                                        {allClasses.length === 0 && loading ?
                                             <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                             :
                                             <>

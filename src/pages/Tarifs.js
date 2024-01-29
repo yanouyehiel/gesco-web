@@ -14,7 +14,7 @@ import Auth from '../contexts/Auth'
 
 const Tarifs = () => {
     const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [classes, setClasses] = useState([])
     const [tarif, setTarif] = useState({})
     const [tarifs, setTarifs] = useState([])
@@ -26,12 +26,11 @@ const Tarifs = () => {
         if (!isAuthenticated) {
             navigate('/login')
         } else {
-            setLoading(true)
             getAllClasses()
-            getTarifs()
-            setLoading(false)
+            getTarifs().then(() => setLoading(false))
         }
-    }, [show, tarifs])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [ecole_id])
 
     async function getAllClasses() {
         await getClasses(ecole_id).then((res) => {
@@ -59,8 +58,7 @@ const Tarifs = () => {
         tarif.ecole = ecole_id;
         setShow(false);
         await addTarif(tarif).then((res) => {
-            console(res)
-            toast("Tarif ajoute avec succes.")
+            toast(res)
             setTimeout(() => {
                 window.location.reload()
             }, 3000);
@@ -156,7 +154,7 @@ const Tarifs = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {tarifs.length === 0 ?
+                                                    {tarifs.length === 0 && loading ?
                                                         <ClipLoader color="#333" />
                                                     :
                                                     <>

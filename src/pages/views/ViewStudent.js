@@ -58,7 +58,10 @@ const ViewStudent = () => {
                                                 <h5 className="title">Lieu de naissance : </h5>
                                                 <p className="title-value">{student.lieu_naissance}</p>
                                             </div>
-
+                                            <div className="info">
+                                                <h5 className="title">Sexe : </h5>
+                                                <p className="title-value">{student.sexe}</p>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -73,7 +76,7 @@ const ViewStudent = () => {
                                                 <p className="title-value">{student.matricule}</p>
                                             </div> 
                                             <div className="info">
-                                                <h5 className="title">Classe :</h5>
+                                                <h5 className="title">Type de classe :</h5>
                                                 <p className="title-value">{student.type_classe}</p>
                                             </div>
                                             <div className="info">
@@ -83,6 +86,10 @@ const ViewStudent = () => {
                                             <div className="info">
                                                 <h5 className="title">Année scolaire : </h5>
                                                 <p className="title-value">{student.date_scolarisation}</p>
+                                            </div>
+                                            <div className="info">
+                                                <h5 className="title">Date d'inscription : </h5>
+                                                <p className="title-value">{student.created_at}</p>
                                             </div>
                                         </div>
                                     </div>

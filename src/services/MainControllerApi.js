@@ -104,3 +104,23 @@ export async function askDocument(doc) {
     const response = await AxiosApi.post('/ask-document', doc);
     return response.data;
 }
+
+export async function getAbsencesByClasse(id) {
+    const response = await AxiosApi.get('/absences-classe/' + id);
+    return response.data;
+}
+
+export async function getDocumentsAsked(id) {
+    const response = await AxiosApi.get('/get-documents-asked/' + id);
+    return response.data;
+}
+
+export async function validateRequest(id) {
+    const response = await AxiosApi.post('/validate-request', id);
+    return response.data;
+}
+
+export async function getMessages(id) {
+    const response = await AxiosApi.get('/get-messages/' + id);
+    return response.data;
+}

@@ -21,3 +21,22 @@ export function longueurTexte(word) {
         return sentence
     }
 }
+
+export function getTimeElapsed(dateStr) {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const timeElapsed = now - date;
+  
+    const millisecondsPerSecond = 1000;
+    const secondsPerMinute = 60;
+    const minutesPerHour = 60;
+    const hoursPerDay = 24;
+  
+    const milliseconds = Math.floor(timeElapsed % millisecondsPerSecond);
+    const seconds = Math.floor((timeElapsed / millisecondsPerSecond) % secondsPerMinute);
+    const minutes = Math.floor((timeElapsed / (millisecondsPerSecond * secondsPerMinute)) % minutesPerHour);
+    const hours = Math.floor((timeElapsed / (millisecondsPerSecond * secondsPerMinute * minutesPerHour)) % hoursPerDay);
+    const days = Math.floor(timeElapsed / (millisecondsPerSecond * secondsPerMinute * minutesPerHour * hoursPerDay));
+  
+    return `${days}jour ${hours}h ${minutes}min`
+}

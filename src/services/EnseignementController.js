@@ -19,3 +19,8 @@ export async function getStudentsOfClasse(idSalle, idEcole) {
     const response = await AxiosApi.get(`/my-students/classe_id=${idSalle}&ecole_id=${idEcole}`);
     return response.data;
 }
+
+export async function getDevoirsOfClasse(idSalle) {
+    const response = await AxiosApi.get('/devoirs-classe/' + idSalle);
+    return response.data;
+}

@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import Footer from "../components/Footer";
 import { getEcoleStored } from "../services/LocalStorage";
 import { getStudents } from "../services/StudentController";
-import { askDocument } from "../services/MainControllerApi";
+import { askDocument, getDocumentsAsked } from "../services/MainControllerApi";
 import { toast, ToastContainer } from "react-toastify";
+import { ClipLoader } from "react-spinners";
+import Document from "../components/Document";
 
 const Documents = () => {
     const [show, setShow] = useState(false);
@@ -17,7 +19,8 @@ const Documents = () => {
     const ecole_id = getEcoleStored()
     const [students, setStudents] = useState([])
     const [doc, setDoc] = useState({})
-    //const [loading, setLoading] = useState(true)
+    const [documents, setDocuments] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const handleShowNotes = () => setShow(true);
     const handleShowBulletin = () => setShowBulletin(true);
@@ -42,7 +45,7 @@ const Documents = () => {
         } else if (showC) {
             doc.intitule = "requête d'un certificat de scolarité"
         }
-        console.log(doc)
+        
         askDocument(doc).then((res) => {
             toast(res)
             if (show) {
@@ -54,6 +57,9 @@ const Documents = () => {
             } else if (showC) {
                 handleCloseC()
             }
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000)
         }, (error) => {
             toast.error(error.message)
         })
@@ -64,10 +70,15 @@ const Documents = () => {
         setDoc({...doc, [name]: value})
     }
 
-    useEffect(() => {
-        getStudents(ecole_id).then((res) => {
-            setStudents(res)
+    async function getDocuments() {
+        await getDocumentsAsked(ecole_id).then((res) => {
+            setDocuments(res)
         })
+    }
+
+    useEffect(() => {
+        getStudents(ecole_id).then((res) => setStudents(res))
+        getDocuments().then(() => setLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ecole_id])
 
@@ -291,6 +302,35 @@ const Documents = () => {
                                         </Form>
                                     </Modal.Body>
                                 </Modal>
+                            </div>
+
+                            <div className="card">
+                                <h3 className="text-center pt-4 pb-2 text-danger">LISTE DES DOCUMENTS DEMANDES</h3>
+                                <div className="card-body">
+                                    <table id="example1" className="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>#</th>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Année Scolaire</th>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Intitulé</th>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Demandeur</th>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Date de demande</th>
+                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {documents.length === 0 && loading ?
+                                            <ClipLoader color="#333" />
+                                            :
+                                            <>
+                                                {documents.map((doc, index) => (
+                                                    <Document key={index} doc={doc} />
+                                                ))}
+                                            </>
+                                        }
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

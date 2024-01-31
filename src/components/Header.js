@@ -1,10 +1,12 @@
 import { Link } from "react-router-dom";
 import { getItem } from "../services/LocalStorage";
-import { getRole } from "../services/MainControllerApi";
+import { getMessages, getRole } from "../services/MainControllerApi";
 import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import Auth from "../contexts/Auth";
 import { logout } from "../services/AuthApi";
+import { getDocumentsAsked } from "../services/MainControllerApi";
+import { getTimeElapsed } from "../utils/functions";
 
 const Header = () => {
   const data = getItem('gescoUser') || '{}'
@@ -12,15 +14,20 @@ const Header = () => {
   const navigate = useNavigate()
   const { setIsAuthenticated } = useContext(Auth)
   const [role, setRole] = useState("")
+  const [notifs, setNotifs] = useState([])
+  const [messages, setMessages] = useState([])
 
   useEffect(() => {   
     getRole(user.role_id).then((res) => {
       setRole(res.intitule)
     })
-  }, [user.role_id])
+    getDocuments()
+    getMessagesEcole()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   async function deconnexion() {
-    await logout().then((res) => {
+    await logout().then(() => {
       setIsAuthenticated(false)
       setTimeout(() => {
         navigate('/login')
@@ -28,6 +35,18 @@ const Header = () => {
     }, (err) => {
       console.log(err)
     }) 
+  }
+
+  async function getMessagesEcole() {
+    await getMessages(user.ecole_id).then((res) => {
+      setMessages(res)
+    })
+  }
+
+  async function getDocuments() {
+    await getDocumentsAsked(user.ecole_id).then((res) => {
+        setNotifs(res)
+    })
   }
 
     return (
@@ -61,71 +80,34 @@ const Header = () => {
 
           <Link className="nav-link nav-icon" to="#" data-bs-toggle="dropdown">
             <i className="bi bi-bell"></i>
-            <span className="badge bg-primary badge-number">4</span>
+            <span className="badge bg-primary badge-number">{notifs.length}</span>
           </Link>
 
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li className="dropdown-header">
-              You have 4 new notifications
-              <Link to="#"><span className="badge rounded-pill bg-primary p-2 ms-2">View all</span></Link>
+              Vous avez {notifs.length} nouvelles notifications
+              <Link to="/documents"><span className="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
             </li>
 
-            <li className="notification-item">
-              <i className="bi bi-exclamation-circle text-warning"></i>
-              <div>
-                <h4>Lorem Ipsum</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>30 min. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-
-            <li className="notification-item">
-              <i className="bi bi-x-circle text-danger"></i>
-              <div>
-                <h4>Atque rerum nesciunt</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>1 hr. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-
-            <li className="notification-item">
-              <i className="bi bi-check-circle text-success"></i>
-              <div>
-                <h4>Sit rerum fuga</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>2 hrs. ago</p>
-              </div>
-            </li>
-
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-
-            <li className="notification-item">
-              <i className="bi bi-info-circle text-primary"></i>
-              <div>
-                <h4>Dicta reprehenderit</h4>
-                <p>Quae dolorem earum veritatis oditseno</p>
-                <p>4 hrs. ago</p>
-              </div>
-            </li>
+            {notifs.slice(0, 5).map((notif, i) => (
+              <li key={i} className="notification-item">
+                <i className="bi bi-exclamation-circle text-warning"></i>
+                <div>
+                  <h4>{`${notif.nom_student} ${notif.prenom_student}`}</h4>
+                  <p>{notif.intitule}</p>
+                  <p>il y a {getTimeElapsed(notif.created_at)}</p>
+                </div>
+              </li>
+            ))}
 
             <li>
               <hr className="dropdown-divider" />
             </li>
             <li className="dropdown-footer">
-              <Link to="#">Show all notifications</Link>
+              <Link to="/documents">Voir toutes les notifications</Link>
             </li>
 
           </ul>
@@ -136,62 +118,38 @@ const Header = () => {
 
           <Link className="nav-link nav-icon" to="#" data-bs-toggle="dropdown">
             <i className="bi bi-chat-left-text"></i>
-            <span className="badge bg-success badge-number">3</span>
+            <span className="badge bg-success badge-number">{messages.length}</span>
           </Link>
 
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
             <li className="dropdown-header">
-              You have 3 new messages
-              <Link to="#"><span className="badge rounded-pill bg-primary p-2 ms-2">View all</span></Link>
+              Vous avez {messages.length} nouveaux messages
+              <Link to="/messagerie"><span className="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
             </li>
 
-            <li className="message-item">
-              <Link to="#">
-                <img src="assets/img/messages-1.jpg" alt="" className="rounded-circle" />
-                <div>
-                  <h4>Maria Hudson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>4 hrs. ago</p>
-                </div>
-              </Link>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-
-            <li className="message-item">
-              <Link to="#">
-                <img src="assets/img/messages-2.jpg" alt="" className="rounded-circle" />
-                <div>
-                  <h4>Anna Nelson</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>6 hrs. ago</p>
-                </div>
-              </Link>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
-
-            <li className="message-item">
-              <Link to="#">
-                <img src="assets/img/messages-3.jpg" alt="" className="rounded-circle" />
-                <div>
-                  <h4>David Muldon</h4>
-                  <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                  <p>8 hrs. ago</p>
-                </div>
-              </Link>
-            </li>
-            <li>
-              <hr className="dropdown-divider" />
-            </li>
+            {messages.slice(0, 5).map((mes, i) => (
+              <div key={i}>
+                <li className="message-item">
+                  <Link to="#">
+                    {/* <img src="assets/img/messages-1.jpg" alt="" className="rounded-circle" /> */}
+                    <div>
+                      <h4>{`${mes.nom_emetteur} ${mes.prenom_emetteur}`}</h4>
+                      <p>{String(mes.contenu).substring(0, 250) + '...'}</p>
+                      <p>il y a {getTimeElapsed(mes.created_at)}</p>
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <hr className="dropdown-divider" />
+                </li>
+              </div>
+            ))}
 
             <li className="dropdown-footer">
-              <Link to="#">Show all messages</Link>
+              <Link to="/messagerie">Voir tous les messages</Link>
             </li>
 
           </ul>

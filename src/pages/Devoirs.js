@@ -7,17 +7,33 @@ import Devoir from "../components/Devoir";
 import { useState, useEffect } from "react";
 import { Button, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
+import { infoClasse } from "../services/MainControllerApi";
+import { getDevoirsOfClasse } from "../services/EnseignementController";
 
 const Devoirs = () => {
     const {salle} = useParams()
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [classe, setClasse] = useState({})
+    const [devoirs, setDevoirs] = useState([])
 
     useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
-    }, [])
+        getInfoClasse()
+        getDevoirsSalle().then(() => setLoading(false))
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [salle])
+
+    async function getInfoClasse() {
+        await infoClasse(salle).then((res) => {
+            setClasse(res)
+        })
+    }
+
+    async function getDevoirsSalle() {
+        await getDevoirsOfClasse(salle).then((res) => {
+            setDevoirs(res)
+        })
+    }
 
     const handleSubmit = () => {}
 
@@ -33,7 +49,7 @@ const Devoirs = () => {
                 <div className="content-wrapper">
                     <section className="content mt-2 ">
                         <div className="container-fluid">
-                            <h1 className="text-center pt-4 pb-2 text-danger">COURS DE LA {salle}</h1>
+                            <h1 className="text-center pt-4 pb-2 text-danger">COURS DE LA {classe.nom}</h1>
                             <div className="container">
                                 <Form onSubmit={handleSubmit}>
                                     <div className="row">
@@ -58,14 +74,13 @@ const Devoirs = () => {
                                 </Form><br />
                                 
                                 <div className="row dashboard">
-                                    {loading ?
-                                        <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
+                                    {devoirs.length === 0 && loading ?
+                                        <ClipLoader color="#333" />
                                         :
                                         <>
-                                            <Devoir />
-                                            <Devoir />
-                                            <Devoir />
-                                            <Devoir />
+                                            {devoirs.map((devoir, i) => (
+                                                <Devoir key={i} devoir={devoir} classe={classe.nom} />
+                                            ))}
                                         </>
                                     }
                                 </div>

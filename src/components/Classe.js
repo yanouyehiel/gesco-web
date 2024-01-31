@@ -12,7 +12,6 @@ const Classe = ({ classe }) => {
             <td style={{ textAlign: 'center' }}>{classe.nom}</td>
             <td style={{ textAlign: 'center' }}>{classe.nom_ecole}</td>
             <td style={{ textAlign: 'center' }}>{classe.classe}</td>
-            {/* <td>{classe.enseignant}</td> */}
             <td style={{ textAlign: 'center' }}>{classe.effectif} élèves</td>
             <td style={{ textAlign: 'center' }}>
                 <Link 

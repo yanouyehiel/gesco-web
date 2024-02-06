@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { dateParser } from "../utils/functions";
 
-const Student = ({ student }) => {   
+const Student = ({ student, num }) => {   
 
     return(
         <tr>
+            <th style={{ textAlign: 'center' }}>{num+1}</th>
             <td style={{ textAlign: 'center' }}>{student.matricule}</td>
             <td style={{ textAlign: 'center' }}>{student.nom}</td>
             <td style={{ textAlign: 'center' }}>{student.prenom}</td>

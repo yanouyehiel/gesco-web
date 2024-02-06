@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 
-const Parent = ({ parent }) => {
+const Parent = ({ parent, num }) => {
     return (
         <tr>
+            <th style={{ textAlign: 'center' }}>{num+1}</th>
             <td style={{ textAlign: 'center' }}>{parent.matricule}</td>
             <td style={{ textAlign: 'center' }}>{parent.nom}</td>
             <td style={{ textAlign: 'center' }}>{parent.prenom}</td>

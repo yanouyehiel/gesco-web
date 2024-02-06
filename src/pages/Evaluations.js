@@ -1,84 +1,115 @@
-import React, { useState, useEffect } from "react";
-import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+import React, { useState, useEffect, useContext } from "react";
 import InfoPage from "../components/InfoPage";
 import Calendar from "../components/Calendar";
-import Footer from "../components/Footer";
 import { ClipLoader} from 'react-spinners'
+import { verifyUser } from "../utils/functions";
+import Auth from "../contexts/Auth";
+import { Button, Form, Modal } from "react-bootstrap";
+import { addCalendar, getCalendars } from "../services/MainControllerApi";
+import { ToastContainer, toast } from "react-toastify";
+import { getEcoleStored } from "../services/LocalStorage";
 
 const Evaluations = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+    const [show, setShow] = useState(false)
+    const [calendar, setCalendar] = useState({})
+    const [calendars, setCalendars] = useState([])
+    const ecole = getEcoleStored()
 
     useEffect(() => {
-        setLoading(true)
-        setTimeout(() => {
-            setLoading(false)
-        }, 5000)
+        verifyUser({isAuthenticated, setIsAuthenticated})
+        getAllCalendars().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-    return(
-        <>
-            <Header />
-            <Sidenav />
-            <main id="main" className="main">
-                <InfoPage title='Gestion des évaluations' link='Evaluations' />
 
-                <br />
-                <section className="section dashboard">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <h1 className="text-center text-danger">CALENDRIER SCOLAIRE</h1>
-                            <div class="row d-flex justify-content-between">
-                                <div className="col-lg-6">
-                                    <h2 class="text-center">Ajouter un calendrier</h2>
-                                    <form class="ajust">
-                                        <div class="form-group mt-4">
-                                            <label class="control-label">Intitulé de l'examen</label>
-                                            <input type="text" class="form-control" />
-                                        </div>
-                                        <div class="form-group mt-3">
-                                            <label class="control-label">Date de début</label>
-                                            <input type="date" class="form-control" />
-                                        </div>
-                                        <input type="submit" class="form-control mt-3 btn btn-primary mb-5" value="Enregistrer" />
-                                    </form>
-                                </div>
-                                <div className="col-lg-6">
-                                    <img src='./assets/images/px1.png' width='100%' height='100%' alt="Images" />
-                                </div>
-                            </div>
-                            <div className='container'>
-                                <h3>Liste des calendriers enregistrés</h3>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Identifiant</th>
-                                                    <th>Intitule de l'examen</th>
-                                                    <th>Date de debut</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {loading ?
-                                                    <ClipLoader color="#333" />
-                                                    :
-                                                    <>
-                                                        <Calendar />
-                                                        <Calendar />
-                                                        <Calendar />
-                                                    </>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setLoading(true)
+        calendar.ecole_id = ecole
+        addCalendar(calendar).then((res) => {
+            setShow(false)
+            toast(res)
+            getAllCalendars().then(() => setLoading(false))
+        })
+    }
+
+    async function getAllCalendars() {
+        await getCalendars(ecole).then(res => {
+            setCalendars(res)
+        })
+    }
+
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setCalendar({...calendar, [name]: value})
+    }
+
+    return(
+        <main id="main" className="main">
+            <InfoPage title='Gestion du calendrier scolaire' link='Calendrier' />
+            <ToastContainer />
+            <br />
+            <section className="section dashboard">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <h1 className="text-center text-danger">CALENDRIER SCOLAIRE</h1>
+                        <div className='container'>
+                            <Button onClick={handleShow} style={{marginBottom: '10px'}}>Ajouter</Button>
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Ajouter à votre calendrier</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group>
+                                            <Form.Label>Entrer le titre</Form.Label>
+                                            <Form.Control type="text" name="titre" onChange={handleChange} required />
+                                        </Form.Group>
+                                        <Form.Group className="mt-3">
+                                            <Form.Label>Entrer la date</Form.Label>
+                                            <Form.Control type="text" name="date" onChange={handleChange} />
+                                        </Form.Group>
+                                        <Button variant="primary" type='submit' className="mt-3">
+                                            Enregistrer
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>#</th>
+                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Titre</th>
+                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Date</th>
+                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {loading ?
+                                                <ClipLoader color="#333" />
+                                                :
+                                                <>
+                                                    {calendars.map((calendar, i) => (
+                                                        <Calendar num={i} calendar={calendar} key={i} />
+                                                    ))}
+                                                </>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </main>
-            <Footer />
-        </>
+                </div>
+            </section>
+        </main>
     )
 }
 

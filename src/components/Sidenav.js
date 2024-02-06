@@ -55,10 +55,10 @@ function Sidenav() {
 
             <li className="nav-heading">Gestion des enseignements</li>
             <li className="nav-item">
-                <Link className="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" to="#">
+                <Link className="nav-link collapsed" data-bs-target="#cours-nav" data-bs-toggle="collapse" to="#">
                 <i className="bi bi-layout-text-window-reverse"></i><span>Cours enseignés par salle</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
-                <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="cours-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
                             <Link to={'/enseignement/' + classe.id}>
@@ -69,10 +69,10 @@ function Sidenav() {
                 </ul>
             </li>
             <li className="nav-item">
-                <Link className="nav-link collapsed" data-bs-target="#charts-nav" data-bs-toggle="collapse" to="#">
+                <Link className="nav-link collapsed" data-bs-target="#presences-nav" data-bs-toggle="collapse" to="#">
                 <i className="bi bi-bar-chart"></i><span>Présences des élèves</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
-                <ul id="charts-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="presences-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
                             <Link to={'/presences/' + classe.id}>
@@ -83,10 +83,10 @@ function Sidenav() {
                 </ul>
             </li>
             <li className="nav-item">
-                <Link className="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" to="#">
+                <Link className="nav-link collapsed" data-bs-target="#devoirs-nav" data-bs-toggle="collapse" to="#">
                 <i className="bi bi-layout-text-window-reverse"></i><span>Devoirs laissés par salle</span><i className="bi bi-chevron-down ms-auto"></i>
                 </Link>
-                <ul id="tables-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
+                <ul id="devoirs-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                     {classes.map((classe, i) => (
                         <li key={i}>
                             <Link to={'/devoirs/' + classe.id}>
@@ -102,6 +102,12 @@ function Sidenav() {
                 <span>Matières</span>
                 </Link>
             </li>
+            <li className="nav-item">
+                <Link className="nav-link collapsed" to="/generate-doc">
+                <i className="bi bi-gear"></i>
+                <span>Générer un modèle de document</span>
+                </Link>
+            </li>
 
 
             <li className="nav-heading">Gestion des évaluations</li>
@@ -112,12 +118,12 @@ function Sidenav() {
                 <ul id="icons-nav" className="nav-content collapse " data-bs-parent="#sidebar-nav">
                 <li>
                     <Link to="/gestion-notes">
-                    <i className="bi bi-circle"></i><span>Gerer les notes</span>
+                    <i className="bi bi-circle"></i><span>Gérer les notes</span>
                     </Link>
                 </li>
                 <li>
-                    <Link to="/gestion-evaluations">
-                    <i className="bi bi-circle"></i><span>Programmer les evaluations</span>
+                    <Link to="/gestion-calendrier">
+                    <i className="bi bi-circle"></i><span>Gérer le calendrier</span>
                     </Link>
                 </li>
                 <li>

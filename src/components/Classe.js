@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 
-const Classe = ({ classe }) => {
-    
+const Classe = ({ classe, num, delClasse }) => {
+   
     function deleteClasse() {
-        //delClasse(classe.id)
+        delClasse(classe.id)
     }
 
     return (
         <tr>
-            <td>{classe.id}</td>
+            <td style={{ textAlign: 'center' }}>{num+1}</td>
             <td style={{ textAlign: 'center' }}>{classe.nom}</td>
             <td style={{ textAlign: 'center' }}>{classe.nom_ecole}</td>
             <td style={{ textAlign: 'center' }}>{classe.classe}</td>

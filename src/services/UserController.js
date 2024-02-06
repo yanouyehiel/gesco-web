@@ -6,6 +6,6 @@ export async function allUsers() {
 }
 
 export async function deleteUser(id) {
-    const response = await AxiosApi.get('/delete-user/' + id);
+    const response = await AxiosApi.delete('/delete-user/' + id);
     return response.data;
 }

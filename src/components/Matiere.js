@@ -2,11 +2,11 @@
 import { dateParser } from "../utils/functions";
 
 
-const Matiere = ({ matiere }) => {
+const Matiere = ({ matiere, num }) => {
 
     return(
         <tr>
-            <td>{matiere.id}</td>
+            <td>{num+1}</td>
             <td style={{ textAlign: 'center' }}>{matiere.code}</td>
             <td style={{ textAlign: 'center' }}>{matiere.intitule}</td>
             <td style={{ textAlign: 'center' }}>{matiere.coefficient}</td>

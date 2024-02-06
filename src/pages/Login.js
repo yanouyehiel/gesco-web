@@ -1,31 +1,29 @@
 import React, { useEffect } from 'react';
 import {
-    MDBBtn,
-    MDBContainer,
-    MDBRow,
-    MDBCol,
-    MDBInput,
-    MDBIcon
+  MDBBtn,
+  MDBContainer,
+  MDBRow,
+  MDBCol,
+  MDBInput
 } from 'mdb-react-ui-kit';
 import '../styles/login.css';
 import { login } from '../services/AuthApi';
 import Auth from '../contexts/Auth';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getItem, addItem } from '../services/LocalStorage';
-import Footer from '../components/Footer';
+import { addItem } from '../services/LocalStorage';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const Login = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { setIsAuthenticated } = useContext(Auth);
+  const { isAuthenticated ,setIsAuthenticated } = useContext(Auth);
   const navigate = useNavigate();
   const [user, setUser] = useState({
     email: '',
     password: ''
   })
-  const userRegistred = getItem('gescoUser') || '{}'
-  const userParsed = JSON.parse(userRegistred)
 
   const handleChange = ({currentTarget}) => {
     const {name, value} = currentTarget;
@@ -36,24 +34,26 @@ const Login = () => {
     e.preventDefault()
  
     await login(user).then((res) => {
-      //console.log(res)
       addItem('gescoUser', JSON.stringify(res))
       setIsAuthenticated(true);
-      navigate('/home');
+      window.location.replace('/home');
     }, (error) => {
       setError(true)
-      setErrorMessage(error.error)
+      setErrorMessage(error.message)
+      toast.error(errorMessage)
     });
   }
 
   useEffect(() => {
-    if (userParsed !== null) {
-      navigate('/home')
+    if (isAuthenticated) {
+      window.location.replace('/home')
     }
-  }, [user])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return(
     <div className="container-fluid">
+      <ToastContainer />
       <MDBContainer fluid>
         <MDBRow>
 
@@ -70,8 +70,8 @@ const Login = () => {
                 <p>Entrer vos identifiants pour vous connecter à votre école</p>
               </div>
               <form onSubmit={handleSubmit}>
-                <MDBInput onChange={handleChange} name='email' wrapperClass='mb-4 mx-5 w-100' label='Email' id='formControlLg' type='email' size="lg"/>
-                <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' id='formControlLg' type='password' size="lg"/>
+                <MDBInput onChange={handleChange} name='email' wrapperClass='mb-4 mx-5 w-100' label='Email' type='email' size="lg"/>
+                <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' type='password' size="lg"/>
 
                 <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' color='info' size='lg'>Login</MDBBtn>
               </form>

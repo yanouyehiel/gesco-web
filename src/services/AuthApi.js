@@ -1,11 +1,10 @@
 import AxiosApi from "./AxiosApi";
 import jwtDecode from 'jwt-decode';
-import { getItem, addItem, removeItem } from "./LocalStorage";
-import { useNavigate } from "react-router-dom";
+import { getItem, removeItem } from "./LocalStorage";
 
 export function hasAuthenticated() {
-    const user = getItem('gescoUser') || '{}';
-    const isValid = user !== '{}' ? true : false;
+    const user = getItem('gescoUser');
+    const isValid = user !== null ? true : false;
 
     return isValid;
 }

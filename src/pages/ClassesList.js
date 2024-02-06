@@ -1,27 +1,25 @@
-import Header from '../components/Header';
-import Sidenav from '../components/Sidenav';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
 import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
-import Footer from '../components/Footer';
 import { ClipLoader} from 'react-spinners'
 import { addClasse, deleteClasse, getClasses, typesClasse } from '../services/MainControllerApi'
 import { ToastContainer, toast } from 'react-toastify';
 import Auth from '../contexts/Auth';
-import { useNavigate } from 'react-router-dom';
 import { getEcoleStored } from '../services/LocalStorage';
-
+import { verifyUser } from '../utils/functions';
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [typeClasses, setTypeClasses] = useState([])
     const [allClasses, setAllClasses] = useState([])
     const [classe, setClasse] = useState({});
-    const navigate = useNavigate()
-    const { isAuthenticated } = useContext(Auth);
+    const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
     const ecole_id = getEcoleStored()
+    const [filter, setFilter] = useState("")
+    let filteredClasses = allClasses
+    
     
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -31,27 +29,25 @@ const ClassesList = () => {
     const handleSubmit = async e => {
         e.preventDefault()
         classe.ecole_id = ecole_id
+        setLoading(true)
         await addClasse(classe).then(res => {
             handleClose()
             toast(res)
-            setTimeout(() => {
-                window.location.reload()
-            }, 2000);
+            getClasses(ecole_id).then((res) => {
+                setLoading(false)
+                setAllClasses(res)
+            })
         });
     }
     
     useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/login');
-        } else {
-            setLoading(true);
-            getClasses(ecole_id).then((res) => {
-                setAllClasses(res)
-            }).then(() => setLoading(false))
-            typesClasse().then((res) => {
-                setTypeClasses(res)
-            })
-        }
+        verifyUser({isAuthenticated, setIsAuthenticated})
+        getClasses(ecole_id).then((res) => {
+            setAllClasses(res)
+        }).then(() => setLoading(false))
+        typesClasse().then((res) => {
+            setTypeClasses(res)
+        })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ecole_id]);
 
@@ -61,95 +57,120 @@ const ClassesList = () => {
     async function handleDeleteClasse(id) {
         await deleteClasse(id).then((res) => {
             toast(res)
-            setTimeout(() => {
-                window.location.reload()
-            }, 2000);
+            getClasses(ecole_id).then((res) => {
+                setAllClasses(res)
+            })
         })
         
     }
 
+    function handleFilter() {
+        console.log(filter)
+        if (filter === 'nb_eleves') {
+            filteredClasses = allClasses.sort((a, b) => {
+                return a.effectif > b.effectif
+            })
+            console.log(filteredClasses)
+        } else if (filter === 'nom') {
+            filteredClasses = allClasses.sort((a, b) => {
+                if (a.nom < b.nom) {
+                    return a
+                } else {
+                    return b
+                }
+            })
+            console.log(filteredClasses)
+        } else {
+            filteredClasses = allClasses
+        }
+    }
+
     return (
-        <>
-            <Header />
-            <Sidenav />
+        <main id="main" className="main">
 
-            <main id="main" className="main">
+            <ToastContainer />
+            
+            <InfoPage title='Salle de classe' link='Gestion des classes' />
+            <div className="content-wrapper">
+                <section className="content mt-2 ">
+                    <div className="container-fluid">
+                        <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES SALLES DE CLASSE</h1>
+                        <div className="container">
+                            <Button variant="primary" onClick={handleShow}>
+                                Ajouter une salle
+                            </Button>
 
-                <ToastContainer />
-                
-                <InfoPage title='Salle de classe' link='Gestion des classes' />
-                <div className="content-wrapper">
-                    <section className="content mt-2 ">
-                        <div className="container-fluid">
-                            <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES SALLES DE CLASSE</h1>
-                            <div className="container">
-                                <Button variant="primary" onClick={handleShow}>
-                                    Ajouter une salle
-                                </Button>
-
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Enregistrement d'une classe</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Nom de la salle</Form.Label>
-                                                <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" />
-                                            </Form.Group>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner la classe</Form.Label>
-                                                <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
-                                                    <option>-- select --</option>
-                                                    {typeClasses.length > 0 && typeClasses.map((typeClasse, i) => (
-                                                        <option key={i} value={typeClasse.id}>{typeClasse.classe}</option>
-                                                    ))}
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Enregistrer
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal>
-                                
-                            </div><br/>
-
-                            <div className="card">
-                                <div className="card-body">
-                                    <table id="example1" className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style={{ textAlign: 'center' }}>#</th>
-                                                <th style={{ textAlign: 'center' }}>Nom</th>
-                                                <th style={{ textAlign: 'center' }}>Ecole</th>
-                                                <th style={{ textAlign: 'center' }}>Type Classe</th>
-                                                {/* <th>Enseignant</th> */}
-                                                <th style={{ textAlign: 'center' }}>Effectif</th>
-                                                <th style={{ textAlign: 'center' }}>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        {allClasses.length === 0 && loading ?
-                                            <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
-                                            :
-                                            <>
-                                                {allClasses.map((classe, index) => (
-                                                    <Classe key={index} classe={classe} delClasse={handleDeleteClasse} />
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Enregistrement d'une classe</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Nom de la salle</Form.Label>
+                                            <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" />
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Sélectionner la classe</Form.Label>
+                                            <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
+                                                <option>-- select --</option>
+                                                {typeClasses.length > 0 && typeClasses.map((typeClasse, i) => (
+                                                    <option key={i} value={typeClasse.id}>{typeClasse.classe}</option>
                                                 ))}
-                                            </>
-                                        }
-                                        </tbody>
-                                    </table>
-                                </div>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Button variant="primary" size='lg' type='submit'>
+                                            Enregistrer
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+                            
+                        </div><br/>
+
+                        <div className="card">
+                            <div className="card-body">
+                                <Form className='col-lg-3'>
+                                    <Form.Group style={{display: 'flex'}}>
+                                        <Form.Select onChange={(e) => setFilter(e.target.value)}>
+                                            <option value='tout'>Tout</option>
+                                            <option value='nb_eleves'>Nombre d'élèves</option>
+                                            <option value='nom'>Nom</option>
+                                        </Form.Select>
+                                        <Button onClick={handleFilter} style={{marginLeft: '10px'}}>Appliquer</Button>
+                                    </Form.Group>
+                                </Form>
+                                <table id="example1" className="table table-striped">
+                                    <thead style={{overflowX: 'scroll'}}>
+                                        <tr>
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>#</th>
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Nom</th>
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Ecole</th>
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Type Classe</th>
+                                            {/* <th>Enseignant</th> */}
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Effectif</th>
+                                            <th style={{ textAlign: 'center', fontWeight: 'bold' }}>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {loading ?
+                                        <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
+                                        :
+                                        <>
+                                            {filteredClasses.map((classe, index) => (
+                                                <Classe key={index} num={index} classe={classe} delClasse={handleDeleteClasse} />
+                                            ))}
+                                        </>
+                                    }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </section>
-                </div>
-            </main>
-            <Footer />
-        </>
+                    </div>
+                </section>
+            </div>
+        </main>
     )
 }
 

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
-const Enseignant = ({ teacher, infoClasse }) => {
+const Enseignant = ({ teacher, num }) => {
 
     return (
         <tr>
+            <th style={{ textAlign: 'center' }}>{num+1}</th>
             <td style={{ textAlign: 'center' }}>{teacher.matricule}</td>
             <td style={{ textAlign: 'center' }}>{teacher.nom}</td>
             <td style={{ textAlign: 'center' }}>{teacher.prenom}</td>

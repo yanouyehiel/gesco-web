@@ -7,6 +7,7 @@ import Auth from "../contexts/Auth";
 import { logout } from "../services/AuthApi";
 import { getDocumentsAsked } from "../services/MainControllerApi";
 import { getTimeElapsed } from "../utils/functions";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const data = getItem('gescoUser') || '{}'
@@ -24,16 +25,16 @@ const Header = () => {
     getDocuments()
     getMessagesEcole()
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
+  }, [user.role_id])
 
   async function deconnexion() {
+    toast('Déconnexion en cours...')
     await logout().then(() => {
-      setIsAuthenticated(false)
       setTimeout(() => {
-        navigate('/login')
-      }, 2000);
+        window.location.replace('/login')
+      }, 4000);
     }, (err) => {
-      console.log(err)
+      toast.error(err.message)
     }) 
   }
 
@@ -133,7 +134,7 @@ const Header = () => {
             {messages.slice(0, 5).map((mes, i) => (
               <div key={i}>
                 <li className="message-item">
-                  <Link to="#">
+                  <Link to="/messagerie">
                     {/* <img src="assets/img/messages-1.jpg" alt="" className="rounded-circle" /> */}
                     <div>
                       <h4>{`${mes.nom_emetteur} ${mes.prenom_emetteur}`}</h4>
@@ -175,7 +176,7 @@ const Header = () => {
             <li>
               <Link className="dropdown-item d-flex align-items-center" to="/profil">
                 <i className="bi bi-person"></i>
-                <span>My Profile</span>
+                <span>Mon Profil</span>
               </Link>
             </li>
             <li>
@@ -185,7 +186,7 @@ const Header = () => {
             <li>
               <Link className="dropdown-item d-flex align-items-center" to="/profil">
                 <i className="bi bi-gear"></i>
-                <span>Account Settings</span>
+                <span>Paramètres du compte</span>
               </Link>
             </li>
             <li>
@@ -195,7 +196,7 @@ const Header = () => {
             <li>
               <Link className="dropdown-item d-flex align-items-center" to="/help">
                 <i className="bi bi-question-circle"></i>
-                <span>Need Help?</span>
+                <span>Besoin d'aide ?</span>
               </Link>
             </li>
             <li>

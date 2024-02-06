@@ -1,4 +1,5 @@
-//import AxiosApi from "../services/AxiosApi";
+import { getItem, removeItem } from "../services/LocalStorage";
+import { toast } from "react-toastify";
 
 export function dateParser(date) {
     let newDate = new Date(date).toLocaleDateString('fr-FR', {
@@ -32,11 +33,28 @@ export function getTimeElapsed(dateStr) {
     const minutesPerHour = 60;
     const hoursPerDay = 24;
   
-    const milliseconds = Math.floor(timeElapsed % millisecondsPerSecond);
-    const seconds = Math.floor((timeElapsed / millisecondsPerSecond) % secondsPerMinute);
+    //const milliseconds = Math.floor(timeElapsed % millisecondsPerSecond);
+    //const seconds = Math.floor((timeElapsed / millisecondsPerSecond) % secondsPerMinute);
     const minutes = Math.floor((timeElapsed / (millisecondsPerSecond * secondsPerMinute)) % minutesPerHour);
     const hours = Math.floor((timeElapsed / (millisecondsPerSecond * secondsPerMinute * minutesPerHour)) % hoursPerDay);
     const days = Math.floor(timeElapsed / (millisecondsPerSecond * secondsPerMinute * minutesPerHour * hoursPerDay));
   
     return `${days}jour ${hours}h ${minutes}min`
+}
+
+export function verifyUser({ isAuthenticated, setIsAuthenticated }) {
+    const user = JSON.parse(getItem('gescoUser') || '{}')
+    
+    if (!isAuthenticated) {
+        window.location.replace('/login')
+    } else {
+        if (user.bloque === 1) {
+            toast.error('Veuillez vous acquiter de votre paiement mensuel')
+            setTimeout(() => {
+                removeItem('gescoUser')
+                setIsAuthenticated(false)
+                window.location.replace('/login')
+            }, 8000)
+        }      
+    }
 }

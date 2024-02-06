@@ -1,12 +1,14 @@
 import React from 'react'
+import { dateParser } from '../utils/functions';
 
-const Event = () => {
+const Event = ({event, num}) => {
     return(
         <tr>
-            <td>1</td>
-            <td>Fete de la jeunesse</td>
-            <td>9 Fevrier 2023</td>
-            <td>13 Fevrier 2023</td>
+            <td>{num+1}</td>
+            <td>{event.intitule}</td>
+            <td>{event.description}</td>
+            <td>{dateParser(event.date_debut)}</td>
+            <td>{dateParser(event.date_fin)}</td>
         </tr>
     )
 }

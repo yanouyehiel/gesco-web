@@ -60,6 +60,11 @@ export async function getAllEmployes(id) {
     return response.data;
 }
 
+export async function getInfoEcole(id) {
+    const response = await AxiosApi.get('/get-ecole/' + id);
+    return response.data;
+}
+
 export async function addEcole(ecole) {
     const response = await AxiosApi.post('/add-ecole', ecole);
     return response.data;
@@ -123,4 +128,34 @@ export async function validateRequest(id) {
 export async function getMessages(id) {
     const response = await AxiosApi.get('/get-messages/' + id);
     return response.data;
+}
+
+export async function getEvents(id) {
+    const response = await AxiosApi.get('/get-events/' + id);
+    return response.data;
+}
+
+export async function addEvent(event) {
+    const response = await AxiosApi.post('/add-event', event);
+    return response.data;
+}
+
+export async function addCalendar(data) {
+    const response = await AxiosApi.post('/add-calendar', data);
+    return response.data;
+}
+
+export async function getCalendars(id) {
+    const response = await AxiosApi.get('/get-calendars/' + id);
+    return response.data;
+}
+
+export async function updateCalendar(data) {
+    const response = await AxiosApi.put('/update-calendar', data)
+    return response.data
+}
+
+export async function deleteCalendar(id) {
+    const response = await AxiosApi.delete('/delete-calendar/' + id)
+    return response.data
 }

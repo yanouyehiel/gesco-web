@@ -1,15 +1,15 @@
-import Header from "../components/Header";
 import InfoPage from "../components/InfoPage";
-import Sidenav from "../components/Sidenav";
 import { Modal, Button, Form } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import Footer from "../components/Footer";
+import { useEffect, useState, useContext } from "react";
 import { getEcoleStored } from "../services/LocalStorage";
 import { getStudents } from "../services/StudentController";
 import { askDocument, getDocumentsAsked } from "../services/MainControllerApi";
 import { toast, ToastContainer } from "react-toastify";
 import { ClipLoader } from "react-spinners";
 import Document from "../components/Document";
+import { verifyUser } from "../utils/functions";
+import Auth from "../contexts/Auth";
+
 
 const Documents = () => {
     const [show, setShow] = useState(false);
@@ -21,6 +21,7 @@ const Documents = () => {
     const [doc, setDoc] = useState({})
     const [documents, setDocuments] = useState([])
     const [loading, setLoading] = useState(true)
+    const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
 
     const handleShowNotes = () => setShow(true);
     const handleShowBulletin = () => setShowBulletin(true);
@@ -34,8 +35,8 @@ const Documents = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        doc.ecole_id = ecole_id
-
+        doc.ecole_id = ecole_id       
+        setLoading(true)
         if (show) {
             doc.intitule = "Requête d'un rélevé de notes"
         } else if (showBulletin) {
@@ -57,9 +58,7 @@ const Documents = () => {
             } else if (showC) {
                 handleCloseC()
             }
-            setTimeout(() => {
-                window.location.reload()
-            }, 2000)
+            getDocuments().then(() => setLoading(false))
         }, (error) => {
             toast.error(error.message)
         })
@@ -77,267 +76,263 @@ const Documents = () => {
     }
 
     useEffect(() => {
+        verifyUser({isAuthenticated, setIsAuthenticated})
         getStudents(ecole_id).then((res) => setStudents(res))
         getDocuments().then(() => setLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [ecole_id])
 
     return(
-        <>
-            <Header />
-            <Sidenav />
-            <main id="main" className="main">
-                <InfoPage title='Gestion des documents scolaires' link='Demander un document' />
-                <ToastContainer />
+        <main id="main" className="main">
+            <InfoPage title='Gestion des documents scolaires' link='Demander un document' />
+            <ToastContainer />
 
-                <br />
-                <section className="section dashboard">
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="row">
-                                <div className="col-xxl-4 col-md-6" onClick={handleShowNotes} style={{cursor: 'pointer'}}>
-                                    <div className="card info-card sales-card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">Demander un rélevé de notes</h5>
+            <br />
+            <section className="section dashboard">
+                <div className="row">
+                    <div className="col-lg-12">
+                        <div className="row">
+                            <div className="col-xxl-4 col-md-6" onClick={handleShowNotes} style={{cursor: 'pointer'}}>
+                                <div className="card info-card sales-card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Demander un rélevé de notes</h5>
 
-                                            <div className="d-flex align-items-center">
-                                                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i className="bi bi-journal-text"></i>
-                                                </div>
-                                                <div className="ps-3">
-                                                    <h6>Rélevé de notes</h6>
-                                                    <span className="text-success small pt-1 fw-bold">Disponible</span>
+                                        <div className="d-flex align-items-center">
+                                            <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i className="bi bi-journal-text"></i>
+                                            </div>
+                                            <div className="ps-3">
+                                                <h6>Rélevé de notes</h6>
+                                                <span className="text-success small pt-1 fw-bold">Disponible</span>
 
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <Modal show={show} onHide={handleClose}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Vous désirez un rélevé de notes</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
-                                                <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    <option>2022-2023</option>
-                                                    <option>2023-2024</option>
-                                                    <option>2021-2022</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
-                                                <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    {students.length > 0 &&
-                                                        students.map((student, i) => (
-                                                            <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Demander
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal>
-
-                                <div className="col-xxl-4 col-md-6" onClick={handleShowBulletin} style={{cursor: 'pointer'}}>
-                                    <div className="card info-card sales-card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">Demander un bulletin de notes</h5>
-
-                                            <div className="d-flex align-items-center">
-                                                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i className="bi bi-journal-text"></i>
-                                                </div>
-                                                <div className="ps-3">
-                                                    <h6>Bulletin de notes</h6>
-                                                    <span className="text-success small pt-1 fw-bold">Disponible</span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <Modal show={showBulletin} onHide={handleCloseB}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Vous désirez un bulletin de notes</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
-                                                <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    <option>2022-2023</option>
-                                                    <option>2023-2024</option>
-                                                    <option>2021-2022</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
-                                                <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    {students.length > 0 &&
-                                                        students.map((student, i) => (
-                                                            <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Demander
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal>
-
-                                <div className="col-xxl-4 col-md-6" style={{cursor: 'pointer'}} onClick={handleShowSortie}>
-                                    <div className="card info-card sales-card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">Demander une autorisation de sortie</h5>
-
-                                            <div className="d-flex align-items-center">
-                                                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i className="bi bi-journal-text"></i>
-                                                </div>
-                                                <div className="ps-3">
-                                                    <h6>Autorisation de sortie</h6>
-                                                    <span className="text-success small pt-1 fw-bold">Disponible</span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <Modal show={showSortie} onHide={handleCloseS}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Vous désirez une autorisation de sortie</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
-                                                <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    <option>2022-2023</option>
-                                                    <option>2023-2024</option>
-                                                    <option>2021-2022</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
-                                                <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    {students.length > 0 &&
-                                                        students.map((student, i) => (
-                                                            <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Demander
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal>
-
-                                <div className="col-xxl-4 col-md-6" style={{cursor: 'pointer'}} onClick={handleShowC}>
-                                    <div className="card info-card sales-card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">Demander un certificat de scolarité</h5>
-
-                                            <div className="d-flex align-items-center">
-                                                <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                                    <i className="bi bi-journal-text"></i>
-                                                </div>
-                                                <div className="ps-3">
-                                                    <h6>Certificat de scolarité</h6>
-                                                    <span className="text-success small pt-1 fw-bold">Disponible</span>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <Modal show={showC} onHide={handleCloseC}>
-                                    <Modal.Header closeButton>
-                                        <Modal.Title>Vous désirez un certificat de scolarité</Modal.Title>
-                                    </Modal.Header>
-                                    <Modal.Body>
-                                        <Form onSubmit={handleSubmit}>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
-                                                <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    <option>2022-2023</option>
-                                                    <option>2023-2024</option>
-                                                    <option>2021-2022</option>
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <Form.Group className="form-group mt-4">
-                                                <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
-                                                <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
-                                                    <option>-- select --</option>
-                                                    {students.length > 0 &&
-                                                        students.map((student, i) => (
-                                                            <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
-                                                        ))
-                                                    }
-                                                </Form.Select>
-                                            </Form.Group>
-                                            <br/>
-                                            <Button variant="primary" size='lg' type='submit'>
-                                                Demander
-                                            </Button>
-                                        </Form>
-                                    </Modal.Body>
-                                </Modal>
                             </div>
+                            <Modal show={show} onHide={handleClose}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Vous désirez un rélevé de notes</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
+                                            <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                <option>2022-2023</option>
+                                                <option>2023-2024</option>
+                                                <option>2021-2022</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
+                                            <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                {students.length > 0 &&
+                                                    students.map((student, i) => (
+                                                        <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
+                                                    ))
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Button variant="primary" size='lg' type='submit'>
+                                            Demander
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
 
-                            <div className="card">
-                                <h3 className="text-center pt-4 pb-2 text-danger">LISTE DES DOCUMENTS DEMANDES</h3>
-                                <div className="card-body">
-                                    <table id="example1" className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>#</th>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Année Scolaire</th>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Intitulé</th>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Demandeur</th>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Date de demande</th>
-                                                <th style={{ textAlign: 'center', fontSize: '18px' }}>Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        {documents.length === 0 && loading ?
-                                            <ClipLoader color="#333" />
-                                            :
-                                            <>
-                                                {documents.map((doc, index) => (
-                                                    <Document key={index} doc={doc} />
-                                                ))}
-                                            </>
-                                        }
-                                        </tbody>
-                                    </table>
+                            <div className="col-xxl-4 col-md-6" onClick={handleShowBulletin} style={{cursor: 'pointer'}}>
+                                <div className="card info-card sales-card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Demander un bulletin de notes</h5>
+
+                                        <div className="d-flex align-items-center">
+                                            <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i className="bi bi-journal-text"></i>
+                                            </div>
+                                            <div className="ps-3">
+                                                <h6>Bulletin de notes</h6>
+                                                <span className="text-success small pt-1 fw-bold">Disponible</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <Modal show={showBulletin} onHide={handleCloseB}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Vous désirez un bulletin de notes</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
+                                            <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                <option>2022-2023</option>
+                                                <option>2023-2024</option>
+                                                <option>2021-2022</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
+                                            <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                {students.length > 0 &&
+                                                    students.map((student, i) => (
+                                                        <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
+                                                    ))
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Button variant="primary" size='lg' type='submit'>
+                                            Demander
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+
+                            <div className="col-xxl-4 col-md-6" style={{cursor: 'pointer'}} onClick={handleShowSortie}>
+                                <div className="card info-card sales-card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Demander une autorisation de sortie</h5>
+
+                                        <div className="d-flex align-items-center">
+                                            <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i className="bi bi-journal-text"></i>
+                                            </div>
+                                            <div className="ps-3">
+                                                <h6>Autorisation de sortie</h6>
+                                                <span className="text-success small pt-1 fw-bold">Disponible</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Modal show={showSortie} onHide={handleCloseS}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Vous désirez une autorisation de sortie</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
+                                            <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                <option>2022-2023</option>
+                                                <option>2023-2024</option>
+                                                <option>2021-2022</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
+                                            <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                {students.length > 0 &&
+                                                    students.map((student, i) => (
+                                                        <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
+                                                    ))
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Button variant="primary" size='lg' type='submit'>
+                                            Demander
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+
+                            <div className="col-xxl-4 col-md-6" style={{cursor: 'pointer'}} onClick={handleShowC}>
+                                <div className="card info-card sales-card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">Demander un certificat de scolarité</h5>
+
+                                        <div className="d-flex align-items-center">
+                                            <div className="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                                <i className="bi bi-journal-text"></i>
+                                            </div>
+                                            <div className="ps-3">
+                                                <h6>Certificat de scolarité</h6>
+                                                <span className="text-success small pt-1 fw-bold">Disponible</span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <Modal show={showC} onHide={handleCloseC}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>Vous désirez un certificat de scolarité</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    <Form onSubmit={handleSubmit}>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
+                                            <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                <option>2022-2023</option>
+                                                <option>2023-2024</option>
+                                                <option>2021-2022</option>
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <Form.Group className="form-group mt-4">
+                                            <Form.Label className="control-label">Sélectionner l'élève</Form.Label>
+                                            <Form.Select className="form-control" name="student_id" onChange={handleChange} required>
+                                                <option>-- select --</option>
+                                                {students.length > 0 &&
+                                                    students.map((student, i) => (
+                                                        <option key={i} value={student.id}>{student.nom +' '+ student.prenom}</option>
+                                                    ))
+                                                }
+                                            </Form.Select>
+                                        </Form.Group>
+                                        <br/>
+                                        <Button variant="primary" size='lg' type='submit'>
+                                            Demander
+                                        </Button>
+                                    </Form>
+                                </Modal.Body>
+                            </Modal>
+                        </div>
+
+                        <div className="card">
+                            <h3 className="text-center pt-4 pb-2 text-danger">LISTE DES DOCUMENTS DEMANDES</h3>
+                            <div className="card-body">
+                                <table id="example1" className="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>#</th>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>Année Scolaire</th>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>Intitulé</th>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>Demandeur</th>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>Date de demande</th>
+                                            <th style={{ textAlign: 'center', fontSize: '18px' }}>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {loading ?
+                                        <ClipLoader color="#333" />
+                                        :
+                                        <>
+                                            {documents.map((doc, index) => (
+                                                <Document key={index} doc={doc} />
+                                            ))}
+                                        </>
+                                    }
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </section>
-            </main>
-            <Footer />
-        </>
+                </div>
+            </section>
+        </main>
     )
 }
 

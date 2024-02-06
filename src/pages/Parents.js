@@ -1,29 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import Header from "../components/Header";
-import Sidenav from "../components/Sidenav";
+import React, { useState, useEffect, useContext } from 'react'
 import InfoPage from "../components/InfoPage";
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import Parent from '../components/Parent';
 import { Modal, Form, Button } from 'react-bootstrap';
-import Footer from '../components/Footer';
 import { getEcoleStored } from '../services/LocalStorage';
 import { getAllParentsSchool } from '../services/MainControllerApi';
+import { getStudents } from '../services/StudentController';
+import { ToastContainer, toast } from 'react-toastify';
+import { addPersonne } from '../services/MainControllerApi';
+import Auth from '../contexts/Auth';
+import { verifyUser } from "../utils/functions";
+
 
 const Parents = () => {
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
     const [show, setShow] = useState(false)
     const [parents, setParents] = useState([])
+    const [students, setStudents] = useState([])
     const ecole_id = getEcoleStored()
+    const [parent, setParent] = useState({})
+    const { isAuthenticated, setIsAuthenticated } = useContext(Auth)
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => {
-        setLoading(true)
+        verifyUser({isAuthenticated, setIsAuthenticated})
         getParents()
-        setLoading(false)
+        getAllStudents().then(() => setLoading(false))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    const handleChange = ({currentTarget}) => {
+        const {name, value} = currentTarget;
+        setParent({...parent, [name]: value})
+    }
 
     async function getParents() {
         await getAllParentsSchool(ecole_id).then((res) => {
@@ -31,19 +43,35 @@ const Parents = () => {
         })
     }
 
+    async function getAllStudents() {
+        await getStudents(ecole_id).then((res) => setStudents(res))
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Submit')
-        setShow(false);
+        setLoading(true)
+        if (parent.password === parent.cpassword) {
+            parent.ecole_id = ecole_id
+            parent.role_id = 3
+            parent.student_id = parseInt(parent.student_id)
+            console.log(parent)
+
+            addPersonne(parent).then((res) => {
+                setShow(false);
+                toast(res)
+                getParents(() => setLoading(false))
+            })
+        } else {
+            toast('Les mots de passe ne sont pas identiques')
+        }
+        
     }
 
 
     return(
-        <>
-        <Header />
-        <Sidenav />
         <main id="main" className="main">
             <InfoPage title="Gérer les parents d'eleves" link="Mes parents d'eleves" />
+            <ToastContainer />
 
             <br />
             <section className="section dashboard">
@@ -63,34 +91,35 @@ const Parents = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Nom</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="" />
+                                            <Form.Control type="text" className="form-control" name='nom' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Prénom</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="" />
+                                            <Form.Control type="text" className="form-control" name='prenom' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Adresse</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="" />
+                                            <Form.Control type="text" className="form-control" name='email' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Téléphone</Form.Label>
-                                            <Form.Control type="text" className="form-control" placeholder="" />
+                                            <Form.Control type="text" className="form-control" name='telephone' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Mot de passe</Form.Label>
-                                            <Form.Control type="password" className="form-control" placeholder="" />
+                                            <Form.Control type="password" className="form-control" name='password' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Confirmer le mot de passe</Form.Label>
-                                            <Form.Control type="password" className="form-control" placeholder="" />
+                                            <Form.Control type="password" className="form-control" name='cpassword' onChange={handleChange} required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Sélectionner son enfant</Form.Label>
-                                            <Form.Select className="form-control">
+                                            <Form.Select className="form-control" name='student_id' onChange={handleChange} required>
                                                 <option>-- select --</option>
-                                                <option>Yanou</option>
-                                                <option>Yehiel</option>
+                                                {students.map((stud, i) => (
+                                                    <option key={i} value={stud.id}>{`${stud.nom} ${stud.prenom}`}</option>
+                                                ))}
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
@@ -127,6 +156,7 @@ const Parents = () => {
                                         <table className="table table-borderless datatable">
                                             <thead>
                                                 <tr>
+                                                    <th style={{ textAlign: 'center' }}>#</th>
                                                     <th style={{ textAlign: 'center' }}>Matricule</th>
                                                     <th style={{ textAlign: 'center' }}>Nom</th>
                                                     <th style={{ textAlign: 'center' }}>Prenom</th>
@@ -141,7 +171,7 @@ const Parents = () => {
                                                     :
                                                     <>
                                                         {parents.map((parent, index) => (
-                                                            <Parent key={index} parent={parent} />
+                                                            <Parent key={index} parent={parent} num={index} />
                                                         ))}
                                                     </>
                                                 }
@@ -157,8 +187,6 @@ const Parents = () => {
                 </div>
             </section>
         </main>
-        <Footer />
-    </>
     )
 }
 

@@ -2,6 +2,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import CreateSchool from './pages/create/CreateSchool';
 import './assets/css/style.css';
+import './index.css';
 import './assets/js/main.js';
 import Notfound from './pages/Notfound';
 import ClassesList from './pages/ClassesList';

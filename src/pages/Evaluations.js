@@ -4,10 +4,12 @@ import Calendar from "../components/Calendar";
 import { ClipLoader} from 'react-spinners'
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Form, Modal } from "react-bootstrap";
 import { addCalendar, getCalendars } from "../services/MainControllerApi";
 import { ToastContainer, toast } from "react-toastify";
 import { getEcoleStored } from "../services/LocalStorage";
+import ButtonComponent from "../components/Button";
+
 
 const Evaluations = () => {
     const [loading, setLoading] = useState(true)
@@ -58,7 +60,7 @@ const Evaluations = () => {
                     <div className="col-lg-12">
                         <h1 className="text-center text-danger">CALENDRIER SCOLAIRE</h1>
                         <div className='container'>
-                            <Button onClick={handleShow} style={{marginBottom: '10px'}}>Ajouter</Button>
+                            <ButtonComponent mb='10px' onClick={handleShow}>Ajouter une date</ButtonComponent>
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Ajouter à votre calendrier</Modal.Title>
@@ -73,9 +75,7 @@ const Evaluations = () => {
                                             <Form.Label>Entrer la date</Form.Label>
                                             <Form.Control type="text" name="date" onChange={handleChange} />
                                         </Form.Group>
-                                        <Button variant="primary" type='submit' className="mt-3">
-                                            Enregistrer
-                                        </Button>
+                                        <ButtonComponent type='submit' mt='20px'>Enregistrer</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>

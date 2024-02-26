@@ -1,5 +1,4 @@
 import InfoPage from "../../components/InfoPage"
-import { Button } from "react-bootstrap"
 import { useNavigate, useParams } from "react-router-dom"
 import { useEffect, useState, useContext } from "react"
 import { ToastContainer, toast } from 'react-toastify'
@@ -7,6 +6,7 @@ import { deleteUser } from "../../services/UserController"
 import { getTeacher } from "../../services/EnseignementController"
 import { verifyUser } from "../../utils/functions";
 import Auth from "../../contexts/Auth";
+import ButtonComponent from "../../components/Button"
 
 
 const ViewEnseignant= () => {
@@ -101,9 +101,7 @@ const ViewEnseignant= () => {
                         </div>
                     </div>
                 </div>
-                <Button variant="primary" onClick={handleClick}>
-                    Supprimer ce maître
-                </Button>
+                <ButtonComponent onClick={handleClick}>Supprimer ce maître</ButtonComponent>
             </section>
         </main>
     )

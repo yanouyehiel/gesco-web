@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { dateParser } from "../utils/functions";
 
 const Student = ({ student, num }) => {   
 
@@ -9,11 +8,11 @@ const Student = ({ student, num }) => {
             <td style={{ textAlign: 'center' }}>{student.matricule}</td>
             <td style={{ textAlign: 'center' }}>{student.nom}</td>
             <td style={{ textAlign: 'center' }}>{student.prenom}</td>
-            <td style={{ textAlign: 'center' }}>{dateParser(student.date_naissance)}</td>
-            <td style={{ textAlign: 'center' }}>{student.lieu_naissance}</td>
+            <td style={{ textAlign: 'center' }}>{student.date_naissance}</td>
+            <td style={{ textAlign: 'center' }}>{student.nom_classe}</td>
             <td style={{ textAlign: 'center' }}>{student.sexe}</td>
             <td style={{ textAlign: 'center' }} className="text-blue">
-                <Link to={'/students/' + student.id}><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
+                <Link to={'/students/' + student.id} style={{color: '#009AD7'}}><i className="fa-solid fa-pen-to-square"></i> Consulter</Link>
             </td>
         </tr>
     )

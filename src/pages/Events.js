@@ -7,6 +7,7 @@ import { addEvent, getEvents } from '../services/MainControllerApi'
 import { getEcoleStored } from '../services/LocalStorage'
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
+import ButtonComponent from '../components/Button'
 
 
 const Events = () => {
@@ -35,9 +36,12 @@ const Events = () => {
         e.preventDefault()
         event.ecole_id = ecole_id
         setLoading(true)
+        setEvent({})
         addEvent(event).then((res) => {
             toast(res)
-            getAllEvents(() => setLoading(false))
+            getAllEvents((res) => {
+                setEvents(res)
+            })
         })
     }
 
@@ -71,7 +75,8 @@ const Events = () => {
                                         <label class="control-label">Date de fin</label>
                                         <input type="date" class="form-control" name='date_fin' onChange={handleChange} required />
                                     </div>
-                                    <input type="submit" class="form-control mt-3 btn btn-primary mb-5" value="Enregistrer" />
+                                    
+                                    <ButtonComponent type="submit" className='form-control btn-block' mt='30px' mb='50px'>Enregistrer</ButtonComponent>
                                 </form>
                             </div>
                             <div className="col-lg-6">
@@ -93,7 +98,7 @@ const Events = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {loading ?
+                                            {loading && events.length === 0 ?
                                                 <ClipLoader color="#333" />
                                                 :
                                                 <>

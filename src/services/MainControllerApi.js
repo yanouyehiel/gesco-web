@@ -159,3 +159,13 @@ export async function deleteCalendar(id) {
     const response = await AxiosApi.delete('/delete-calendar/' + id)
     return response.data
 }
+
+export async function addHoraire(data) {
+    const response = await AxiosApi.post('/add-horaire', data);
+    return response.data;
+}
+
+export async function getHoraires(id) {
+    const response = await AxiosApi.get('/get-horaires/' + id);
+    return response.data;
+}

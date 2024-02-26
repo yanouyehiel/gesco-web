@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { getItem } from "../services/LocalStorage";
 import { getMessages, getRole } from "../services/MainControllerApi";
-import { useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import Auth from "../contexts/Auth";
+import { useEffect, useState } from "react";
 import { logout } from "../services/AuthApi";
 import { getDocumentsAsked } from "../services/MainControllerApi";
 import { getTimeElapsed } from "../utils/functions";
@@ -12,8 +10,6 @@ import { toast } from "react-toastify";
 const Header = () => {
   const data = getItem('gescoUser') || '{}'
   const user = JSON.parse(data)
-  const navigate = useNavigate()
-  const { setIsAuthenticated } = useContext(Auth)
   const [role, setRole] = useState("")
   const [notifs, setNotifs] = useState([])
   const [messages, setMessages] = useState([])
@@ -55,8 +51,8 @@ const Header = () => {
 
     <div className="d-flex align-items-center justify-content-between">
       <Link to="/" className="logo d-flex align-items-center">
-        <img src="../assets/images/px1.png" alt="logo" />
-        <span className="d-none d-lg-block">Gesco</span>
+        <img src="../assets/images/logo_sans_bg.png" alt="logo" />
+        <span className="d-none d-lg-block" style={{color: '#009AD7'}}>Gesco</span>
       </Link>
       <i className="bi bi-list toggle-sidebar-btn"></i>
     </div>
@@ -81,13 +77,13 @@ const Header = () => {
 
           <Link className="nav-link nav-icon" to="#" data-bs-toggle="dropdown">
             <i className="bi bi-bell"></i>
-            <span className="badge bg-primary badge-number">{notifs.length}</span>
+            <span className="badge badge-number" style={{backgroundColor: '#009AD7'}}>{notifs.length}</span>
           </Link>
 
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
             <li className="dropdown-header">
               Vous avez {notifs.length} nouvelles notifications
-              <Link to="/documents"><span className="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></Link>
+              <Link to="/documents"><span className="badge rounded-pill p-2 ms-2" style={{backgroundColor: '#009AD7'}}>Voir tout</span></Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
@@ -119,13 +115,14 @@ const Header = () => {
 
           <Link className="nav-link nav-icon" to="#" data-bs-toggle="dropdown">
             <i className="bi bi-chat-left-text"></i>
-            <span className="badge bg-success badge-number">{messages.length}</span>
+            <span className="badge badge-number" style={{backgroundColor: '#48BB8C'}}>{notifs.length}</span>
+            <span className="badge badge-number">{messages.length}</span>
           </Link>
 
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
             <li className="dropdown-header">
               Vous avez {messages.length} nouveaux messages
-              <Link to="/messagerie"><span className="badge rounded-pill bg-primary p-2 ms-2">Voir tout</span></Link>
+              <Link to="/messagerie"><span className="badge rounded-pill p-2 ms-2" style={{backgroundColor: '#48BB8C'}}>Voir tout</span></Link>
             </li>
             <li>
               <hr className="dropdown-divider" />
@@ -160,7 +157,7 @@ const Header = () => {
         <li className="nav-item dropdown pe-3">
 
           <Link className="nav-link nav-profile d-flex align-items-center pe-0" to="#" data-bs-toggle="dropdown">
-            <img src="../assets/images/px1.png" alt="Profile" className="rounded-circle" />
+            <img src="../assets/images/logo_sans_bg.png" alt="Profile" className="rounded-circle" />
             <span className="d-none d-md-block dropdown-toggle ps-2">{user.nom}</span>
           </Link>
 

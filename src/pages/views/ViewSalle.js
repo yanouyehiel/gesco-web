@@ -11,6 +11,7 @@ import { getStudentsOfClasse } from "../../services/EnseignementController";
 import { infoClasse } from "../../services/MainControllerApi";
 import { verifyUser } from "../../utils/functions";
 import Auth from "../../contexts/Auth";
+import ButtonComponent from "../../components/Button";
 
 const ViewSalle = () => {
     const { numSalle } = useParams();
@@ -21,6 +22,10 @@ const ViewSalle = () => {
     const ecole_id = getEcoleStored()
     const [student, setStudent] = useState({})
     const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+    const [filter, setFilter] = useState("")
+    const [isFilteredNom, setIsFilteredNom] = useState(false)
+    const [isFilteredSexe, setIsFilteredSexe] = useState(false)
+    const [filteredStudents, setFilteredStudents] = useState([])
 
     async function getStudents() {
         await getStudentsOfClasse(numSalle, ecole_id).then((res) => {
@@ -65,6 +70,25 @@ const ViewSalle = () => {
         })
     };
 
+    function handleFilter(e) {
+        e.preventDefault()
+        
+        if (filter === 'nom') {
+            setIsFilteredSexe(false)
+            setIsFilteredNom(true)
+            const studentsF = students.sort((a, b) => a.nom.localeCompare(b.nom))
+            setFilteredStudents(studentsF)
+        } else if (filter === 'sexe') {
+            setIsFilteredNom(false)
+            setIsFilteredSexe(true)
+            const studentsF = students.sort((a, b) => a.sexe.localeCompare(b.sexe))
+            setFilteredStudents(studentsF)
+        } else if (filter === 'tout') {
+            setIsFilteredNom(false)
+            setIsFilteredSexe(false)
+        }
+    }
+
     return (
         <main id="main" classNameName="main">
             <InfoPage title='Salle de classe' link={classe.nom} />
@@ -74,9 +98,7 @@ const ViewSalle = () => {
                 <section className="content mt-2 ">
                     <div className="container-fluid">
                         <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES ELEVES</h1>
-                        <Button variant='primary' onClick={handleShow}>
-                            Ajouter un élève
-                        </Button>
+                        <ButtonComponent onClick={handleShow}>Ajouter un élève</ButtonComponent>
 
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
@@ -117,36 +139,51 @@ const ViewSalle = () => {
                                         </Form.Select>
                                     </Form.Group>
                                     <br/>
-                                    <Button variant="primary" size='lg' type='submit'>
-                                        Enregistrer
-                                    </Button>
+                                    <ButtonComponent size='lg' type='submit'>Enregistrer</ButtonComponent>
                                 </Form>
                             </Modal.Body>
                         </Modal>
                     </div>
                 </section>
-
+                
                 <div className="mt-4">
-                    <table id="example1" className="table table-bordered table-striped">
+                    <Form className='col-lg-3' onSubmit={handleFilter}>
+                        <Form.Group style={{display: 'flex'}}>
+                            <Form.Select onChange={(e) => setFilter(e.target.value)} style={{minWidth: '200px'}}>
+                                <option value='tout'>Tout</option>
+                                <option value='nom'>Nom</option>
+                                <option value='sexe'>Sexe</option>
+                            </Form.Select>
+                            <ButtonComponent type="submit" ml='10px'>Appliquer</ButtonComponent>
+                        </Form.Group>
+                    </Form>
+                    <table id="example1" className="table table-bordered table-striped mt-2">
                         <thead>
                             <tr>
+                                <th style={{ textAlign: 'center' }}>#</th>
                                 <th style={{ textAlign: 'center' }}>Matricule</th>
                                 <th style={{ textAlign: 'center' }}>Nom</th>
                                 <th style={{ textAlign: 'center' }}>Prenom</th>
                                 <th style={{ textAlign: 'center' }}>Naissance</th>
-                                <th style={{ textAlign: 'center' }}>Lieu</th>
+                                <th style={{ textAlign: 'center' }}>Classe</th>
                                 <th style={{ textAlign: 'center' }}>Sexe</th>
                                 <th style={{ textAlign: 'center' }}>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                        {students.length === 0 && loading ?
-                            <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
+                        {loading && students.length === 0 ?
+                            <ClipLoader loading={true} color="#333" />
                             :
                             <>
-                                {students.map((student, index) => (
-                                    <Student key={index} student={student} />
-                                ))}
+                                {(isFilteredNom || isFilteredSexe) ?
+                                    filteredStudents.map((student, index) => (
+                                        <Student key={index} student={student} num={index} />
+                                    ))
+                                    :
+                                    students.map((student, index) => (
+                                        <Student key={index} student={student} num={index} />
+                                    ))
+                                }
                             </>
                         }
                         </tbody>

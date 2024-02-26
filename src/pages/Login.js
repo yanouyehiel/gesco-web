@@ -60,7 +60,7 @@ const Login = () => {
           <MDBCol sm='6'>
 
             <div className='flex-row hidden'>
-              <img src="../assets/images/px1.png" alt="Image_Login" />
+              <img src="../assets/images/logo_sans_bg.png" alt="Image_Login" />
             </div>
 
             <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
@@ -73,17 +73,17 @@ const Login = () => {
                 <MDBInput onChange={handleChange} name='email' wrapperClass='mb-4 mx-5 w-100' label='Email' type='email' size="lg"/>
                 <MDBInput onChange={handleChange} name='password' wrapperClass='mb-4 mx-5 w-100' label='Password' type='password' size="lg"/>
 
-                <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' color='info' size='lg'>Login</MDBBtn>
+                <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' style={{backgroundColor: '#009AD7'}} size='lg'>Login</MDBBtn>
               </form>
-              <p className="small mb-5 pb-lg-3 ms-5"><a class="text-muted" href="#!">Forgot password?</a></p>
-              <p className='ms-5'>Vous n'avez pas d'école ? <a href="/register" class="link-info">Créez votre établissement</a></p>
+              <p className="small mb-5 pb-lg-3 ms-5"><a class="text-muted link-success" href="#!">Mot de passe oublié ?</a></p>
+              <p className='ms-5'>Vous n'avez pas d'école ? <a href="/register" class="link-success">Créez votre établissement</a></p>
 
             </div>
 
           </MDBCol>
 
           <MDBCol sm='6' className='d-none d-sm-block px-0'>
-            <img src="../assets/images/px1.png"
+            <img src="../assets/images/logo_sans_bg.png"
               alt="Image_Login" className="w-100"
               style={{objectFit: 'cover', objectPosition: 'left'}} 
             />

@@ -6,10 +6,10 @@ import { Form, Button } from "react-bootstrap";
 import { ClipLoader } from 'react-spinners';
 import { infoClasse } from "../services/MainControllerApi";
 import { getCoursByClasse } from "../services/EnseignementController";
-//import { getEcoleStored } from "../services/LocalStorage";
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
 import { ToastContainer } from "react-toastify";
+import ButtonComponent from '../components/Button'
 
 
 const Enseignement = () => {
@@ -19,6 +19,10 @@ const Enseignement = () => {
     const [classe, setClasse] = useState({})
     //const ecole_id = getEcoleStored()
     const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+    const [filter, setFilter] = useState("")
+    const [isFilteredDate, setIsFilteredDate] = useState(false)
+    const [isFilteredMatiere, setIsFilteredMatiere] = useState(false)
+    const [filteredCours, setFilteredCours] = useState([])
 
     useEffect(() => {
         verifyUser({isAuthenticated, setIsAuthenticated})
@@ -41,6 +45,19 @@ const Enseignement = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        
+        if (filter === "date") {
+            setIsFilteredDate(true)
+            const coursF = cours.sort((a, b) => a.created_at.localeCompare(b.created_at))
+            setFilteredCours(coursF)
+        } else if (filter === "matiere") {
+            setIsFilteredMatiere(true)
+            const coursF = cours.sort((a, b) => a.nom_matiere.localeCompare(b.nom_matiere))
+            setFilteredCours(coursF)
+        } else if (filter === "") {
+            setIsFilteredDate(false)
+            setIsFilteredMatiere(false)
+        }
     }
     
     return(
@@ -57,19 +74,16 @@ const Enseignement = () => {
                                 <div className="row">
                                     <div className="col-lg-6">
                                         <Form.Group className="form-group mt-4">
-                                            <Form.Select className="form-control">
-                                                <option>-- select --</option>   
-                                                <option>Aujourd'hui</option>
-                                                <option>Par matière</option>
-                                                <option>Par salle</option>
+                                            <Form.Select className="form-control" onChange={(e) => setFilter(e.target.value)}>
+                                                <option value="">-- select --</option>   
+                                                <option value="date">Par date</option>
+                                                <option value="matiere">Par matière</option>
                                             </Form.Select>
                                         </Form.Group>
                                     </div>
                                     <div className="col-lg-6">
                                         <Form.Group className="form-group mt-4">
-                                            <Button variant="primary" type='submit'>
-                                                Appliquer
-                                            </Button>
+                                            <ButtonComponent type='submit'>Appliquer</ButtonComponent>
                                         </Form.Group>
                                     </div>
                                 </div>
@@ -80,9 +94,14 @@ const Enseignement = () => {
                                     <ClipLoader color="#333" cssOverride={{alignItems: 'center !important', justifyContent: 'center !important'}} />
                                     :
                                     <>
-                                        {cours.map((cour, i) => (
-                                            <Cours key={i} cour={cour} classe={classe.nom} />
-                                        ))}
+                                        {(isFilteredDate || isFilteredMatiere) ?
+                                            filteredCours.map((cour, i) => (
+                                                <Cours key={i} cour={cour} classe={classe.nom} />
+                                            )) :
+                                            cours.map((cour, i) => (
+                                                <Cours key={i} cour={cour} classe={classe.nom} />
+                                            ))
+                                        }
                                     </>
                                 }
                             </div>

@@ -3,7 +3,7 @@ import InfoPage from "../components/InfoPage";
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import Parent from '../components/Parent';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { getEcoleStored } from '../services/LocalStorage';
 import { getAllParentsSchool } from '../services/MainControllerApi';
 import { getStudents } from '../services/StudentController';
@@ -11,6 +11,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { addPersonne } from '../services/MainControllerApi';
 import Auth from '../contexts/Auth';
 import { verifyUser } from "../utils/functions";
+import ButtonComponent from '../components/Button';
 
 
 const Parents = () => {
@@ -79,13 +80,11 @@ const Parents = () => {
                     <div className="col-lg-12">
                         <h1 className="text-center text-danger">Tous les parents</h1>
                         <div className="container">
-                            <Button variant="primary" onClick={handleShow}>
-                                Ajouter un parent d'eleve
-                            </Button>
+                            <ButtonComponent onClick={handleShow}>Ajouter un parent d'élève</ButtonComponent>
 
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
-                                    <Modal.Title>Enregistrement d'un parent d'eleve</Modal.Title>
+                                    <Modal.Title>Enregistrement d'un parent d'élève</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                     <Form onSubmit={handleSubmit}>
@@ -123,9 +122,7 @@ const Parents = () => {
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
-                                        <Button variant="primary" type='submit'>
-                                            Créer profil
-                                        </Button>
+                                        <ButtonComponent type='submit'>Créer profil</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react'
 
-const RecapEnseignement = () => {
-    return(
-        <></>
-    )
+function RecapEnseignement() {
+  return (
+    <div>RecapEnseignement</div>
+  )
 }
 
-export default RecapEnseignement;
+export default RecapEnseignement

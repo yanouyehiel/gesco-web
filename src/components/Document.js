@@ -1,7 +1,7 @@
-import { Button } from "react-bootstrap"
 import { dateParser } from "../utils/functions"
 import { validateRequest } from "../services/MainControllerApi"
 import { toast } from "react-toastify"
+import ButtonComponent from "./Button"
 
 const Document = ({doc}) => {
 
@@ -24,7 +24,7 @@ const Document = ({doc}) => {
             <td style={{ textAlign: 'center' }}>{`${doc.nom_student} ${doc.prenom_student}`}</td>
             <td style={{ textAlign: 'center' }}>{dateParser(doc.created_at)}</td>
             <td style={{ textAlign: 'center' }}>
-                <Button variant="primary" onClick={() => validate(doc.id)}>Valider</Button>
+                <ButtonComponent onClick={() => validate(doc.id)}>Valider</ButtonComponent>
             </td>
         </tr>
     )

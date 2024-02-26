@@ -13,7 +13,7 @@ const Presence = ({absence}) => {
                             <i className="bi bi-layout-text-window-reverse"></i>
                         </div>
                         <div className="ps-3">
-                            <h6 style={{fontSize: '17px'}}>{absence.nom_student +' '+ absence.prenom_student}</h6>
+                            <h6 style={{fontSize: '17px', color: '#009AD7'}}>{absence.nom_student +' '+ absence.prenom_student}</h6>
                             <span className="text-danger pt-1 fw-bold"> Absent</span>
                         </div>
                     </div>

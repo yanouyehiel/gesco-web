@@ -45,7 +45,7 @@ const Register = () => {
             <div className="col-lg-6">
 
               <div className='flex-row hidden'>
-                <img src="../assets/images/px1.png" alt="Image_Login" />
+                <img src="../assets/images/logo_sans_bg.png" alt="Image_Login" />
               </div>
 
               <div className='d-flex flex-column justify-content-center h-custom-2 w-75 pt-4'>
@@ -75,18 +75,18 @@ const Register = () => {
                     </Form.Select>
                   </Form.Group>
                   <Form.Group className="form-group mt-4">
-                    <MDBBtn className="mb-4 w-100" type='submit' color='info' size='lg'>Créer l'école</MDBBtn>
+                    <MDBBtn className="mb-4 w-100" type='submit' style={{backgroundColor: '#009AD7'}} size='lg'>Créer l'école</MDBBtn>
                   </Form.Group>
                 </form>
 
-                <p className='ms-0'>Déjà membre ? <a href="/login" class="link-info">Se connecter</a></p>
+                <p className='ms-0'>Déjà membre ? <a href="/login" class="link-success">Se connecter</a></p>
 
               </div>
 
             </div>
 
             <div className="col-lg-6 right-side">
-              <img src="../assets/images/px1.png"
+              <img src="../assets/images/logo_sans_bg.png"
                 alt="Image_Login" className="w-100"
                 style={{objectFit: 'cover', objectPosition: 'left'}} 
               />

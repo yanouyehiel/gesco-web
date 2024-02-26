@@ -8,6 +8,7 @@ import { addPaiement, getPaiementSchool } from "../services/MainControllerApi";
 import { getEcoleStored } from "../services/LocalStorage";
 import Paiement from "../components/Paiement";
 import { getStudents } from "../services/StudentController";
+import ButtonComponent from "../components/Button";
 
 
 const Inscription = () => {
@@ -17,6 +18,10 @@ const Inscription = () => {
     const [paiements, setPaiements] = useState([])
     const [students, setStudents] = useState([])
     const ecole_id = getEcoleStored()
+    const [isFilteredNom, setIsFilteredNom] = useState(false)
+    const [isFilteredDesignation, setIsFilteredDesignation] = useState(false)
+    //const [filter, setFilter] = useState("")
+    const [filteredPaiements, setFilteredPaiements] = useState([])
 
     useEffect(() => {
         getStudentsSchool() 
@@ -46,13 +51,25 @@ const Inscription = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setShow(false);
         setLoading(true)
         paiement.ecole_id = ecole_id
         await addPaiement(paiement).then((res) => {
-            setShow(false);
             toast(res)
             getPaiements().then(() => setLoading(false)) 
         })  
+    }
+
+    const handleFilter = (filter) => {
+        if (filter === 'designation') {
+            setIsFilteredDesignation(true)
+            const paiementsF = paiements.sort((a, b) => a.intitule.localeCompare(b.intitule))
+            setFilteredPaiements(paiementsF)
+        } else if (filter === 'nom') {
+            setIsFilteredNom(true)
+            const paiementsF = paiements.sort((a, b) => a.nom_student.localeCompare(b.nom_student))
+            setFilteredPaiements(paiementsF)
+        }
     }
 
     return (
@@ -65,9 +82,8 @@ const Inscription = () => {
                 <div className="row">
                     <div className="col-lg-12">
                         <h1 className="text-center text-danger">GERER LES INSCRIPTIONS</h1>
-                        <Button variant="primary" onClick={handleShow}>
-                            Enregistrer un paiement
-                        </Button><br /><br />
+                        <ButtonComponent onClick={handleShow}>Enregistrer un paiement</ButtonComponent>
+                        <br /><br />
                         <div className="row">
 
                             <Modal show={show} onHide={handleClose}>
@@ -94,9 +110,7 @@ const Inscription = () => {
                                             <Form.Control onChange={handleChange} className="form-control" name="montant" />
                                         </Form.Group>
                                         <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
-                                            Enregistrer
-                                        </Button>
+                                        <ButtonComponent size='lg' type='submit'>Enregistrer</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -110,10 +124,8 @@ const Inscription = () => {
                                                 <h6>Filtre</h6>
                                             </li>
 
-                                            <li><Link className="dropdown-item" to="#">Nom d'eleve</Link></li>
-                                            <li><Link className="dropdown-item" to="#">Salle de classe</Link></li>
-                                            <li><Link className="dropdown-item" to="#">Tranche payee</Link></li>
-                                            <li><Link className="dropdown-item" to="#">Tout paye</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("nom")}>Nom d'eleve</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("designation")}>Designation</Link></li>
                                         </ul>
                                     </div>
 
@@ -137,9 +149,15 @@ const Inscription = () => {
                                                     <ClipLoader color="#333" />
                                                 :
                                                 <>
-                                                    {paiements.map((paiement, i) => (
-                                                        <Paiement key={i} paiement={paiement} />
-                                                    ))}
+                                                    {(isFilteredNom || isFilteredDesignation) ?
+                                                        filteredPaiements.map((p, i) => (
+                                                            <Paiement key={i} paiement={p} />
+                                                        ))
+                                                        :
+                                                        paiements.map((paiement, i) => (
+                                                            <Paiement key={i} paiement={paiement} />
+                                                        ))
+                                                    }
                                                 </>
                                                 }
                                             </tbody>

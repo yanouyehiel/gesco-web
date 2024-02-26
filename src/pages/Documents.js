@@ -58,7 +58,7 @@ const Documents = () => {
             } else if (showC) {
                 handleCloseC()
             }
-            getDocuments().then(() => setLoading(false))
+            getDocuments()
         }, (error) => {
             toast.error(error.message)
         })
@@ -316,7 +316,7 @@ const Documents = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {loading ?
+                                    {loading && documents.length === 0 ?
                                         <ClipLoader color="#333" />
                                         :
                                         <>

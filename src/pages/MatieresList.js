@@ -1,4 +1,4 @@
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
 import InfoPage from '../components/InfoPage';
 import Matiere from '../components/Matiere';
@@ -8,6 +8,7 @@ import { addMatiere, getAllMatieres } from '../services/MainControllerApi';
 import { getEcoleStored } from '../services/LocalStorage';
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
+import ButtonComponent from '../components/Button';
 
 
 const MatieresList = () => {
@@ -62,9 +63,7 @@ const MatieresList = () => {
                     <div className="container-fluid">
                     <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES MATIERES</h1>
                     <div className="container">
-                        <Button variant="primary" onClick={handleShow}>
-                            Ajouter une matiere
-                        </Button>
+                        <ButtonComponent onClick={handleShow}>Ajouter une matiere</ButtonComponent>
 
                         <Modal show={show} onHide={handleClose}>
                             <Modal.Header closeButton>
@@ -85,9 +84,10 @@ const MatieresList = () => {
                                         <Form.Control onChange={handleChange} name='coefficient' type="number" className="form-control" placeholder="" />
                                     </Form.Group>
                                     <br/>
-                                    <Button variant="primary" size='lg' type='submit'>
+                                    <ButtonComponent size='lg' type='submit'>
                                         Enregistrer
-                                    </Button>
+                                    </ButtonComponent>
+                                    
                                 </Form>
                             </Modal.Body>
                         </Modal>

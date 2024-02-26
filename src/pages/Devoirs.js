@@ -3,12 +3,12 @@ import { ClipLoader } from "react-spinners";
 import { useParams } from "react-router-dom";
 import Devoir from "../components/Devoir";
 import { useState, useEffect, useContext } from "react";
-import { Button, Form, ToastContainer } from "react-bootstrap";
+import { Form, ToastContainer } from "react-bootstrap";
 import { infoClasse } from "../services/MainControllerApi";
 import { getDevoirsOfClasse } from "../services/EnseignementController";
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
-
+import ButtonComponent from "../components/Button";
 
 const Devoirs = () => {
     const {salle} = useParams()
@@ -64,9 +64,7 @@ const Devoirs = () => {
                                     </div>
                                     <div className="col-lg-6">
                                         <Form.Group className="form-group mt-4">
-                                            <Button variant="primary" type='submit'>
-                                                Appliquer
-                                            </Button>
+                                            <ButtonComponent type='submit'>Appliquer</ButtonComponent>
                                         </Form.Group>
                                     </div>
                                 </div>

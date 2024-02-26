@@ -8,7 +8,7 @@ const Paiement = ({paiement}) => {
     useEffect(() => {
         getFeesStudents()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [paiement.student_id])
+    }, [])
 
     async function getFeesStudents() {
         await getAllFeesStudent(paiement.student_id).then((res) => {
@@ -18,7 +18,7 @@ const Paiement = ({paiement}) => {
 
     return (
         <tr>
-            <td style={{textAlign: 'center'}}>{paiement.code}</td>
+            <td style={{textAlign: 'center', color: '#009AD7'}}>{paiement.code}</td>
             <td style={{textAlign: 'center'}}>{paiement.intitule}</td>
             <td style={{textAlign: 'center'}}>{paiement.montant} FCFA</td>
             <td style={{textAlign: 'center'}}>{dateParser(paiement.created_at)}</td>

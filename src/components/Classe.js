@@ -15,9 +15,8 @@ const Classe = ({ classe, num, delClasse }) => {
             <td style={{ textAlign: 'center' }}>{classe.effectif} élèves</td>
             <td style={{ textAlign: 'center' }}>
                 <Link 
-                    className="text-blue" 
                     to={'/salles/' + classe.id}
-                    style={{ marginRight: '10px' }}
+                    style={{ marginRight: '10px', color: '#009AD7' }}
                 >
                     <i className="fa-solid fa-pen-to-square"></i>
                 </Link>

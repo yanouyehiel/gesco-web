@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
 import InfoPage from "../components/InfoPage";
-import { Modal, Form, Button } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import Employe from '../components/Employe';
 import { ClipLoader} from 'react-spinners'
 import { ToastContainer, toast } from 'react-toastify';
-import { addPersonne, getAllEmployes } from '../services/MainControllerApi';
+import { addPersonne, getAllEmployes, getClasses, getRoles } from '../services/MainControllerApi';
 import { getEcoleStored } from '../services/LocalStorage';
 import Auth from '../contexts/Auth'
 import { verifyUser } from '../utils/functions';
+import ButttonComponent from '../components/Button'
+import ButtonComponent from '../components/Button';
+
 
 const Administration = () => {
     const [show, setShow] = useState(false);
@@ -22,8 +25,8 @@ const Administration = () => {
     useEffect(() => {
         verifyUser({isAuthenticated, setIsAuthenticated})
         getPersonnel()
-        getRoles()
-        getClasses().then(() => setLoading(false))
+        getAllRoles()
+        getAllClasses().then(() => setLoading(false))
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -38,13 +41,13 @@ const Administration = () => {
         })
     }
 
-    async function getRoles() {
+    async function getAllRoles() {
         await getRoles().then((res) => {
             setRoles(res)
         })
     }
 
-    async function getClasses() {
+    async function getAllClasses() {
         await getClasses(ecole_id).then((res) => {
             setClasses(res)
         })
@@ -57,20 +60,22 @@ const Administration = () => {
         e.preventDefault();
         
         if (employe.cpassword !== employe.password) {
-            toast('Les mots de passe ne sont pas identiques')
+            toast.error('Les mots de passe ne sont pas identiques')
         } else {
-            setLoading(true)
-            employe.ecole_id = ecole_id;
-            employe.role_id = parseInt(employe.role_id)
-            employe.classe_id = employe.classe_id === '' ? 0 : parseInt(employe.classe_id)
-            console.log(employe)
-            
-            addPersonne(employe).then((res) => {
-                console.log(res)
+            if (!employe.role_id) {
+                toast.error("Veuillez attribuer un rôle à l'utilisateur")
+            } else {
+                setLoading(true)
+                employe.ecole_id = ecole_id;
+                employe.role_id = parseInt(employe.role_id)
+                employe.classe_id = employe.classe_id === '' ? 0 : parseInt(employe.classe_id)
                 setShow(false);
-                toast(res)
-                getPersonnel().then(() => setLoading(false))
-            })
+                
+                addPersonne(employe).then((res) => {
+                    toast(res)
+                    getPersonnel().then(() => setLoading(false))
+                })
+            }
         }
     }
 
@@ -85,9 +90,7 @@ const Administration = () => {
                     <div className="col-lg-12">
                         <h1 className="text-center text-danger">Mes Employés</h1>
                         <div className="container">
-                            <Button variant="primary" onClick={handleShow}>
-                                Ajouter un employé
-                            </Button>
+                            <ButttonComponent onClick={handleShow}>Ajouter un employé</ButttonComponent>
 
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
@@ -97,23 +100,23 @@ const Administration = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Nom</Form.Label>
-                                            <Form.Control type="text" name='nom' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="text" name='nom' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Prénom</Form.Label>
-                                            <Form.Control type="text" name='prenom' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="text" name='prenom' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Email</Form.Label>
-                                            <Form.Control type="email" name='email' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="email" name='email' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Adresse</Form.Label>
-                                            <Form.Control type="text" name='adresse' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="text" name='adresse' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Téléphone</Form.Label>
-                                            <Form.Control type="text" name='telephone' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="text" name='telephone' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         {/* <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Salaire</Form.Label>
@@ -121,15 +124,15 @@ const Administration = () => {
                                         </Form.Group> */}
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Mot de passe</Form.Label>
-                                            <Form.Control type="password" name='password' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="password" name='password' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Confirmer le mot de passe</Form.Label>
-                                            <Form.Control type="password" name='cpassword' onChange={handleChange} className="form-control" placeholder="" />
+                                            <Form.Control type="password" name='cpassword' onChange={handleChange} className="form-control" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Attribuer un rôle</Form.Label>
-                                            <Form.Select className="form-control" name='role_id' onChange={handleChange}>
+                                            <Form.Select className="form-control" name='role_id' onChange={handleChange} required>
                                                 <option>-- select --</option>
                                                 {roles.filter(r => r.id !== 3).map((role, index) => (
                                                     <option key={index} value={role.id}>{role.intitule}</option>
@@ -137,7 +140,7 @@ const Administration = () => {
                                             </Form.Select>
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
-                                            <Form.Label className="control-label">Attribuer une classe <span style={{color: 'red'}}>si c'est un maître</span></Form.Label>
+                                            <Form.Label className="control-label">Attribuer une classe <span style={{color: 'red'}}>si c'est un enseignant</span></Form.Label>
                                             <Form.Select className="form-control" name='classe_id' onChange={handleChange}>
                                                 <option>-- select --</option>   
                                                 {classes.map((classe, index) => (
@@ -146,9 +149,7 @@ const Administration = () => {
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
-                                        <Button variant="primary" type='submit'>
-                                            Créer profil
-                                        </Button>
+                                        <ButtonComponent type='submit'>Créer profil</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -169,7 +170,7 @@ const Administration = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {!loading ?
+                                        {loading ?
                                             <ClipLoader color="#333" />
                                             :
                                             <>

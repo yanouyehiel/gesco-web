@@ -8,16 +8,23 @@ import { ToastContainer, toast } from "react-toastify";
 import { getEcoleStored } from "../services/LocalStorage";
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
+import Tarif from "../components/Tarif";
+import ButtonComponent from '../components/Button';
 
 
 const Tarifs = () => {
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const [loading, setLoading] = useState(true)
     const [classes, setClasses] = useState([])
     const [tarif, setTarif] = useState({})
     const [tarifs, setTarifs] = useState([])
     const ecole_id = getEcoleStored()
     const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+    const [filteredTarifs, setFilteredTarifs] = useState([])
+    const [isFilteredIns, setIsFilteredIns] = useState(false)
+    const [isFilteredT1, setIsFilteredT1] = useState(false)
+    const [isFilteredT2, setIsFilteredT2] = useState(false)
+    const [isFilteredT3, setIsFilteredT3] = useState(false)
 
     useEffect(() => {
         verifyUser({isAuthenticated, setIsAuthenticated})
@@ -57,8 +64,25 @@ const Tarifs = () => {
         })
     }
 
-    const handleFilter = () => {
-        console.log('filter')
+    const handleFilter = (filter, e) => {
+        e.preventDefault()
+        if (filter === 'inscription') {
+            setIsFilteredIns(true)
+            const tarifsF = tarifs.sort((a, b) => a.inscription.localCompare(b.inscription))
+            setFilteredTarifs(tarifsF)
+        } else if (filter === 'premiere_tranche') {
+            setIsFilteredT1(true)
+            const tarifsF = tarifs.sort((a, b) => a.premiere_tranche.localCompare(b.premiere_tranche))
+            setFilteredTarifs(tarifsF)
+        } else if (filter === 'deuxieme_tranche') {
+            setIsFilteredT2(true)
+            const tarifsF = tarifs.sort((a, b) => a.deuxieme_tranche.localCompare(b.deuxieme_tranche))
+            setFilteredTarifs(tarifsF)
+        } else if (filter === 'troisieme_tranche') {
+            setIsFilteredT3(true)
+            const tarifsF = tarifs.sort((a, b) => a.troisieme_tranche.localCompare(b.troisieme_tranche))
+            setFilteredTarifs(tarifsF)
+        }
     }
 
     return (
@@ -71,9 +95,8 @@ const Tarifs = () => {
                 <div className="row">
                     <div className="col-lg-12">
                         <h1 className="text-center text-danger">GERER LES TARIFS</h1>
-                        <Button variant="primary" onClick={handleShow}>
-                            Enregistrer un tarif
-                        </Button><br /><br />
+                        <ButtonComponent onClick={handleShow}>Enregistrer un tarif</ButtonComponent>
+                        <br /><br />
                         <div className="row">
 
                             <Modal show={show} onHide={handleClose}>
@@ -108,9 +131,7 @@ const Tarifs = () => {
                                             <Form.Control onChange={handleChange} className="form-control" name="troisieme_tranche" type="number" required />
                                         </Form.Group>
                                         <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
-                                            Enregistrer
-                                        </Button>
+                                        <ButtonComponent size='lg' type='submit'>Enregistrer</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -123,8 +144,10 @@ const Tarifs = () => {
                                             <li className="dropdown-header text-start">
                                                 <h6>Filtre</h6>
                                             </li>
-                                            <li><Link className="dropdown-item" onClick={handleFilter}>Salle de classe</Link></li>
-                                            <li><Link className="dropdown-item" onClick={handleFilter}>Montant</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("inscription")}>Inscription</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("premiere_tranche")}>Première tranche</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("deuxieme_tranche")}>Deuxième tranche</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter("troisieme_tranche")}>Troisième tranche</Link></li>
                                         </ul>
                                     </div>
 
@@ -147,18 +170,14 @@ const Tarifs = () => {
                                                     <ClipLoader color="#333" />
                                                 :
                                                 <>
-                                                    {tarifs.map((tarif, i) => (
-                                                        <tr key={i}>
-                                                            <td className="text-primary" style={{ textAlign: 'center' }}>{tarif.classe}</td>
-                                                            <td style={{ textAlign: 'center' }}>{tarif.inscription} FCFA</td>
-                                                            <td style={{ textAlign: 'center' }}>{tarif.premiere_tranche} FCFA</td>
-                                                            <td style={{ textAlign: 'center' }}>{tarif.deuxieme_tranche} FCFA</td>
-                                                            <td style={{ textAlign: 'center' }}>{tarif.troisieme_tranche} FCFA</td>
-                                                            <td className="text-success" style={{ textAlign: 'center' }}>
-                                                                {tarif.inscription+tarif.premiere_tranche+tarif.deuxieme_tranche+tarif.troisieme_tranche} FCFA
-                                                            </td>
-                                                        </tr>
-                                                    ))}
+                                                    {(isFilteredIns || isFilteredT1 || isFilteredT2 || isFilteredT3) ?
+                                                        filteredTarifs.map((tarif, i) => (
+                                                            <Tarif tarif={tarif} key={i} />
+                                                        )) :
+                                                        tarifs.map((tarif, i) => (
+                                                            <Tarif tarif={tarif} key={i} />
+                                                        ))
+                                                    }
                                                 </>
                                                 }
                                             </tbody>

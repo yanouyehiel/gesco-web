@@ -7,6 +7,7 @@ import { deleteUser } from "../../services/UserController";
 import { getSingleParent } from "../../services/MainControllerApi";
 import { verifyUser } from "../../utils/functions";
 import Auth from "../../contexts/Auth";
+import ButtonComponent from "../../components/Button";
 
 const ViewParent = () => {
     const {matricule} = useParams()
@@ -100,9 +101,7 @@ const ViewParent = () => {
                         </div>
                     </div>
                 </div>
-                <Button variant="primary" onClick={handleClick}>
-                    Supprimer ce parent
-                </Button>
+                <ButtonComponent onClick={handleClick}>Supprimer ce parent</ButtonComponent>
             </section>
         </main>
     )

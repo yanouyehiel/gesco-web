@@ -4,6 +4,8 @@ import { useParams, Link } from "react-router-dom";
 import { getSingleStudent } from "../../services/StudentController";
 import { verifyUser } from "../../utils/functions";
 import Auth from "../../contexts/Auth";
+import ButtonComponent from '../../components/Button'
+
 
 const ViewStudent = () => {
     const {matricule} = useParams()
@@ -95,7 +97,7 @@ const ViewStudent = () => {
                         </div>
                     </div>
                 </div>
-                <Link className='btn btn-primary' to='/documents/MAT123'>Demander un document</Link>
+                <Link className='btn' style={{backgroundColor: "#009AD7", color: 'white'}} to='/documents/MAT123'>Demander un document</Link>
             </section>
         </main>
     )

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import InfoPage from "../components/InfoPage";
 import { useParams } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Presence from "../components/Presence";
 import { ClipLoader } from "react-spinners";
 //import { getEcoleStored } from "../services/LocalStorage";
@@ -9,6 +9,7 @@ import { getAbsencesByClasse, infoClasse } from "../services/MainControllerApi";
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
 import { ToastContainer, toast } from "react-toastify";
+import ButtonComponent from "../components/Button";
 
 const Presences = () => {
     const {salle} = useParams()
@@ -73,9 +74,7 @@ const Presences = () => {
                             </div>
                             <div className="col-lg-6">
                                 <Form.Group className="form-group mt-4">
-                                    <Button variant="primary" type='submit'>
-                                        Appliquer
-                                    </Button>
+                                    <ButtonComponent type='submit'>Appliquer</ButtonComponent>
                                 </Form.Group>
                             </div>
                         </div>

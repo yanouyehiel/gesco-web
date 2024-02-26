@@ -49,8 +49,9 @@ const Students = () => {
                                                 <h6>Filtre</h6>
                                             </li>
 
-                                            <li><Link className="dropdown-item" to="#">Elève</Link></li>
                                             <li><Link className="dropdown-item" to="#">Nom</Link></li>
+                                            <li><Link className="dropdown-item" to="#">Prénom</Link></li>
+                                            <li><Link className="dropdown-item" to="#">Classe</Link></li>
                                             <li><Link className="dropdown-item" to="#">Sexe</Link></li>
                                         </ul>
                                     </div>
@@ -65,8 +66,7 @@ const Students = () => {
                                                     <th style={{ textAlign: 'center' }}>Matricule</th>
                                                     <th style={{ textAlign: 'center' }}>Nom</th>
                                                     <th style={{ textAlign: 'center' }}>Prenom</th>
-                                                    <th style={{ textAlign: 'center' }}>Naissance</th>
-                                                    <th style={{ textAlign: 'center' }}>Lieu</th>
+                                                    <th style={{ textAlign: 'center' }}>Classe</th>
                                                     <th style={{ textAlign: 'center' }}>Sexe</th>
                                                     <th style={{ textAlign: 'center' }}>Action</th>
                                                 </tr>

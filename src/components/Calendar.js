@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Form, Modal } from 'react-bootstrap';
 import { deleteCalendar, updateCalendar } from '../services/MainControllerApi';
 import { toast } from 'react-toastify';
+import ButtonComponent from './Button';
 
 const style = {
     width: '30px',
@@ -9,6 +10,8 @@ const style = {
     marginRight: '5px',
     paddingLeft: '-10px'
 }
+
+const styleP = {...style, backgroundColor: '#009AD7'}
 
 const Calendar = ({calendar, num}) => {
     const [show, setShow] = useState(false)
@@ -57,7 +60,7 @@ const Calendar = ({calendar, num}) => {
                 <td style={{textAlign: 'center'}}>{calendar.titre}</td>
                 <td style={{textAlign: 'center'}}>{calendar.date}</td>
                 <td style={{textAlign: 'center'}}>
-                    <Button style={style} onClick={() => handleShow()}>
+                    <Button style={styleP} onClick={() => handleShow()}>
                         <i className="fa-solid fa-pen-to-square"></i>
                     </Button>
                     <Button style={style} variant='danger' onClick={() => handleDelete()}>
@@ -79,9 +82,7 @@ const Calendar = ({calendar, num}) => {
                             <Form.Label>Date</Form.Label>
                             <Form.Control value={cal.date} name='date' onChange={handleChange} />
                         </Form.Group>
-                        <Button variant="primary" type='submit' className="mt-3">
-                            Modifier
-                        </Button>
+                        <ButtonComponent type='submit' className="mt-3">Modifier</ButtonComponent>
                     </Form>
                 </Modal.Body>
             </Modal>

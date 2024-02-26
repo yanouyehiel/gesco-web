@@ -13,6 +13,10 @@ const Enseignants = () => {
     const [teachers, setTeachers] = useState([])
     const ecole_id = getEcoleStored()
     const { isAuthenticated, setIsAuthenticated } = useContext(Auth);
+    const [isFilterNom, setIsFilterNom] = useState(false)
+    const [isFilterPrenom, setIsFilterPrenom] = useState(false)
+    const [isFilterClasse, setIsFilterClasse] = useState(false)
+    const [filteredTeachers, setFilteredTeachers] = useState([])
 
     useEffect(() => {
         verifyUser({isAuthenticated, setIsAuthenticated})
@@ -22,9 +26,24 @@ const Enseignants = () => {
 
     async function getAllTeachers() {
         await getTeachers(ecole_id).then((res) => {
-            console.log(teachers)
             setTeachers(res)
         })
+    }
+
+    function handleFilter(filter) {
+        if (filter === 'nom') {
+            setIsFilterNom(true)
+            const teachersF = teachers.sort((a, b) => a.nom.localCompare(b.nom))
+            setFilteredTeachers(teachersF)
+        } else if (filter === 'prenom') {
+            setIsFilterPrenom(true)
+            const teachersF = teachers.sort((a, b) => a.prenom.localCompare(b.prenom))
+            setFilteredTeachers(teachersF)
+        } else if (filter === 'classe') {
+            setIsFilterClasse(true)
+            const teachersF = teachers.sort((a, b) => a.nom_classe.localCompare(b.nom_classe))
+            setFilteredTeachers(teachersF)
+        }
     }
 
     return(
@@ -49,9 +68,9 @@ const Enseignants = () => {
                                                 <h6>Filtre</h6>
                                             </li>
 
-                                            <li><Link className="dropdown-item" to="#">Nom d'enseignant</Link></li>
-                                            <li><Link className="dropdown-item" to="#">Salle de classe</Link></li>
-                                            <li><Link className="dropdown-item" to="#">Sexe</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter('nom')}>Nom</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter('prenom')}>Prénom</Link></li>
+                                            <li><Link className="dropdown-item" to="#" onClick={() => handleFilter('classe')}>Salle de classe</Link></li>
                                         </ul>
                                     </div>
 
@@ -66,7 +85,7 @@ const Enseignants = () => {
                                                     <th style={{ textAlign: 'center' }}>Nom</th>
                                                     <th style={{ textAlign: 'center' }}>Prenom</th>
                                                     <th style={{ textAlign: 'center' }}>Salle de classe</th>
-                                                    <th style={{ textAlign: 'center' }}>Sexe</th>
+                                                    <th style={{ textAlign: 'center' }}>Date de création</th>
                                                     <th style={{ textAlign: 'center' }}>Action</th>
                                                 </tr>
                                             </thead>
@@ -75,9 +94,14 @@ const Enseignants = () => {
                                                     <ClipLoader color="#333" />
                                                     :
                                                     <>
-                                                        {teachers.map((teacher, index) => (
-                                                            <Enseignant num={index} key={index} teacher={teacher} />
-                                                        ))}
+                                                        {(isFilterNom || isFilterPrenom || isFilterClasse) ?
+                                                            filteredTeachers.map((teacher, i) => (
+                                                                <Enseignant num={i} key={i} teacher={teacher} />
+                                                            ))
+                                                            : teachers.map((teacher, index) => (
+                                                                <Enseignant num={index} key={index} teacher={teacher} />
+                                                            ))
+                                                        }
                                                     </>
                                                 }
                                             </tbody>

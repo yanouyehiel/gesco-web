@@ -25,8 +25,8 @@ const Devoir = ({devoir, classe}) => {
                                 <i className="bi bi-layout-text-window-reverse"></i>
                             </div>
                             <div className="ps-3">
-                                <h6 style={{fontSize: '17px'}}>{devoir.nom_livre}</h6>
-                                <span className="text-success pt-1 fw-bold"> {classe}</span>
+                                <h6 style={{fontSize: '17px', color: '#009AD7'}}>{devoir.nom_livre}</h6>
+                                <span className="pt-1 fw-bold" style={{color: '#48BB8C'}}> {classe}</span>
                             </div>
                         </div>
                     </div>

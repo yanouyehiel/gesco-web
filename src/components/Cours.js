@@ -22,9 +22,9 @@ const Cours = ({cour, classe}) => {
                                 <i className="bi bi-layout-text-window-reverse"></i>
                             </div>
                             <div className="ps-3">
-                                <h6 style={{fontSize: 15}}>{cour.titre}</h6>
-                                <span className="text-success pt-1 fw-bold">Classe </span>
-                                <span className="text-muted pt-2 ps-1">{classe}</span>
+                                <h6 style={{fontSize: 15, color: '#009AD7'}}>{cour.titre}</h6>
+                                <span className="pt-1 fw-bold">Classe </span>
+                                <span className="text-muted pt-2 ps-1" style={{color: '#48BB8C'}}>{classe}</span>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@ const Cours = ({cour, classe}) => {
             </div>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{cour.nom_matiere}</Modal.Title>
+                    <Modal.Title style={{color: '#009AD7'}}>{cour.nom_matiere}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div>

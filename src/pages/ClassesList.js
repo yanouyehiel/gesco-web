@@ -1,4 +1,4 @@
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
 import Classe from '../components/Classe';
 import InfoPage from '../components/InfoPage';
@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import Auth from '../contexts/Auth';
 import { getEcoleStored } from '../services/LocalStorage';
 import { verifyUser } from '../utils/functions';
+import ButtonComponent from '../components/Button';
 
 const ClassesList = () => {
     const [show, setShow] = useState(false);
@@ -65,12 +66,10 @@ const ClassesList = () => {
     }
 
     function handleFilter() {
-        console.log(filter)
         if (filter === 'nb_eleves') {
             filteredClasses = allClasses.sort((a, b) => {
                 return a.effectif > b.effectif
             })
-            console.log(filteredClasses)
         } else if (filter === 'nom') {
             filteredClasses = allClasses.sort((a, b) => {
                 if (a.nom < b.nom) {
@@ -79,7 +78,6 @@ const ClassesList = () => {
                     return b
                 }
             })
-            console.log(filteredClasses)
         } else {
             filteredClasses = allClasses
         }
@@ -96,9 +94,7 @@ const ClassesList = () => {
                     <div className="container-fluid">
                         <h1 className="text-center pt-4 pb-2 text-danger">LISTE DES SALLES DE CLASSE</h1>
                         <div className="container">
-                            <Button variant="primary" onClick={handleShow}>
-                                Ajouter une salle
-                            </Button>
+                            <ButtonComponent onClick={handleShow}>Ajouter une salle</ButtonComponent>
 
                             <Modal show={show} onHide={handleClose}>
                                 <Modal.Header closeButton>
@@ -111,7 +107,7 @@ const ClassesList = () => {
                                             <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
-                                            <Form.Label className="control-label">Sélectionner la classe</Form.Label>
+                                            <Form.Label className="control-label">Sélectionner le type de classe</Form.Label>
                                             <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
                                                 <option>-- select --</option>
                                                 {typeClasses.length > 0 && typeClasses.map((typeClasse, i) => (
@@ -120,9 +116,9 @@ const ClassesList = () => {
                                             </Form.Select>
                                         </Form.Group>
                                         <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
+                                        <ButtonComponent size='lg' type='submit'>
                                             Enregistrer
-                                        </Button>
+                                        </ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -133,12 +129,12 @@ const ClassesList = () => {
                             <div className="card-body">
                                 <Form className='col-lg-3'>
                                     <Form.Group style={{display: 'flex'}}>
-                                        <Form.Select onChange={(e) => setFilter(e.target.value)}>
+                                        <Form.Select onChange={(e) => setFilter(e.target.value)} style={{minWidth: '200px'}}>
                                             <option value='tout'>Tout</option>
                                             <option value='nb_eleves'>Nombre d'élèves</option>
                                             <option value='nom'>Nom</option>
                                         </Form.Select>
-                                        <Button onClick={handleFilter} style={{marginLeft: '10px'}}>Appliquer</Button>
+                                        <ButtonComponent onClick={handleFilter} ml='10px'>Appliquer</ButtonComponent>
                                     </Form.Group>
                                 </Form>
                                 <table id="example1" className="table table-striped">

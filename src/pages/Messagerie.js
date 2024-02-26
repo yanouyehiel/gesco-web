@@ -4,9 +4,10 @@ import { getEcoleStored, getItem } from '../services/LocalStorage';
 import { getMessages } from '../services/MainControllerApi';
 import { ClipLoader } from 'react-spinners';
 import { dateParser } from '../utils/functions';
-import { Button, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
+import ButtonComponent from '../components/Button';
 
 
 const Messagerie = () => {
@@ -76,9 +77,10 @@ const Messagerie = () => {
                                                     </td>
                                                     <td style={{ textAlign: 'center' }}>{dateParser(mes.created_at)}</td>
                                                     <td style={{ textAlign: 'center' }}>
-                                                        <Button variant='primary' onClick={() => handleShow(mes)}>
+                                                        {/* <Button variant='primary' onClick={() => handleShow(mes)}>
                                                             Voir
-                                                        </Button>
+                                                        </Button> */}
+                                                        <ButtonComponent onClick={() => handleShow(mes)}>Voir</ButtonComponent>
                                                     </td>
                                                 </tr>
                                             ))}

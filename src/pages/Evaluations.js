@@ -85,10 +85,10 @@ const Evaluations = () => {
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>#</th>
-                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Titre</th>
-                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Date</th>
-                                                <th style={{fontSize: '16px', fontWeight: 'bold', textAlign: 'center'}}>Action</th>
+                                                <th>#</th>
+                                                <th>Titre</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>

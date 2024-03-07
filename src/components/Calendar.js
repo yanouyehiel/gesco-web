@@ -56,10 +56,10 @@ const Calendar = ({calendar, num}) => {
     return(
         <>
             <tr>
-                <td style={{textAlign: 'center'}}>{num+1}</td>
-                <td style={{textAlign: 'center'}}>{calendar.titre}</td>
-                <td style={{textAlign: 'center'}}>{calendar.date}</td>
-                <td style={{textAlign: 'center'}}>
+                <td>{num+1}</td>
+                <td>{calendar.titre}</td>
+                <td>{calendar.date}</td>
+                <td>
                     <Button style={styleP} onClick={() => handleShow()}>
                         <i className="fa-solid fa-pen-to-square"></i>
                     </Button>

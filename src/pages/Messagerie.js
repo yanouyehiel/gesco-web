@@ -77,9 +77,6 @@ const Messagerie = () => {
                                                     </td>
                                                     <td style={{ textAlign: 'center' }}>{dateParser(mes.created_at)}</td>
                                                     <td style={{ textAlign: 'center' }}>
-                                                        {/* <Button variant='primary' onClick={() => handleShow(mes)}>
-                                                            Voir
-                                                        </Button> */}
                                                         <ButtonComponent onClick={() => handleShow(mes)}>Voir</ButtonComponent>
                                                     </td>
                                                 </tr>

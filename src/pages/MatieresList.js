@@ -73,16 +73,18 @@ const MatieresList = () => {
                                 <Form onSubmit={handleSubmit}>
                                     <Form.Group className="form-group mt-4">
                                         <Form.Label className="control-label">Intitule de la matiere</Form.Label>
-                                        <Form.Control onChange={handleChange} name='intitule' type="text" className="form-control" placeholder="Exemple: Calcul Rapide" />
+                                        <Form.Control onChange={handleChange} name='intitule' type="text" 
+                                            className="form-control" placeholder="Exemple: Calcul Rapide" required />
                                     </Form.Group>
                                     <Form.Group className="form-group mt-4">
                                         <Form.Label className="control-label">Code de la matiere</Form.Label>
-                                        <Form.Control onChange={handleChange} name='code' type="text" className="form-control" placeholder="" />
+                                        <Form.Control onChange={handleChange} name='code' type="text" 
+                                        className="form-control" placeholder="" required />
                                     </Form.Group>
-                                    <Form.Group className="form-group mt-4">
+                                    {/* <Form.Group className="form-group mt-4">
                                         <Form.Label className="control-label">Coefficient de la matiere</Form.Label>
                                         <Form.Control onChange={handleChange} name='coefficient' type="number" className="form-control" placeholder="" />
-                                    </Form.Group>
+                                    </Form.Group> */}
                                     <br/>
                                     <ButtonComponent size='lg' type='submit'>
                                         Enregistrer
@@ -103,7 +105,7 @@ const MatieresList = () => {
                                         <th>#</th>
                                         <th style={{ textAlign: 'center' }}>Code</th>
                                         <th style={{ textAlign: 'center' }}>Intitule</th>
-                                        <th style={{ textAlign: 'center' }}>Coefficient</th>
+                                        {/* <th style={{ textAlign: 'center' }}>Coefficient</th> */}
                                         <th style={{ textAlign: 'center' }}>Date création</th>
                                     </tr>
                                 </thead>

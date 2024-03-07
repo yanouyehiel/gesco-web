@@ -97,7 +97,7 @@ const ViewStudent = () => {
                         </div>
                     </div>
                 </div>
-                <Link className='btn' style={{backgroundColor: "#009AD7", color: 'white'}} to='/documents/MAT123'>Demander un document</Link>
+                <Link className='btn' style={{backgroundColor: "#009AD7", color: 'white'}} to='/documents'>Demander un document</Link>
             </section>
         </main>
     )

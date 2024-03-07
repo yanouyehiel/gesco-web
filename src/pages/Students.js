@@ -62,13 +62,14 @@ const Students = () => {
                                         <table className="table table-borderless datatable">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ textAlign: 'center' }}>#</th>
-                                                    <th style={{ textAlign: 'center' }}>Matricule</th>
-                                                    <th style={{ textAlign: 'center' }}>Nom</th>
-                                                    <th style={{ textAlign: 'center' }}>Prenom</th>
-                                                    <th style={{ textAlign: 'center' }}>Classe</th>
-                                                    <th style={{ textAlign: 'center' }}>Sexe</th>
-                                                    <th style={{ textAlign: 'center' }}>Action</th>
+                                                    <th>#</th>
+                                                    <th>Matricule</th>
+                                                    <th>Nom</th>
+                                                    <th>Prenom</th>
+                                                    <th>Date de naissance</th>
+                                                    <th>Classe</th>
+                                                    <th>Sexe</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

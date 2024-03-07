@@ -44,7 +44,6 @@ const App = () => {
         <Route exact path='/salles' element={<ClassesList />} />
         <Route exact path='/salles/:numSalle' element={<ViewSalle />} />
         <Route exact path='/documents' element={<Documents />} />
-        <Route exact path='/documents/:matStudent' element={<Documents />} />
         <Route exact path='/matieres' element={<MatieresList />} />
         <Route exact path='/inscription' element={<Inscription />} />
         <Route exact path='/enseignement/:salle' element={<Enseignement />} />

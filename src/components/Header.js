@@ -115,8 +115,7 @@ const Header = () => {
 
           <Link className="nav-link nav-icon" to="#" data-bs-toggle="dropdown">
             <i className="bi bi-chat-left-text"></i>
-            <span className="badge badge-number" style={{backgroundColor: '#48BB8C'}}>{notifs.length}</span>
-            <span className="badge badge-number">{messages.length}</span>
+            <span className="badge badge-number" style={{backgroundColor: '#48BB8C'}}>{messages.length}</span>
           </Link>
 
           <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">

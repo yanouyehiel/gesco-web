@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Notfound from "./pages/Notfound";
 
+
 const Layout = ({children}) => {
     const [isAuthenticated, setIsAuthenticated] = useState(hasAuthenticated)
     

@@ -18,16 +18,15 @@ const Paiement = ({paiement}) => {
 
     return (
         <tr>
-            <td style={{textAlign: 'center', color: '#009AD7'}}>{paiement.code}</td>
-            <td style={{textAlign: 'center'}}>{paiement.intitule}</td>
-            <td style={{textAlign: 'center'}}>{paiement.montant} FCFA</td>
-            <td style={{textAlign: 'center'}}>{dateParser(paiement.created_at)}</td>
-            <td style={{textAlign: 'center'}}>{paiement.nom_student +' '+ paiement.prenom_student}</td>
+            <td style={{color: '#009AD7'}}>{paiement.code}</td>
+            <td>{paiement.intitule}</td>
+            <td>{paiement.montant} FCFA</td>
+            <td>{dateParser(paiement.created_at)}</td>
+            <td>{paiement.nom_student +' '+ paiement.prenom_student}</td>
             <td>{fees.reste} FCFA</td>
-            <td style={{textAlign: 'center'}}>
+            <td>
                 {fees.reste === 0 && <span className="badge bg-success">Soldé</span>}
                 {fees.reste > 0 && <span className="badge bg-danger">Débiteur</span>}
-                {/* <span className="badge bg-warning">Acceptable</span> */}
             </td>
         </tr>
     )

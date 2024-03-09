@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InfoPage from "../components/InfoPage";
 import { Link } from "react-router-dom";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { ClipLoader} from 'react-spinners'
 import { ToastContainer, toast } from "react-toastify";
 import { addPaiement, getPaiementSchool } from "../services/MainControllerApi";
@@ -135,13 +135,13 @@ const Inscription = () => {
                                         <table className="table table-borderless datatable">
                                             <thead>
                                                 <tr>
-                                                    <th style={{textAlign: 'center'}} scope="col">Code</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Désignation</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Montant</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Date</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Elève</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Reste</th>
-                                                    <th style={{textAlign: 'center'}} scope="col">Statut</th>
+                                                    <th scope="col">Code</th>
+                                                    <th scope="col">Désignation</th>
+                                                    <th scope="col">Montant</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Elève</th>
+                                                    <th scope="col">Reste</th>
+                                                    <th scope="col">Statut</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

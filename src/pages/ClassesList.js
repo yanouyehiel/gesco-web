@@ -104,11 +104,11 @@ const ClassesList = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Nom de la salle</Form.Label>
-                                            <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" />
+                                            <Form.Control onChange={handleChange} name='nom' type="text" className="form-control" placeholder="Exemple: SIL A" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Sélectionner le type de classe</Form.Label>
-                                            <Form.Select onChange={handleChange} name='type_classe_id' className="form-control">
+                                            <Form.Select onChange={handleChange} name='type_classe_id' className="form-control" required>
                                                 <option>-- select --</option>
                                                 {typeClasses.length > 0 && typeClasses.map((typeClasse, i) => (
                                                     <option key={i} value={typeClasse.id}>{typeClasse.classe}</option>

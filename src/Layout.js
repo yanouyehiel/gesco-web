@@ -8,6 +8,7 @@ import Auth from './contexts/Auth';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Notfound from "./pages/Notfound";
+import PasswordForgot from "./pages/PasswordForgot";
 
 
 const Layout = ({children}) => {
@@ -35,6 +36,7 @@ const Layout = ({children}) => {
                     <Route exact path='/' element={<Login />} />
                     <Route exact path='/login' element={<Login />} />
                     <Route exact path='/register' element={<Register />} />
+                    <Route exact path="/pasword-forgot" element={<PasswordForgot />} />
                     <Route exact path='/*' element={<Notfound />} />
                 </Routes>
             }

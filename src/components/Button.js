@@ -6,9 +6,9 @@ const ButtonComponent = (props) => {
         backgroundColor: props.color ? props.color : '#009AD7',
         marginLeft: props.ml,
         marginBottom: props.mb,
-        marginTop: props.mt,
+        marginTop: props.mt ? props.mt : '18px',
         marginRight: props.mr,
-        //boxShadow: `${'3px 3px 3px ' + props.color}`
+        width: props.w ? props.w : '100%'
     }
     return (
         <Button 

@@ -94,7 +94,7 @@ const Inscription = () => {
                                     <Form onSubmit={handleSubmit}>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Sélectionner un élève</Form.Label>
-                                            <Form.Select onChange={handleChange} className="form-control" name="student_id">
+                                            <Form.Select onChange={handleChange} className="form-control" name="student_id" required>
                                                 <option>-- select --</option>
                                                 {students.map((student, i) => (
                                                     <option key={i} value={student.id}>{student.nom +' ' + student.prenom}</option>
@@ -103,14 +103,14 @@ const Inscription = () => {
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Entrer l'intitulé de la transaction</Form.Label>
-                                            <Form.Control onChange={handleChange} className="form-control" name="intitule" />
+                                            <Form.Control onChange={handleChange} className="form-control" name="intitule" required />
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
                                             <Form.Label className="control-label">Entrer le montant</Form.Label>
-                                            <Form.Control onChange={handleChange} className="form-control" name="montant" />
+                                            <Form.Control onChange={handleChange} className="form-control" name="montant" required />
                                         </Form.Group>
-                                        <br/>
-                                        <ButtonComponent size='lg' type='submit'>Enregistrer</ButtonComponent>
+                                        
+                                        <ButtonComponent size='lg' type='submit' mt='18px'>Enregistrer</ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>

@@ -32,6 +32,7 @@ import Tarifs from './pages/Tarifs';
 import Devoirs from './pages/Devoirs.js';
 import Layout from './Layout.js';
 import GenerateDoc from './pages/GenerateDoc.js';
+import Profil from './pages/Profil.js';
 
 const App = () => {
 
@@ -66,6 +67,7 @@ const App = () => {
         <Route exact path='/tarifs' element={<Tarifs />} />
         <Route exact path='/devoirs/:salle' element={<Devoirs />} />
         <Route exact path='/generate-doc' element={<GenerateDoc />} />
+        <Route exact path='/profil' element={<Profil />} />
         <Route exact path='/*' element={<Notfound />} />
       </Layout>
     </BrowserRouter>

@@ -9,6 +9,7 @@ import { ClipLoader } from "react-spinners";
 import Document from "../components/Document";
 import { verifyUser } from "../utils/functions";
 import Auth from "../contexts/Auth";
+import ButtonComponent from "../components/Button";
 
 
 const Documents = () => {
@@ -120,9 +121,9 @@ const Documents = () => {
                                             <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
                                             <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
                                                 <option>-- select --</option>
+                                                <option>2021-2022</option>
                                                 <option>2022-2023</option>
                                                 <option>2023-2024</option>
-                                                <option>2021-2022</option>
                                             </Form.Select>
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
@@ -136,10 +137,10 @@ const Documents = () => {
                                                 }
                                             </Form.Select>
                                         </Form.Group>
-                                        <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
+                                        
+                                        <ButtonComponent size='lg' type='submit'>
                                             Demander
-                                        </Button>
+                                        </ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -172,9 +173,9 @@ const Documents = () => {
                                             <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
                                             <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
                                                 <option>-- select --</option>
+                                                <option>2021-2022</option>
                                                 <option>2022-2023</option>
                                                 <option>2023-2024</option>
-                                                <option>2021-2022</option>
                                             </Form.Select>
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
@@ -188,10 +189,10 @@ const Documents = () => {
                                                 }
                                             </Form.Select>
                                         </Form.Group>
-                                        <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
+                                        
+                                        <ButtonComponent size='lg' type='submit'>
                                             Demander
-                                        </Button>
+                                        </ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -224,9 +225,9 @@ const Documents = () => {
                                             <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
                                             <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
                                                 <option>-- select --</option>
+                                                <option>2021-2022</option>
                                                 <option>2022-2023</option>
                                                 <option>2023-2024</option>
-                                                <option>2021-2022</option>
                                             </Form.Select>
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
@@ -240,10 +241,10 @@ const Documents = () => {
                                                 }
                                             </Form.Select>
                                         </Form.Group>
-                                        <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
+                                        
+                                        <ButtonComponent size='lg' type='submit'>
                                             Demander
-                                        </Button>
+                                        </ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>
@@ -276,9 +277,9 @@ const Documents = () => {
                                             <Form.Label className="control-label">Choisissez l'année scolaire</Form.Label>
                                             <Form.Select className="form-control" name="annee_scolaire" onChange={handleChange} required>
                                                 <option>-- select --</option>
+                                                <option>2021-2022</option>
                                                 <option>2022-2023</option>
                                                 <option>2023-2024</option>
-                                                <option>2021-2022</option>
                                             </Form.Select>
                                         </Form.Group>
                                         <Form.Group className="form-group mt-4">
@@ -292,10 +293,10 @@ const Documents = () => {
                                                 }
                                             </Form.Select>
                                         </Form.Group>
-                                        <br/>
-                                        <Button variant="primary" size='lg' type='submit'>
+                                        
+                                        <ButtonComponent size='lg' type='submit'>
                                             Demander
-                                        </Button>
+                                        </ButtonComponent>
                                     </Form>
                                 </Modal.Body>
                             </Modal>

@@ -75,7 +75,7 @@ const Login = () => {
 
                 <MDBBtn className="mb-4 px-5 mx-5 w-100" type='submit' style={{backgroundColor: '#009AD7'}} size='lg'>Login</MDBBtn>
               </form>
-              <p className="small mb-5 pb-lg-3 ms-5"><a class="text-muted link-success" href="#!">Mot de passe oublié ?</a></p>
+              <p className="small mb-5 pb-lg-3 ms-5"><a class="text-muted link-success" href="/pasword-forgot">Mot de passe oublié ?</a></p>
               <p className='ms-5'>Vous n'avez pas d'école ? <a href="/register" class="link-success">Créez votre établissement</a></p>
 
             </div>
